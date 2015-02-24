@@ -14,14 +14,14 @@
 #include <map>
 ///!@file prosit_types.hpp
 ///
-///Basic types used in the tool
+/// Basic types used in the tool
 namespace PrositCore {
-	/// @brief All deadlines are defiend as integer multiple of 
-	/// a basic quantity
-	typedef unsigned int DeadlineUnit;
-	/// @brief Data structure that associates a deadline with its probability
-	typedef std::map<DeadlineUnit,double> DeadlineProbabilityMap; 
-	/// @brief Iterator for DeadlineProbabilityMap
-	typedef std::map<DeadlineUnit,double>::iterator DeadlineProbabilityMapIter; 
+/// @brief All deadlines are defiend as integer multiple of
+/// a basic quantity
+typedef unsigned int DeadlineUnit;
+/// @brief Data structure that associates a deadline with its probability
+typedef std::map<DeadlineUnit, double> DeadlineProbabilityMap;
+/// @brief Iterator for DeadlineProbabilityMap
+typedef std::map<DeadlineUnit, double>::iterator DeadlineProbabilityMapIter;
 };
 #endif
