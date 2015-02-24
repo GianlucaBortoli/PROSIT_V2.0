@@ -1,0 +1,7 @@
+*.o
+lex.yy.*
+*.tab.*
+interpreter
+*.output
+*.sw*
+~*
