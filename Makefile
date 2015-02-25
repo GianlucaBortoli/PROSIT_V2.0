@@ -16,10 +16,7 @@ CC = g++
 VPATH = ../../utils/tinyxml2
 LDLIBS = -L./ -lprosit
 
-PROSIT_OBJS = pmf.o cdf.o auxiliary_func.o probability_solver.o task_descriptor.o qbd_rr_solver.o qbd_latouche_solver.o qbd_cr_solver.o qbd_companion_solver.o
-#INTERF_OBJS = solver.o
-
-OBJS += $(PROSIT_OBJS)
+PROSIT_OBJS = pmf.o cdf.o auxiliary_func.o probability_solver.o task_descriptor.o qbd_rr_solver.o qbd_latouche_solver.o qbd_cr_solver.o qbd_companion_solver.o qbd_analytic_solver.o
 
 LIBS = libprosit.a
 
@@ -41,4 +38,3 @@ clean:
 	$(CC) $(CPPFLAGS) -MM -MF $@ $<
 
 -include $(PROSIT_OBJS:.o=.d)
-#include $(INTERF_OBJS:.o=.d)

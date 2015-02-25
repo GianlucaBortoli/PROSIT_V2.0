@@ -196,25 +196,6 @@ int main(int argc, char *argv[]) {
             tmp);
         task_des.set_solver(ps.get());
         task_des.compute_probability();
-        // RowVectorXd p;
-        // if (verbose_flag) {
-        //   cout<<"Companion Strategy Selected"<<endl;
-        //   companion_set_verbose(true);
-        // };
-
-        // double prob;
-        // if (old_model_flag)
-        //   prob = companion_old_model_compute_pi(c, Tp/T, Q);
-        // else
-        //   prob = companion_compute_pi(*h, Tp/T, Q/step,p, false);
-
-        // if (verbose_flag) {
-        //   cout<<"Companion Strategy computation finished"<<endl;
-        // };
-        // t_probability_compute_end=PrositAux::my_get_time();
-        // if ((prob < 0)&&(prob > 1+0.0001))
-        //   prob = 0;
-        // cout<<"P{d < "<<Tp<<"} "<<prob<<endl;
       } else {
         PrositCore::QBDResourceReservationProbabilitySolver *tmp;
         if (cr_flag) {
@@ -224,7 +205,7 @@ int main(int argc, char *argv[]) {
           tmp = new PrositCore::LatoucheResourceReservationProbabilitySolver(
               step, eps, iter);
         } else {
-          EXC_PRINT("SOlver not implemented yet");
+          EXC_PRINT("Solver not implemented yet");
         }
 
         std::unique_ptr<PrositCore::QBDResourceReservationProbabilitySolver> ps(
@@ -241,7 +222,7 @@ int main(int argc, char *argv[]) {
 
     for (i = 0; i <= max_deadline; i++)
       cout << "P { f < " << task_des.get_deadline_step() * i
-           << "} =" << task_des.get_probability(i) << endl;
+           << " } = " << task_des.get_probability(i) << endl;
 
   } catch (PrositAux::Exc &e) {
     cerr << "Exception caught" << endl;

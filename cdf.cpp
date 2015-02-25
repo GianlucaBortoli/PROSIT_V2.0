@@ -69,7 +69,7 @@ int cdf::set(int val, double p) throw(Exc) {
     if ((!just_created) && (get(max) > p))
       EXC_PRINT("ill formed cdf: bad max");
     max = val;
-  };
+  }
 
   if (val < min) {
     if ((!just_created) && (get(min) < p))
