@@ -1,11 +1,11 @@
 UNAME := $(shell uname)
 
 ifeq ($(UNAME), Linux)
-CPPFLAGS= -Wall -g -I/usr/include/eigen3 -I../utils/tinyxml2 
+CPPFLAGS= -Wall -g -I/usr/include/eigen3 -I./utils/tinyxml2 
 endif
 
 ifeq ($(UNAME), Darwin)
-CPPFLAGS= -Wall -g -I/opt/local/include/eigen3 -I../utils/tinyxml2
+CPPFLAGS= -Wall -g -I/opt/local/include/eigen3 -I./utils/tinyxml2
 endif
 
 CPPFLAGS+= -std=c++11 -O2
@@ -16,7 +16,9 @@ CC = g++
 VPATH = ../../utils/tinyxml2
 LDLIBS = -L./ -lprosit
 
-PROSIT_OBJS = pmf.o cdf.o auxiliary_func.o probability_solver.o task_descriptor.o qbd_rr_solver.o qbd_latouche_solver.o qbd_cr_solver.o qbd_companion_solver.o qbd_analytic_solver.o
+PROSIT_OBJS = pmf.o cdf.o auxiliary_func.o probability_solver.o task_descriptor.o \
+qbd_rr_solver.o qbd_latouche_solver.o qbd_cr_solver.o qbd_companion_solver.o \
+qbd_analytic_solver.o xml_parser.o xml_utils.o xml_solver.o
 
 LIBS = libprosit.a
 
