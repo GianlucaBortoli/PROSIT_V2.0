@@ -3,11 +3,11 @@
 #include "auxiliary_func.hpp"
 #include "qbd_rr_solver.hpp"
 #include "qbd_companion_solver.hpp"
+#include "qbd_analytic_solver.hpp"
 #include "exc.hpp"
 #include <iostream>
 #include <algorithm>
 #include <stdio.h>
-#include <algorithm>
 #include <getopt.h>
 #include <memory>
 
@@ -18,7 +18,7 @@ static int Q = 10000;
 static int T = 20000;
 static int Tp = 0;
 static int step = 1;
-int ps = 0;
+static int ps = 0;
 static int verbose_flag = 0;
 static int latouche_flag = 0;
 static int companion_flag = 0;
@@ -42,8 +42,7 @@ static int opts_parse(int argc, char *argv[]) {
       {"compress", no_argument, 0, 'm'},
       {"analytic", no_argument, 0, 'a'},
       {"shift_flag", no_argument, 0, 'S'},
-      /* These options don't set a flag.
-            We distinguish them by their indices. */
+      /* These options don't set a flag. We distinguish them by their indices */
       {"budget", required_argument, 0, 'q'},
       {"period", required_argument, 0, 't'},
       {"task_period", required_argument, 0, 'T'},
@@ -54,7 +53,6 @@ static int opts_parse(int argc, char *argv[]) {
       {"max_deadline", required_argument, 0, 'M'},
       {0, 0, 0, 0},
   };
-  // verbose_flag = 0;
 
   while ((opt = getopt_long(argc, argv, "t:q:e:i:T:s:M:vbplcomaS", long_options,
                             0)) != -1) {
@@ -117,8 +115,8 @@ static int opts_parse(int argc, char *argv[]) {
 int main(int argc, char *argv[]) {
   int i;
   long long t_start = 0, t_end;
-  PrositAux::pmf *c = new PrositAux::pmf(Nc, 0);
-  PrositAux::pmf *u = new PrositAux::pmf(Nz, 0);
+  PrositAux::pmf *c = new PrositAux::pmf(Nc, 0); //computation time
+  PrositAux::pmf *u = new PrositAux::pmf(Nz, 0); //interarrival time
 
 #ifdef DEBUG
   VectorXd tmp;
@@ -170,23 +168,12 @@ int main(int argc, char *argv[]) {
     }
 
     if (analytic_flag) {
-      EXC_PRINT("Analytic solver TBD");
-      // if (verbose_flag) {
-      // 	cout<<"CLosed Form Bound Selected"<<endl;
-      // 	closed_form_set_verbose(true);
-      // };
-      // double prob;
-      // if (old_model_flag)
-      // 	prob = closed_form_old_model_compute_pi(c, Tp/T, Q);
-      // else
-      // 	prob = closed_form_compute_pi(*h, Tp/T, Q/step);
-      // if (verbose_flag) {
-      // 	cout<<"Closed Form Bound Computation finished"<<endl;
-      // };
-      // t_probability_compute_end=PrositAux::my_get_time();
-      // if ((prob < 0)||(prob > 1.0+0.0001))
-      // 	prob = 0;
-      // cout<<"P{d < "<<Tp<<"} "<<prob<<endl;
+      PrositCore::AnalyticResourceReservationProbabilitySolver *tmp =
+        new PrositCore::AnalyticResourceReservationProbabilitySolver(
+          *c, unsigned(T), unsigned(Q));
+      std::unique_ptr<PrositCore::ResourceReservationProbabilitySolver> ps(tmp);
+      task_des.set_solver(ps.get());
+      task_des.compute_probability();
     } else {
       if (companion_flag) {
         PrositCore::CompanionResourceReservationProbabilitySolver *tmp =

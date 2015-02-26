@@ -6,21 +6,29 @@ namespace PrositCore {
 class AnalyticResourceReservationProbabilitySolver 
     : public ResourceReservationProbabilitySolver {
 protected:
-  const PrositAux::pmf prob_function;
-  unsigned int N;
+  PrositAux::pmf prob_function;
+  unsigned int server_period;
   unsigned int budget;
 
+  ///@brief Generates matrices required for the solution
+  void pre_process();
+  ///@brief checks that everything is ok for computation
+  void post_process();
+  ///@brief computes the various probababilities after the "core" problem has
+  ///been solved
+  void fill_in_probability_map();
+  ///@brief Applies algorithm
   void apply_algorithm();
 public:
   /*
    * @param p probability mass function
-   * @param N 
+   * @param N server period
    * @param Q budget 
    */
-  AnalyticResourceReservationProbabilitySolver(const PrositAux::pmf & p,
+  AnalyticResourceReservationProbabilitySolver(PrositAux::pmf & p,
                                                unsigned int N,
                                                unsigned int Q)
-    : prob_function(p), N(N), budget(Q){};
+    : prob_function(p), server_period(N), budget(Q){};
 
   virtual ~AnalyticResourceReservationProbabilitySolver(){};
 };
