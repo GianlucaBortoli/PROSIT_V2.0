@@ -1,11 +1,11 @@
 UNAME := $(shell uname)
 
 ifeq ($(UNAME), Linux)
-CPPFLAGS= -Wall -g -I/usr/include/eigen3 -I./utils/tinyxml2 
+CPPFLAGS= -Wall -g -I /usr/include/eigen3 -I ./utils/tinyxml2 
 endif
 
 ifeq ($(UNAME), Darwin)
-CPPFLAGS= -Wall -g -I/opt/local/include/eigen3 -I./utils/tinyxml2
+CPPFLAGS= -Wall -g -I /opt/local/include/eigen3 -I ./utils/tinyxml2
 endif
 
 CPPFLAGS+= -std=c++11 -O2
