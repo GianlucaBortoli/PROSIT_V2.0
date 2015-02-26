@@ -2,8 +2,6 @@
 
 namespace PrositCore {
 void AnalyticResourceReservationProbabilitySolver::pre_process(){}
-void AnalyticResourceReservationProbabilitySolver::post_process(){}
-void AnalyticResourceReservationProbabilitySolver::fill_in_probability_map(){}
 
 void AnalyticResourceReservationProbabilitySolver::apply_algorithm(){
   PrositAux::cdf c(prob_function.get_size(), prob_function.get_offset());
@@ -38,4 +36,6 @@ void AnalyticResourceReservationProbabilitySolver::apply_algorithm(){
   return;
 }
 
+void AnalyticResourceReservationProbabilitySolver::post_process(){}
+void AnalyticResourceReservationProbabilitySolver::fill_in_probability_map(){}
 }
