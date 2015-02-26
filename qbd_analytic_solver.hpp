@@ -1,14 +1,15 @@
 #include "probability_solver.hpp"
 #include "auxiliary_func.hpp"
 #include "pmf.hpp"
-#include "task_descriptor.hpp"
-#include <Eigen/Dense>
-#include <memory>
 
 namespace PrositCore {
 class AnalyticResourceReservationProbabilitySolver 
     : public ResourceReservationProbabilitySolver {
 protected:
+  const PrositAux::pmf prob_function;
+  unsigned int N;
+  unsigned int budget;
+
   void apply_algorithm();
 public:
   /*
@@ -18,7 +19,8 @@ public:
    */
   AnalyticResourceReservationProbabilitySolver(const PrositAux::pmf & p,
                                                unsigned int N,
-                                               unsigned int Q){};
+                                               unsigned int Q)
+    : prob_function(p), N(N), budget(Q){};
 
   virtual ~AnalyticResourceReservationProbabilitySolver(){};
 };
