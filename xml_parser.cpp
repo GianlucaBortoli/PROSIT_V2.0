@@ -1,31 +1,32 @@
 #include "xml_parser.hpp"
 #include "task_descriptor.hpp"
+#include "exc.hpp"
 #include <tinyxml2.h>
 #include <iostream>
 using namespace std;
 using namespace tinyxml2;
 
 namespace PrositCore {
-ACTIONS Parser::parse() throw (Exc) {
+ACTIONS Parser::parse() throw (PrositAux::Exc) {
   XMLElement *element = doc->FirstChildElement("optimisation");
   
   if(element) {
     optimisation_parse(element); 
-    act = OPTIMISE;
-    return act;
+    a = OPTIMISE;
+    return a;
   };
 
   element = doc->FirstChildElement("solve");
   if (element) {
     analysis_parse(element);
-    act = SOLVE;
-    return act;
+    a = SOLVE;
+    return a;
   };
 
   EXC_PRINT("error in xml format");
 }
 
-void Parser::optimisation_parse(XMLElement *optElement) throw(Exc) {
+void Parser::optimisation_parse(XMLElement *optElement) throw(PrositAux::Exc) {
   const char *s;
   string opt_method;
   
@@ -57,7 +58,7 @@ void Parser::optimisation_parse(XMLElement *optElement) throw(Exc) {
   task_list_parse(optElement);
 }
 
-void Parser::verbose_parse(XMLElement * optElement) throw(Exc) {
+void Parser::verbose_parse(XMLElement * optElement) throw(PrositAux::Exc) {
   const char * s;
   string verbose_flag;
   
@@ -76,7 +77,7 @@ void Parser::verbose_parse(XMLElement * optElement) throw(Exc) {
   }
 }
 
-void Parser::task_list_parse(XMLElement * optElement) throw(Exc) {
+void Parser::task_list_parse(XMLElement * optElement) throw(PrositAux::Exc) {
   XMLElement * taskElement = optElement->FirstChildElement("task");
   if (!taskElement) 
     EXC_PRINT("opimisation task section missing");
@@ -87,7 +88,7 @@ void Parser::task_list_parse(XMLElement * optElement) throw(Exc) {
   };
 }
 
-void Parser::analysis_parse(XMLElement *e) throw (Exc) {
+void Parser::analysis_parse(XMLElement *e) throw(PrositAux::Exc) {
   verbose_parse(e);
   task_list_parse(e);
 }

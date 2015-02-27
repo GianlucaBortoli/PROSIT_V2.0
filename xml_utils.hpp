@@ -1,3 +1,7 @@
+#include "task_descriptor.hpp"
+#include "xml_parser.hpp"
+#include <vector>
+
 namespace PrositCore {
 static int solve_core(vector<GenericTaskDescriptor*> & v, 
                       vector<double> & probability, 
@@ -9,5 +13,5 @@ static int solve_display_results(vector<GenericTaskDescriptor*> & v,
                                  const vector<long long> & time, 
                                  bool show_time);
 static int solve_execute();
-static int opt_execute(XMLParser::Parser * p);
+static int opt_execute(Parser *p);
 }
