@@ -38,6 +38,7 @@
 #include <string>
 #include <utility>
 #include <memory>
+#include <map>
 
 using namespace std;
 
@@ -207,6 +208,9 @@ public:
   /// for a resource reservation task), an exception is thrown by the solver
   /// during the task registration phase.
   void set_solver(ProbabilitySolver *psd);
+
+  ///@brief returns the number of task taken into consideration
+  int get_task_descriptor_vector(vector<GenericTaskDescriptor*> & v);
 
   ///@brief Destruct, which is virtual, being the class polymorphic
   virtual ~GenericTaskDescriptor(){};

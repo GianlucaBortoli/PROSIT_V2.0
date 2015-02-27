@@ -1,11 +1,15 @@
 #include "xml_utils.hpp"
+#include "task_descriptor.hpp"
 
 namespace PrositCore {
-static int solve_core(vector<GenericTaskDescriptor*> & v, vector<double> & probability, vector<double> & quality, vector<long long> & time) {
-  long long t_solution_start_i=0, t_solution_end_i=0;
-  int num = TaskFactory::task_descriptor_factory.get_task_descriptor_vector(v);
+static int solve_core(vector<GenericTaskDescriptor*> &v, 
+                      vector<double> &probability, 
+                      vector<double> &quality, 
+                      vector<long long> &time) {
+  /*long long t_solution_start_i=0, t_solution_end_i=0;
+  int num = GenericTaskDescriptor::get_task_descriptor_vector(v);
   if(verbose_flag)
-    cout<<"Number of tasks parsed: "<<num<<endl;
+    cout << "Number of tasks parsed: " << num << endl;
   
   int i = 0;
   for (vector<GenericTaskDescriptor*>::iterator it = v.begin() ; (it != v.end()); ++it) {
@@ -21,10 +25,14 @@ static int solve_core(vector<GenericTaskDescriptor*> & v, vector<double> & proba
     time[i] = t_solution_end_i - t_solution_start_i;
     i++;
   };
-  return v.size();
+  return v.size();*/
 };
 
-static int solve_display_results(vector<GenericTaskDescriptor*> & v, const vector<double> & probability, const vector<double> & quality, const vector<long long> & time, bool show_time) {
+static int solve_display_results(vector<GenericTaskDescriptor*> &v, 
+                                 const vector<double> &probability, 
+                                 const vector<double> &quality, 
+                                 const vector<long long> &time, 
+                                 bool show_time) {
   cout<<"Analysis results."<<endl;
   cout<<"================================================================================================================================="<<endl;
   cout<<"=                                                         Results                                                               ="<<endl;
@@ -54,7 +62,7 @@ static int solve_display_results(vector<GenericTaskDescriptor*> & v, const vecto
 }
 
 static int solve_execute() {
-  long long t_solution_start=0, t_solution_end=0;
+  /*long long t_solution_start=0, t_solution_end=0;
   t_solution_start = my_get_time();
   vector<GenericTaskDescriptor*> v;
   int num = TaskFactory::task_descriptor_factory.get_task_descriptor_vector(v);
@@ -74,11 +82,11 @@ static int solve_execute() {
   printf("\tSolution time: \t\t\t%*llu \n",25,t_solution_end-t_solution_start);
   printf("\tTotal time: \t\t\t%*llu \n", 25,t_solution_end-t_start);
   cout<<"=========================================================================================================="<<endl;
-  return 1;
+  return 1;*/
 }
 
-static int opt_execute(XMLParser::Parser * p) {
-  long long t_optimisation_start=0, t_optimisation_set_up = 0, t_optimisation_end=0;
+static int opt_execute(Parser *p) {
+  /*long long t_optimisation_start=0, t_optimisation_set_up = 0, t_optimisation_end=0;
 
   t_optimisation_set_up = my_get_time();
   vector<GenericTaskDescriptor*> v;
@@ -120,6 +128,6 @@ static int opt_execute(XMLParser::Parser * p) {
   printf("\tTotal time: \t\t\t%*llu \n", 25,t_optimisation_end-t_start);
   cout<<"=========================================================================================================="<<endl;
     
-  return 1;
+  return 1;*/
 }
 }

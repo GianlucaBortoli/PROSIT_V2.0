@@ -9,7 +9,7 @@ void GenericTaskDescriptor::insert_deadline(DeadlineUnit deadline) {
   if (!(probabilistic_deadlines.insert(entry).second))
     EXC_PRINT_2("cannot create deadline for task ", name);
   return;
-};
+}
 
 void GenericTaskDescriptor::compute_probability() {
   if (!probability_solver)
@@ -20,7 +20,7 @@ void GenericTaskDescriptor::compute_probability() {
     return;
 
   probability_solver->solve();
-};
+}
 
 double GenericTaskDescriptor::get_probability(DeadlineUnit deadline) {
   if (!probability_solver)
@@ -38,13 +38,13 @@ double GenericTaskDescriptor::get_probability(DeadlineUnit deadline) {
     EXC_PRINT_2("Deadline does not exist for task ", name);
 
   return it->second;
-};
+}
 
 void GenericTaskDescriptor::set_solver(ProbabilitySolver *psd) {
   probability_solver = psd;
   solved = false;
   probability_solver->register_task(this);
-};
+}
 
 void GenericTaskDescriptor::set_deadline_step(unsigned int ds) {
   if ((deadline_step != 0) && (!probabilistic_deadlines.empty()))
@@ -53,7 +53,16 @@ void GenericTaskDescriptor::set_deadline_step(unsigned int ds) {
         name);
   deadline_step = ds;
   return;
-};
+}
+
+int GenericTaskDescriptor::get_task_descriptor_vector(vector<GenericTaskDescriptor*> & v) {
+  int num = 0;
+  vector<GenericTaskDescriptor*>::iterator it;
+  for(it = v.begin(); it !=v.end(); it++)
+    num++;
+
+  return num;
+}
 
 void ResourceReservationTaskDescriptor::set_deadline_step(unsigned int ds) {
   if ((ds != 0) && (ds % Ts) != 0)
@@ -61,5 +70,7 @@ void ResourceReservationTaskDescriptor::set_deadline_step(unsigned int ds) {
         "Deadline step has to be a multiple of the server period for task ",
         name);
   GenericTaskDescriptor::set_deadline_step(ds);
-};
+}
+
+
 }
