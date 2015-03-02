@@ -31,7 +31,6 @@ static double eps = 1e-4;
 static int shift_flag = 0;
 
 static int opts_parse(int argc, char *argv[]) {
-  // TODO: help flag
   int opt;
   static struct option long_options[] = {
       /* These options set a flag. */
@@ -52,10 +51,11 @@ static int opts_parse(int argc, char *argv[]) {
       {"pessimistic", no_argument, 0, 'p'},
       {"step", required_argument, 0, 's'},
       {"max_deadline", required_argument, 0, 'M'},
+      {"help", no_argument, 0, 'h'},
       {0, 0, 0, 0},
   };
 
-  while ((opt = getopt_long(argc, argv, "t:q:e:i:T:s:M:vbplcomaS", long_options,
+  while ((opt = getopt_long(argc, argv, "t:q:e:i:T:s:M:vbplcomaSh", long_options,
                             0)) != -1) {
     switch (opt) {
     case 'q':
@@ -105,6 +105,9 @@ static int opts_parse(int argc, char *argv[]) {
       break;
     case 'S':
       shift_flag = 1;
+      break;
+    case 'h':
+      PrositAux::help();
       break;
     default: /* ?~@~Y??~@~Y */
       EXC_PRINT("opts_parse parameters incorrect");

@@ -85,5 +85,8 @@ inline bool check_sizes(const MatrixXd &A0, const MatrixXd &A1) {
 /*! This function returns the eigenvector related to eigenvalue 1
  */
 RowVectorXd stat(const MatrixXd &A) throw(Exc);
+
+// help function for solver - command line
+void help();
 }
 #endif
