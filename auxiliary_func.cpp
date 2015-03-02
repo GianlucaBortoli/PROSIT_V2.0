@@ -42,7 +42,17 @@ void help() {
        << "\t-l (--latouche)\n"
        << "\t-c (--cyclic)\n"
        << "\t-o (--companion)\n"
-       << "\t-a (--analytic)\n" << endl;
+       << "\t-a (--analytic)\n" 
+       << endl;
   return;
 }
+
+void help_xml() {
+  cout << "Usage: ./xml_solver [options]\n"
+       << "\t-h (--help): show help for possible parameters\n"
+       << "\t-v (--verbose_flag): sets verbose mode (NB: overrides settings in XML)\n"
+       << "\t-s (--silent): sets silent mode (NB: overrides settings in XML)\n"
+       << endl;
+}
+
 }

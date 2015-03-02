@@ -88,5 +88,7 @@ RowVectorXd stat(const MatrixXd &A) throw(Exc);
 
 // help function for solver - command line
 void help();
+// help function for solver - XML
+void help_xml();
 }
 #endif

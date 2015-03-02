@@ -122,10 +122,6 @@ int main(int argc, char *argv[]) {
   PrositAux::pmf *c = new PrositAux::pmf(Nc, 0); //computation time
   PrositAux::pmf *u = new PrositAux::pmf(Nz, 0); //interarrival time
 
-#ifdef DEBUG
-  VectorXd tmp;
-#endif
-
   int opt;
   try {
     opt = opts_parse(argc, argv);

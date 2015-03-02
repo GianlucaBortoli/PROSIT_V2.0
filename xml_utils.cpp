@@ -2,11 +2,11 @@
 #include "task_descriptor.hpp"
 
 namespace PrositCore {
-static int solve_core(vector<GenericTaskDescriptor*> &v, 
-                      vector<double> &probability, 
-                      vector<double> &quality, 
-                      vector<long long> &time) {
-  /*long long t_solution_start_i=0, t_solution_end_i=0;
+static int solve_core(vector<GenericTaskDescriptor*> &v) {
+  vector<double> probability, quality;
+  vector<long long> time;
+  long long t_solution_start_i = 0, t_solution_end_i = 0;
+
   int num = GenericTaskDescriptor::get_task_descriptor_vector(v);
   if(verbose_flag)
     cout << "Number of tasks parsed: " << num << endl;
@@ -15,17 +15,17 @@ static int solve_core(vector<GenericTaskDescriptor*> &v,
   for (vector<GenericTaskDescriptor*>::iterator it = v.begin() ; (it != v.end()); ++it) {
     ProbPeriodicTaskDescriptor * p = dynamic_cast<ProbPeriodicTaskDescriptor *>(*it);
     if(!p) {
-      cerr<<"Sorry. Analysis works only for probabilistic periodic tasks as yet."<<endl;
+      cerr << "Sorry, analysis works only for probabilistic periodic tasks" << endl;
       return 0;
     }
     t_solution_start_i = my_get_time();
-    probability[i] = p->probability(p->get_budget());
+    probability[i] = (*it).compute_probability();
     t_solution_end_i = my_get_time();
     quality[i] = p->QoS_from_prob(probability[i]);
     time[i] = t_solution_end_i - t_solution_start_i;
     i++;
   };
-  return v.size();*/
+  return v.size();
 };
 
 static int solve_display_results(vector<GenericTaskDescriptor*> &v, 

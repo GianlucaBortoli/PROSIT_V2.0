@@ -23,7 +23,7 @@ class Parser {
     bool verbose;
   public:
     static GenericTaskDescriptor * task_parse(XMLElement *task) throw(PrositAux::Exc);
-    //static auto_ptr<pmf> distr_parse(XMLElement *task) throw(PrositAux::Exc);
+    static auto_ptr<ProsutAux::pmf> distr_parse(XMLElement *task) throw(PrositAux::Exc);
     //static auto_ptr<QoSFun> qosfun_parse(XMLElement *qosfunElement) throw(PrositAux::Exc);
 
     Parser(const char *name) throw(PrositAux::Exc):

@@ -9,7 +9,6 @@ using namespace tinyxml2;
 namespace PrositCore {
 ACTIONS Parser::parse() throw (PrositAux::Exc) {
   XMLElement *element = doc->FirstChildElement("optimisation");
-  
   if(element) {
     optimisation_parse(element); 
     a = OPTIMISE;
@@ -92,5 +91,16 @@ void Parser::analysis_parse(XMLElement *e) throw(PrositAux::Exc) {
   verbose_parse(e);
   task_list_parse(e);
 }
+
+auto_ptr<PrositAux::pmf> Parser::distr_parse(XMLElement * distrElement) throw(Exc) {
+    const char * type_name;
+    if(!(type_name = distrElement->Attribute("type"))) 
+      EXC_PRINT("type undefined for distribution");
+    
+    DistrFactory::DistrParameters * p = DistrFactory::distr_factory.parse_parameters(type_name, distrElement);
+    auto_ptr<PrositAux::pmf> td =  DistrFactory::distr_factory.create_instance(type_name, p);
+    delete p;
+    return td;
+  }
 
 }

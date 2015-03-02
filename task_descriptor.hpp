@@ -60,8 +60,7 @@ protected:
   bool verbose_flag; /*!< Flag to print out information while processing */
   bool periodic;     /*!< Flag for periodic tasks */
   unsigned int P;    /*!< Period (has meaning onlly if periodic flag is set) */
-  unsigned int
-      deadline_step; /*!< Granularity to define probabilistic deadlines */
+  unsigned int deadline_step; /*!< Granularity to define probabilistic deadlines */
 
   DeadlineProbabilityMap probabilistic_deadlines; /*!< Map associating deadlines
                                                      with probabilities */
