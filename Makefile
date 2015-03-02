@@ -37,6 +37,6 @@ clean:
 	rm -f *.o *.d *.a solver
 
 %.d: %.cpp
-	$(CC) $(CPPFLAGS) -MM -MF $@ $<
+	@$(CC) $(CPPFLAGS) -MM -MF $@ $<
 
 -include $(PROSIT_OBJS:.o=.d)
