@@ -92,15 +92,56 @@ void Parser::analysis_parse(XMLElement *e) throw(PrositAux::Exc) {
   task_list_parse(e);
 }
 
-auto_ptr<PrositAux::pmf> Parser::distr_parse(XMLElement * distrElement) throw(Exc) {
-    const char * type_name;
-    if(!(type_name = distrElement->Attribute("type"))) 
-      EXC_PRINT("type undefined for distribution");
-    
-    DistrFactory::DistrParameters * p = DistrFactory::distr_factory.parse_parameters(type_name, distrElement);
-    auto_ptr<PrositAux::pmf> td =  DistrFactory::distr_factory.create_instance(type_name, p);
-    delete p;
-    return td;
+/*
+auto_ptr<PrositAux::pmf> Parser::distr_parse(XMLElement * distrElement) throw(PrositAux::Exc) {
+  const char * type_name;
+  if(!(type_name = distrElement->Attribute("type"))) 
+    EXC_PRINT("undefined type for distribution");
+  
+  DistrFactory::DistrParameters * p = DistrFactory::distr_factory.parse_parameters(type_name, distrElement);
+  auto_ptr<PrositAux::pmf> td =  DistrFactory::distr_factory.create_instance(type_name, p);
+  delete p;
+  return td;
+}
+
+auto_ptr<QosFunction> Parser::qosfun_parse(XMLElement * qosfunElement) throw(Exc) {
+  const char * type_name;
+  if(!(type_name = qosfunElement->Attribute("type"))) 
+    EXC_PRINT("undefined type for QoS function");
+  
+  QoSFactory::QoSFunParameters * p = QoSFactory::qos_fun_factory.parse_parameters(type_name, qosfunElement);
+  auto_ptr<QosFunction> td =  QoSFactory::qos_fun_factory.create_instance(type_name, p);
+  delete p;
+  
+  return td;
+}
+
+GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Exc) {
+  const char * task_name;
+  const char * type_name;
+
+  if(!(task_name = taskElement->Attribute("name")))
+    EXC_PRINT("name undefined for task");
+  if(!(type_name = taskElement->Attribute("type")))
+    EXC_PRINT_2("type undefined for task",task_name);
+  
+  TaskFactory::GenericTaskParameters * p = TaskFactory::task_descriptor_factory.parse_parameters(type_name, task_name, taskElement);
+  GenericTaskDescriptor *td =  TaskFactory::task_descriptor_factory.create_instance(type_name, task_name, p);
+  delete p;
+  
+  XMLElement * internal;
+  if(internal = taskElement->FirstChildElement("QoSMax")) {
+    double qos_min, qos_max;
+    internal->QueryDoubleText(&qos_max);
+
+    if (!(internal = taskElement->FirstChildElement("QoSMin")))
+      EXC_PRINT_2(" QoSmax defined but QoSMin undefined for task ", task_name);
+
+    internal->QueryDoubleText(&qos_min);
+    TaskFactory::task_descriptor_factory.set_task_target_qos_bounds(task_name, qos_min,qos_max);
   }
+  return td;
+}
+*/
 
 }

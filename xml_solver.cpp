@@ -7,16 +7,17 @@
 #include "exc.hpp"
 #include "xml_parser.hpp"
 #include "xml_utils.hpp"
+#include "qos_function.hpp"
 #include <iostream>
 #include <algorithm>
 #include <stdio.h>
 #include <getopt.h>
 #include <memory>
+#include <tinyxml2.h>
 
 bool verbose_flag;
 bool silent_flag;
 bool help_flag;
-long long  t_start = 0, t_xml_parse_end = 0;
 
 static int opts_parse(int argc, char *argv[]) {
   int opt;
@@ -53,39 +54,36 @@ static int opts_parse(int argc, char *argv[]) {
 }
 
 int main(int argc, char *argv[]) {
-  int i;
-  long long t_start = 0, t_end;
-  PrositAux::pmf *c = new PrositAux::pmf(Nc, 0); //computation time
-  PrositAux::pmf *u = new PrositAux::pmf(Nz, 0); //interarrival time
+  double scale = 0; //defaults values
+  double pmin = 0; 
+  double pmax = 1; 
+  double offset = 0.95;
 
-  int opt;
+  PrositCore::QosFunction *q = new PrositCore::QosFunction(scale, pmin, pmax, offset); //function for qos to be respected
+
   try {
     int opt = opts_parse(argc, argv);
     if( argc-optind != 1 )
       EXC_PRINT("one input file requested");
 
-    t_start = my_get_time(); //start parsing time, used to calculate results
-
-    XMLParser::Parser *p = new XMLParser::Parser(argv[opt]);
+    PrositCore::Parser *p = new PrositCore::Parser(argv[opt]);
     p->parse();
     if(verbose_flag)
-      cout<<"XML file succesfully parsed"<<endl;
+      cout << "XML file succesfully parsed" << endl;
    
-    t_xml_parse_end = my_get_time(); //end parting time, used to calculate results
-    int res;
-
     switch(p->get_act()) {
-    case  XMLParser::OPTIMISE: 
-      //res = opt_execute(p); 
+    case PrositCore::ACTIONS::OPTIMISE: 
+      PrositCore::opt_execute(p); 
       break;
-    case XMLParser::SOLVE:
-      //res = solve_execute();
+    case PrositCore::ACTIONS::SOLVE:
+      PrositCore::solve_execute();
       break;
     default:
-      EXC_PRINT("action not currently recognised");
-    };
+      EXC_PRINT("Action not currently recognised");
+    }
 
     delete p;
+    delete q;
   } catch (PrositAux::Exc &e) {
     cerr << "Exception caught" << endl;
     e.what();
