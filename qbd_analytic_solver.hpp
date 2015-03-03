@@ -1,3 +1,6 @@
+#ifndef QBD_ANALYTIC_SOLVER_HPP
+#define QBD_ANALYTIC_SOLVER_HPP
+
 #include "probability_solver.hpp"
 #include "auxiliary_func.hpp"
 #include "pmf.hpp"
@@ -33,3 +36,4 @@ public:
   virtual ~AnalyticResourceReservationProbabilitySolver(){};
 };
 }
+#endif

@@ -1,5 +1,6 @@
 #include "xml_utils.hpp"
 #include "task_descriptor.hpp"
+
 extern bool verbose_flag; //from xml_solver.cpp
 extern bool silent_flag;
 
@@ -29,7 +30,7 @@ void solve_execute() {
 
 void opt_execute(Parser *p) {
   long long t_optimisation_start = 0, t_optimisation_set_up = 0, t_optimisation_end = 0;
-  t_optimisation_set_up = PrositAux::my_get_time();// start time
+  t_optimisation_set_up = PrositAux::my_get_time();// optimization setup time
   vector<GenericTaskDescriptor*> v;
   int num = GenericTaskDescriptor::get_task_descriptor_vector(v);
 
@@ -49,11 +50,11 @@ void opt_execute(Parser *p) {
   else
     Opt.set_verbose(p->get_verbose());
     
-  t_optimisation_start=PrositAux::my_get_time();
+  t_optimisation_start=PrositAux::my_get_time();// optimization start time
     
   Opt.optimise();
     
-  t_optimisation_end=PrositAux::my_get_time();
+  t_optimisation_end=PrositAux::my_get_time();// optimization end time
   
   if (Opt.get_state() != GenericBudgetOptimiser::OK) {
     cerr<<"Optimisation failed"<<endl;

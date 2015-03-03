@@ -30,6 +30,7 @@
 /// of PrositCore::Solver class.
 #ifndef TASK_DESCRIPTOR_HPP
 #define TASK_DESCRIPTOR_HPP
+
 #include "prosit_types.hpp"
 #include "exc.hpp"
 #include "pmf.hpp"
@@ -39,7 +40,6 @@
 #include <utility>
 #include <memory>
 #include <map>
-
 using namespace std;
 
 namespace PrositCore {

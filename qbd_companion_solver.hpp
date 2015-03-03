@@ -1,10 +1,6 @@
 #ifndef QBD_CMP_SOLVER_HPP
 #define QBD_CMP_SOLVER_HPP
 
-///@file qbd_companion_solver.hpp
-///
-/// Classes for companion for based solvers
-
 #include "probability_solver.hpp"
 #include "auxiliary_func.hpp"
 #include "pmf.hpp"

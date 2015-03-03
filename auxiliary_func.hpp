@@ -11,10 +11,10 @@
 */
 #ifndef AUX_FUNC_HPP
 #define AUX_FUNC_HPP
+
 #include "exc.hpp"
 #include <Eigen/SVD>
 #include <sys/time.h>
-
 using namespace Eigen;
 using namespace std;
 
