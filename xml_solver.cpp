@@ -9,10 +9,8 @@
 #include "xml_utils.hpp"
 #include "qos_function.hpp"
 #include <iostream>
-#include <algorithm>
 #include <stdio.h>
 #include <getopt.h>
-#include <memory>
 #include <tinyxml2.h>
 
 bool verbose_flag; //used also in xml_utils.cpp
@@ -54,13 +52,6 @@ static int opts_parse(int argc, char *argv[]) {
 }
 
 int main(int argc, char *argv[]) {
-  double scale = 0; //defaults values
-  double pmin = 0; 
-  double pmax = 1; 
-  double offset = 0.95;
-
-  PrositCore::QosFunction *q = new PrositCore::QosFunction(scale, pmin, pmax, offset); //function for qos to be respected
-
   try {
     int opt = opts_parse(argc, argv);
     if( argc-optind != 1 )
@@ -72,18 +63,17 @@ int main(int argc, char *argv[]) {
       cout << "XML file succesfully parsed" << endl;
    
     switch(p->get_act()) {
-    case PrositCore::ACTIONS::OPTIMISE: 
-      PrositCore::opt_execute(p); 
-      break;
-    case PrositCore::ACTIONS::SOLVE:
-      PrositCore::solve_execute();
-      break;
-    default:
-      EXC_PRINT("Action not currently recognised");
+      case PrositCore::ACTIONS::OPTIMISE: 
+        PrositCore::opt_execute(p); 
+        break;
+      case PrositCore::ACTIONS::SOLVE:
+        PrositCore::solve_execute();
+        break;
+      default:
+        EXC_PRINT("Action not currently recognised");
     }
 
     delete p;
-    delete q;
   } catch (PrositAux::Exc &e) {
     cerr << "Exception caught" << endl;
     e.what();

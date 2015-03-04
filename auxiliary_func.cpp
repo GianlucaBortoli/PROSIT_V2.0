@@ -1,5 +1,6 @@
 #include "auxiliary_func.hpp"
 #include <iostream>
+#include <stdlib.h>
 using namespace std;
 
 namespace PrositAux {
@@ -44,7 +45,7 @@ void help() {
        << "\t-o (--companion)\n"
        << "\t-a (--analytic)\n" 
        << endl;
-  return;
+  exit(0);
 }
 
 void help_xml() {
@@ -53,6 +54,7 @@ void help_xml() {
        << "\t-v (--verbose_flag): sets verbose mode (NB: overrides settings in XML)\n"
        << "\t-s (--silent): sets silent mode (NB: overrides settings in XML)\n"
        << endl;
+  exit(0);
 }
 
 }

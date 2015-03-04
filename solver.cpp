@@ -6,10 +6,8 @@
 #include "qbd_analytic_solver.hpp"
 #include "exc.hpp"
 #include <iostream>
-#include <algorithm>
 #include <stdio.h>
 #include <getopt.h>
-#include <memory>
 
 #define Nc 2500000
 #define Nz 1000000
