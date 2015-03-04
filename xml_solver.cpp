@@ -15,8 +15,8 @@
 #include <memory>
 #include <tinyxml2.h>
 
-bool verbose_flag;
-bool silent_flag;
+bool verbose_flag; //used also in xml_utils.cpp
+bool silent_flag; //used also in xml_utils.cpp
 bool help_flag;
 
 static int opts_parse(int argc, char *argv[]) {

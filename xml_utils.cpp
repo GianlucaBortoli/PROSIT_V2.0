@@ -9,7 +9,7 @@ void solve_execute() {
   long long t_solution_start = 0, t_solution_end = 0;
   t_solution_start = PrositAux::my_get_time();// start time
   vector<GenericTaskDescriptor*> v;
-  int num = GenericTaskDescriptor::get_task_descriptor_vector(v);
+  int num = get_task_descriptor_vector(v);
 
   vector<double> probability(num);
   vector<double> quality(num);
@@ -32,7 +32,7 @@ void opt_execute(Parser *p) {
   long long t_optimisation_start = 0, t_optimisation_set_up = 0, t_optimisation_end = 0;
   t_optimisation_set_up = PrositAux::my_get_time();// optimization setup time
   vector<GenericTaskDescriptor*> v;
-  int num = GenericTaskDescriptor::get_task_descriptor_vector(v);
+  int num = get_task_descriptor_vector(v);
 
   vector<double> probability(num); //vectors for displaying results
   vector<double> quality(num);
@@ -83,16 +83,17 @@ int solve_core(vector<GenericTaskDescriptor*> &v,
                       vector<long long> &time) {
   long long t_solution_start_i = 0, t_solution_end_i = 0;
 
-  int num = GenericTaskDescriptor::get_task_descriptor_vector(v);
+  int num = get_task_descriptor_vector(v);
   if(verbose_flag)
     cout << "Number of tasks parsed: " << num << endl;
   
   int i = 0;
   for (vector<GenericTaskDescriptor*>::iterator it = v.begin() ; (it != v.end()); ++it) {
     t_solution_start_i = PrositAux::my_get_time();
-    probability[i] = (*it)->compute_probability();
+    probability[i] = (double)((*it)->get_probability());
     t_solution_end_i = PrositAux::my_get_time();
-    quality[i] = QosFunction::eval(probability[i]);
+    PrositCore::QosFunction *q = new PrositCore::QosFunction(0, 0, 1, 0.95); //used to calculate qos quality function
+    quality[i] = q->eval(probability[i]);
     time[i] = t_solution_end_i - t_solution_start_i;
     i++;
   };
@@ -104,6 +105,8 @@ int solve_display_results(vector<GenericTaskDescriptor*> &v,
                                  const vector<double> &quality, 
                                  const vector<long long> &time, 
                                  bool show_time) {
+  vector<ResourceReservationTaskDescriptor*> &vect = dynamic_cast<vector<ResourceReservationTaskDescriptor*> >(v);
+
   cout<<"Analysis results."<<endl;
   cout<<"================================================================================================================================="<<endl;
   cout<<"=                                                         Results                                                               ="<<endl;
@@ -115,7 +118,8 @@ int solve_display_results(vector<GenericTaskDescriptor*> &v,
     printf("%20s%20s%20s%20s%20s%20s\n", "Name","Budget","Bandwidth","Probability","Quality","Time");
   else
     printf("%20s%20s%20s%20s%20s\n", "Name","Budget","Bandwidth","Probability","Quality");
-  for (vector<GenericTaskDescriptor*>::iterator it = v.begin() ; (it != v.end()); ++it) {
+
+  for (vector<ResourceReservationTaskDescriptor*>::iterator it = vect.begin() ; (it != vect.end()); ++it) {
     printf("%20s%20d%20f%20f%20f", (*it)->get_name().c_str(), (*it)->get_budget(),double((*it)->get_budget())/double((*it)->get_server_period()),probability[i], quality[i]);
     if(show_time)
       printf("%*llu\n",20,time[i]);
@@ -130,6 +134,15 @@ int solve_display_results(vector<GenericTaskDescriptor*> &v,
   printf("\tInfinity norm value: \t\t%25f\n",inf_norm);
   
   return v.size();
+}
+
+int get_task_descriptor_vector(vector<GenericTaskDescriptor*> & v) {
+  int num = 0;
+  vector<GenericTaskDescriptor*>::iterator it;
+  for(it = v.begin(); it !=v.end(); it++)
+    num++;
+
+  return num;
 }
 
 }

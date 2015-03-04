@@ -19,5 +19,7 @@ int solve_display_results(vector<GenericTaskDescriptor*> & v,
                                  bool show_time);
 void solve_execute();
 void opt_execute(Parser *p);
+///@brief returns the number of task taken into consideration
+int get_task_descriptor_vector(vector<GenericTaskDescriptor*> & v);
 }
 #endif

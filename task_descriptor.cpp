@@ -55,15 +55,6 @@ void GenericTaskDescriptor::set_deadline_step(unsigned int ds) {
   return;
 }
 
-int GenericTaskDescriptor::get_task_descriptor_vector(vector<GenericTaskDescriptor*> & v) {
-  int num = 0;
-  vector<GenericTaskDescriptor*>::iterator it;
-  for(it = v.begin(); it !=v.end(); it++)
-    num++;
-
-  return num;
-}
-
 void ResourceReservationTaskDescriptor::set_deadline_step(unsigned int ds) {
   if ((ds != 0) && (ds % Ts) != 0)
     EXC_PRINT_2(
@@ -71,6 +62,5 @@ void ResourceReservationTaskDescriptor::set_deadline_step(unsigned int ds) {
         name);
   GenericTaskDescriptor::set_deadline_step(ds);
 }
-
 
 }

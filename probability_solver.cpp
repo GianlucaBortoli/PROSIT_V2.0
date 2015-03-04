@@ -51,8 +51,7 @@ bool ResourceReservationProbabilitySolver::check_list() {
   return true;
 };
 
-void
-ResourceReservationProbabilitySolver::register_task(GenericTaskDescriptor *td) {
+void ResourceReservationProbabilitySolver::register_task(GenericTaskDescriptor *td) {
   if (!(task_descriptor =
             dynamic_cast<ResourceReservationTaskDescriptor *>(td)))
     EXC_PRINT_2("Resource reservation solver used for improper task ",
