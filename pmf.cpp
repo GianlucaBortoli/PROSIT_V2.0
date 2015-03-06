@@ -13,9 +13,9 @@ int distr::load(const string &filename) throw(Exc) {
   ifstream myfile(filename.c_str());
   string line;
   stringstream sstr;
-  long size;
-  double d;
-  double i;
+  int size;
+  long double d;
+  long double i;
 
   if (!myfile.is_open())
     EXC_PRINT_2("unable to open file", filename);
@@ -23,12 +23,11 @@ int distr::load(const string &filename) throw(Exc) {
   getline(myfile, line);
   sstr << line;
   size = 0;
-
   while (!sstr.eof()) {
     if (!(sstr >> d))
-      EXC_PRINT("Incorrect file format");
+      EXC_PRINT("Incorrect file format 1");
     size++;
-  };
+  }
 
   if (size > 2)
     EXC_PRINT_2("format unknown for file", filename);
@@ -37,9 +36,9 @@ int distr::load(const string &filename) throw(Exc) {
   sstr << line;
   int j = 1;
   if (!(sstr >> i))
-    throw Exc("Incorrect file format");
+    throw Exc("Incorrect file format 2");
   if (!(sstr >> d))
-    throw Exc("Incorrect file format");
+    throw Exc("Incorrect file format 3");
 
   set(i, d);
   while (myfile.good()) {
@@ -60,7 +59,7 @@ int distr::load(const string &filename) throw(Exc) {
 
   myfile.close();
   return j;
-};
+}
 
 double pmf::avg() const {
   unsigned int i;

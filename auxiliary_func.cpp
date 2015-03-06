@@ -25,7 +25,7 @@ RowVectorXd stat(const MatrixXd &A) throw(Exc) {
 }
 
 void help() {
-  cout << "Usage: ./solver [options]\n"
+  cout << "Usage: ./solver <file with task probabilities> <file with task periods> [options]\n"
        << "\t-t (--period): set period of server (required)\n"
        << "\t-q (--budget): set the budget (required, default: 10000)\n"
        << "\t-e (--epsilon): set the epsilon value (default: 1e-14)\n"

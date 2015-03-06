@@ -232,7 +232,7 @@ void CompanionResourceReservationProbabilitySolver::fill_in_probability_map() {
       if ((pmi = pm->find(delta)) != pm->end()) {
         (*pmi).second = prob;
         if (task_descriptor->get_verbose())
-          cout << "P{d < " << T *(delta) << "} " << prob << endl;
+          cout << "P { d < " << T *(delta) << " } = " << prob << endl;
       };
       delta++;
     }
