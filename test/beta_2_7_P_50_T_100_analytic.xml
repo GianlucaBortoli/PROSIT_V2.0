@@ -1,0 +1,186 @@
+<solve>
+<!--- This one is ok  --->
+<task type="UserQoSAnalytic" name="0.3">
+  <period>100000</period>
+  <serverPeriod>50000</serverPeriod>
+  <serverBudget>15000</serverBudget>
+  <pmf type="beta">
+    <cmin>0</cmin>
+    <cmax>99500</cmax>
+    <a>2</a>
+    <b>7</b>
+    <step>500</step>
+    <size>100000</size>
+    <dump>beta_2_7.txt</dump>
+  </pmf>
+  <qosfun type="linear">
+    <pmin>0.01</pmin>
+    <pmax>0.95</pmax>
+    <scale>0.5</scale>
+  </qosfun>
+  <QoSMax>
+    0.50
+  </QoSMax>
+  <QoSMin>
+    0.1
+  </QoSMin>
+  <Delta>7500</Delta>
+</task>
+<task type="UserQoSAnalytic" name="0.35">
+  <period>100000</period>
+  <serverPeriod>50000</serverPeriod>
+  <serverBudget>17500</serverBudget>
+  <pmf type="beta">
+    <cmin>0</cmin>
+    <cmax>99500</cmax>
+    <a>2</a>
+    <b>7</b>
+    <step>500</step>
+    <size>100000</size>
+    <dump>beta_2_7.txt</dump>
+  </pmf>
+  <qosfun type="linear">
+    <pmin>0.01</pmin>
+    <pmax>0.95</pmax>
+    <scale>0.5</scale>
+  </qosfun>
+  <QoSMax>
+    0.50
+  </QoSMax>
+  <QoSMin>
+    0.1
+  </QoSMin>
+  <Delta>8750</Delta>
+</task>
+<task type="UserQoSAnalytic" name="0.4">
+  <period>100000</period>
+  <serverPeriod>50000</serverPeriod>
+  <serverBudget>20000</serverBudget>
+  <pmf type="beta">
+    <cmin>0</cmin>
+    <cmax>99500</cmax>
+    <a>2</a>
+    <b>7</b>
+    <step>500</step>
+    <size>100000</size>
+    <dump>beta_2_7.txt</dump>
+  </pmf>
+  <qosfun type="linear">
+    <pmin>0.01</pmin>
+    <pmax>0.95</pmax>
+    <scale>0.5</scale>
+  </qosfun>
+  <QoSMax>
+    0.50
+  </QoSMax>
+  <QoSMin>
+    0.1
+  </QoSMin>
+  <Delta>10000</Delta>
+</task>
+<task type="UserQoSAnalytic" name="0.45">
+  <period>100000</period>
+  <serverPeriod>50000</serverPeriod>
+  <serverBudget>22500</serverBudget>
+  <pmf type="beta">
+    <cmin>0</cmin>
+    <cmax>99500</cmax>
+    <a>2</a>
+    <b>7</b>
+    <step>500</step>
+    <size>100000</size>
+    <dump>beta_2_7.txt</dump>
+  </pmf>
+  <qosfun type="linear">
+    <pmin>0.01</pmin>
+    <pmax>0.95</pmax>
+    <scale>0.5</scale>
+  </qosfun>
+  <QoSMax>
+    0.50
+  </QoSMax>
+  <QoSMin>
+    0.1
+  </QoSMin>
+  <Delta>11250</Delta>
+</task>
+<task type="UserQoSAnalytic" name="0.5">
+  <period>100000</period>
+  <serverPeriod>50000</serverPeriod>
+  <serverBudget>25000</serverBudget>
+  <pmf type="beta">
+    <cmin>0</cmin>
+    <cmax>99500</cmax>
+    <a>2</a>
+    <b>7</b>
+    <step>500</step>
+    <size>100000</size>
+    <dump>beta_2_7.txt</dump>
+  </pmf>
+  <qosfun type="linear">
+    <pmin>0.01</pmin>
+    <pmax>0.95</pmax>
+    <scale>0.5</scale>
+  </qosfun>
+  <QoSMax>
+    0.50
+  </QoSMax>
+  <QoSMin>
+    0.1
+  </QoSMin>
+  <Delta>12500</Delta>
+</task>
+<task type="UserQoSAnalytic" name="0.55">
+  <period>100000</period>
+  <serverPeriod>50000</serverPeriod>
+  <serverBudget>27500</serverBudget>
+  <pmf type="beta">
+    <cmin>0</cmin>
+    <cmax>99500</cmax>
+    <a>2</a>
+    <b>7</b>
+    <step>500</step>
+    <size>100000</size>
+    <dump>beta_2_7.txt</dump>
+  </pmf>
+  <qosfun type="linear">
+    <pmin>0.01</pmin>
+    <pmax>0.95</pmax>
+    <scale>0.5</scale>
+  </qosfun>
+  <QoSMax>
+    0.50
+  </QoSMax>
+  <QoSMin>
+    0.1
+  </QoSMin>
+  <Delta>13750</Delta>
+</task>
+<task type="UserQoSAnalytic" name="0.6">
+  <period>100000</period>
+  <serverPeriod>50000</serverPeriod>
+  <serverBudget>30000</serverBudget>
+  <pmf type="beta">
+    <cmin>0</cmin>
+    <cmax>99500</cmax>
+    <a>2</a>
+    <b>7</b>
+    <step>500</step>
+    <size>100000</size>
+    <dump>beta_2_7.txt</dump>
+  </pmf>
+  <qosfun type="linear">
+    <pmin>0.01</pmin>
+    <pmax>0.95</pmax>
+    <scale>0.5</scale>
+  </qosfun>
+  <QoSMax>
+    0.50
+  </QoSMax>
+  <QoSMin>
+    0.1
+  </QoSMin>
+  <Delta>15000</Delta>
+</task>
+
+</solve>
