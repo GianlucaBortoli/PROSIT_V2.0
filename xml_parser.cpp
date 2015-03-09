@@ -82,7 +82,7 @@ void Parser::task_list_parse(XMLElement * optElement) throw(PrositAux::Exc) {
     EXC_PRINT("opimisation task section missing");
   
   while (taskElement) {
-    Parser::task_parse (taskElement);
+    Parser::task_parse(taskElement);
     taskElement = taskElement->NextSiblingElement();
   };
 }

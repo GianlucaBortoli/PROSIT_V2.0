@@ -8,10 +8,9 @@ namespace PrositCore {
 void solve_core(vector<GenericTaskDescriptor*> &v, 
                       vector<double> &probability, 
                       vector<double> &quality, 
-                      vector<long long> &time) {
+                      vector<long long> &time,
+                      int num) {
   long long t_solution_start_i = 0, t_solution_end_i = 0;
-
-  int num = get_task_descriptor_vector(v);
   if(verbose_flag)
     cout << "Number of tasks parsed: " << num << endl;
   
@@ -37,14 +36,14 @@ void solve_core(vector<GenericTaskDescriptor*> &v,
 void solve_execute() {
   long long t_solution_start = 0, t_solution_end = 0;
   t_solution_start = PrositAux::my_get_time();// start time
-  vector<GenericTaskDescriptor*> v;
+  vector<GenericTaskDescriptor*> v; //THIS VECTOR IS STILL TO BE INITIALIZED!
   int num = get_task_descriptor_vector(v);
 
   vector<double> probability(num);
   vector<double> quality(num);
   vector<long long> time(num);
 
-  solve_core(v, probability, quality, time);
+  solve_core(v, probability, quality, time, num);
   t_solution_end = PrositAux::my_get_time();// end time
 
   solve_display_results(v, probability, quality, time, true);
@@ -91,12 +90,12 @@ void opt_execute(Parser *p) {
   };
   */
 
-  solve_core(v, probability, quality, time);
+  solve_core(v, probability, quality, time, num);
   
   cout<<"Optimisation succeeded."<<endl;
   solve_display_results(v, probability, quality, time, false);
   cout<<"=========================================================================================================="<<endl;
-  cout<<"=                                              Computation time                                         ="<<endl;
+  cout<<"=                                              Computation time                                          ="<<endl;
   cout<<"=========================================================================================================="<<endl;
   printf("\tParsing time: \t\t\t%*llu \n", 25, t_xml_parse_end - t_start);
   printf("\tOptimisation setup: \t\t%*llu \n", 25, t_optimisation_start - t_optimisation_set_up);
@@ -106,17 +105,17 @@ void opt_execute(Parser *p) {
 }
 
 void solve_display_results(vector<GenericTaskDescriptor*> &v, 
-                                 const vector<double> &probability, 
-                                 const vector<double> &quality, 
-                                 const vector<long long> &time, 
-                                 bool show_time) {
+                           const vector<double> &probability, 
+                           const vector<double> &quality, 
+                           const vector<long long> &time, 
+                           bool show_time) {
   cout<<"Analysis results."<<endl;
   cout<<"================================================================================================================================="<<endl;
   cout<<"=                                                         Results                                                               ="<<endl;
   cout<<"================================================================================================================================="<<endl;
-  double Btot=0;
+  double Btot = 0;
   int i = 0;
-  double inf_norm=1e38;
+  double inf_norm = 1e38;
   if(show_time)
     printf("%20s%20s%20s%20s%20s%20s\n", "Name","Budget","Bandwidth","Probability","Quality","Time");
   else
