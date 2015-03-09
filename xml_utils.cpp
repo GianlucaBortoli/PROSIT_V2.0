@@ -5,7 +5,7 @@ extern bool verbose_flag; //from xml_solver.cpp
 extern bool silent_flag;
 
 namespace PrositCore {
-int solve_core(vector<GenericTaskDescriptor*> &v, 
+void solve_core(vector<GenericTaskDescriptor*> &v, 
                       vector<double> &probability, 
                       vector<double> &quality, 
                       vector<long long> &time) {
@@ -32,7 +32,6 @@ int solve_core(vector<GenericTaskDescriptor*> &v,
     i++;
   }
   delete q;
-  return v.size();
 }
 
 void solve_execute() {
@@ -106,7 +105,7 @@ void opt_execute(Parser *p) {
   cout<<"=========================================================================================================="<<endl;
 }
 
-int solve_display_results(vector<GenericTaskDescriptor*> &v, 
+void solve_display_results(vector<GenericTaskDescriptor*> &v, 
                                  const vector<double> &probability, 
                                  const vector<double> &quality, 
                                  const vector<long long> &time, 
@@ -141,8 +140,6 @@ int solve_display_results(vector<GenericTaskDescriptor*> &v,
   cout<<"================================================================================================================================="<<endl;
   printf("\tTotal bandwidth: \t\t%25f\n",Btot);
   printf("\tInfinity norm value: \t\t%25f\n",inf_norm);
-  
-  return v.size();
 }
 
 int get_task_descriptor_vector(vector<GenericTaskDescriptor*> & v) {
