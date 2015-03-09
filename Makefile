@@ -11,7 +11,7 @@ endif
 CPPFLAGS += -std=c++11 -O2
 LD = g++
 CC = g++
-LDLIBS = -L./ -lprosit
+LDLIBS = -L ./ -l prosit
 
 PROSIT_OBJS = pmf.o cdf.o auxiliary_func.o probability_solver.o task_descriptor.o \
 qbd_rr_solver.o qbd_latouche_solver.o qbd_cr_solver.o qbd_companion_solver.o \

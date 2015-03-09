@@ -167,7 +167,7 @@ public:
    */
   DeadlineProbabilityMap *get_probabilistic_deadlines() {
     return &probabilistic_deadlines;
-  };
+  }
 
   ///@brief Define a deadline
   /*! @param deadline has to be a multiple of deadline_step
@@ -207,6 +207,7 @@ public:
   /// for a resource reservation task), an exception is thrown by the solver
   /// during the task registration phase.
   void set_solver(ProbabilitySolver *psd);
+
   ///@brief Destruct, which is virtual, being the class polymorphic
   virtual ~GenericTaskDescriptor(){};
 };
@@ -343,7 +344,7 @@ public:
       EXC_PRINT_2("Deadline step has to be a multiple of server period for ",
                   name);
     Ts = Tsd;
-  };
+  }
 };
 };
 #endif

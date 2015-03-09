@@ -34,7 +34,7 @@ static int opts_parse(int argc, char *argv[]) {
   while ((opt = getopt_long(argc, argv, ":vhs",long_options,0)) != -1) {
     switch (opt) {
     case 'v': 
-      verbose_flag=true;
+      verbose_flag = true;
       silent_flag = true;
       break;
     case 's':
@@ -64,7 +64,8 @@ int main(int argc, char *argv[]) {
    
     switch(p->get_act()) {
       case PrositCore::ACTIONS::OPTIMISE: 
-        PrositCore::opt_execute(p); 
+        //PrositCore::opt_execute(p); 
+        EXC_PRINT("Action not currently supported");
         break;
       case PrositCore::ACTIONS::SOLVE:
         PrositCore::solve_execute();
