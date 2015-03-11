@@ -46,20 +46,37 @@ void solve_execute() {
   solve_core(v, probability, quality, time, num);
   t_solution_end = PrositAux::my_get_time();// end time
 
-  solve_display_results(v, probability, quality, time, true);
-  cout<<"=========================================================================================================="<<endl;
-  cout<<"=                                              Computation time                                         ="<<endl;
-  cout<<"=========================================================================================================="<<endl;
+  cout << "Analysis results:" << endl;
+  cout << "=================================================================================================================================" << endl;
+  cout << "=                                                         Results                                                               =" << endl;
+  cout << "=================================================================================================================================" << endl;
+  int i = 0;
+  double Btot_final = 0.0, inf_norm_final = 0.0;
+  vector<GenericTaskDescriptor*>::iterator it;
+  for (it = v.begin(); it != v.end(); it++) {
+    (*it)->display((*it), probability, quality, time, true, i);
+    Btot_final += (*it)->Btot;
+    inf_norm_final = min<double>(quality[i], (*it)->inf_norm);
+    i++;
+  }
+  cout << "=================================================================================================================================" << endl;
+  printf("\tTotal bandwidth: \t\t%25f\n", Btot_final);
+  printf("\tInfinity norm value: \t\t%25f\n", inf_norm_final);
+
+  //solve_display_results(v, probability, quality, time, true);
+  cout << "=========================================================================================================="<<endl;
+  cout << "=                                              Computation time                                         ="<<endl;
+  cout << "=========================================================================================================="<<endl;
   printf("\tParsing time: \t\t\t%*llu \n", 25, t_xml_parse_end - t_start);
   printf("\tSolution time: \t\t\t%*llu \n", 25, t_solution_end - t_solution_start);
   printf("\tTotal time: \t\t\t%*llu \n", 25, t_solution_end - t_start);
-  cout<<"=========================================================================================================="<<endl;
+  cout << "=========================================================================================================="<<endl;
 }
 
 void opt_execute(Parser *p) {
   long long t_optimisation_start = 0, t_optimisation_set_up = 0, t_optimisation_end = 0;
   t_optimisation_set_up = PrositAux::my_get_time();// optimization setup time
-  vector<GenericTaskDescriptor*> v;
+  vector<GenericTaskDescriptor*> v; //THIS VECTOR IS STILL TO BE INITIALIZED!
   int num = get_task_descriptor_vector(v);
 
   vector<double> probability(num); //vectors for displaying results
@@ -104,6 +121,7 @@ void opt_execute(Parser *p) {
   cout<<"=========================================================================================================="<<endl;
 }
 
+/*
 void solve_display_results(vector<GenericTaskDescriptor*> &v, 
                            const vector<double> &probability, 
                            const vector<double> &quality, 
@@ -140,6 +158,7 @@ void solve_display_results(vector<GenericTaskDescriptor*> &v,
   printf("\tTotal bandwidth: \t\t%25f\n",Btot);
   printf("\tInfinity norm value: \t\t%25f\n",inf_norm);
 }
+*/
 
 int get_task_descriptor_vector(vector<GenericTaskDescriptor*> & v) {
   int num = 0;

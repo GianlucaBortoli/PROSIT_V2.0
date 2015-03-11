@@ -68,6 +68,8 @@ protected:
                                             the solution algorithm for
                                             probabilities */
 public:
+  double Btot = 0.0;      /*!< Total bandwidth used */
+  double inf_norm = 1e38; /*!< Used to calculate Qos */
   ///@brief Constructor for aperiodic Tasks
   /*! @param nm unique identifier for the task
    *  @param Cd pointer to the distribution of the computation times
@@ -210,6 +212,14 @@ public:
 
   ///@brief Destruct, which is virtual, being the class polymorphic
   virtual ~GenericTaskDescriptor(){};
+
+  //@brief Displays results for a single task
+  virtual void display(GenericTaskDescriptor* td,
+                       const vector<double> &probability, 
+                       const vector<double> &quality, 
+                       const vector<long long> &time, 
+                       bool show_time,
+                       int index){};
 };
 
 /// @brief Class for fixed priority task descriptors
@@ -258,7 +268,15 @@ public:
     unsigned int old_prio = priority;
     priority = priorityd;
     return old_prio;
-  };
+  }
+
+  // For future use when this type of task will be implemented
+  virtual void display(GenericTaskDescriptor* td,
+                       const vector<double> &probability, 
+                       const vector<double> &quality, 
+                       const vector<long long> &time, 
+                       bool show_time, 
+                       int index);
 };
 
 ///@brief Task descriptors for tasks managed by the resource reservation
@@ -345,6 +363,13 @@ public:
                   name);
     Ts = Tsd;
   }
+
+  virtual void display(GenericTaskDescriptor* td,
+                       const vector<double> &probability, 
+                       const vector<double> &quality, 
+                       const vector<long long> &time, 
+                       bool show_time,
+                       int index);
 };
 };
 #endif

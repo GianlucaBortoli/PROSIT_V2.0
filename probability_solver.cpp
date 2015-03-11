@@ -52,17 +52,15 @@ bool ResourceReservationProbabilitySolver::check_list() {
 };
 
 void ResourceReservationProbabilitySolver::register_task(GenericTaskDescriptor *td) {
-  if (!(task_descriptor =
-            dynamic_cast<ResourceReservationTaskDescriptor *>(td)))
-    EXC_PRINT_2("Resource reservation solver used for improper task ",
-                td->get_name());
+  if (!(task_descriptor = dynamic_cast<ResourceReservationTaskDescriptor *>(td)))
+    EXC_PRINT_2("Resource reservation solver used for improper task ", td->get_name());
   reset();
 
   verbose_flag = task_descriptor->get_verbose();
   linked_flag = true;
+
   if (verbose_flag)
-    cout << "Task " << task_descriptor->get_name() << " linked to the solver"
-         << endl;
+    cout << "Task " << task_descriptor->get_name() << " linked to the solver" << endl;
 };
 
 void FixedPriorityProbabilitySolver::register_task(GenericTaskDescriptor *td) {
@@ -70,16 +68,15 @@ void FixedPriorityProbabilitySolver::register_task(GenericTaskDescriptor *td) {
   std::map<unsigned int, std::list<FixedPriorityTaskDescriptor *>>::iterator it;
 
   if (!(task_descriptor = dynamic_cast<FixedPriorityTaskDescriptor *>(td)))
-    EXC_PRINT_2("Resource reservation solver udes for improper task ",
-                td->get_name());
+    EXC_PRINT_2("Resource reservation solver udes for improper task ", td->get_name());
 
   if ((it = task_set.find(task_descriptor->get_priority())) == task_set.end()) {
     /* not task at current level of priority */
     it = task_set.insert(pair<unsigned int,
-                              std::list<FixedPriorityTaskDescriptor *>>(
-                             task_descriptor->get_priority(),
-                             std::list<FixedPriorityTaskDescriptor *>())).first;
-  };
+                         std::list<FixedPriorityTaskDescriptor *>>(
+                         task_descriptor->get_priority(),
+                         std::list<FixedPriorityTaskDescriptor *>())).first;
+  }
 
   (*it).second.push_back(task_descriptor);
   reset();
@@ -90,7 +87,6 @@ void FixedPriorityProbabilitySolver::register_task(GenericTaskDescriptor *td) {
 
   linked_flag = true;
   if (verbose_flag)
-    cout << "Task " << task_descriptor->get_name() << " linked to the solver"
-         << endl;
+    cout << "Task " << task_descriptor->get_name() << " linked to the solver" << endl;
 };
 }

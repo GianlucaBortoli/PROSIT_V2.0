@@ -63,4 +63,35 @@ void ResourceReservationTaskDescriptor::set_deadline_step(unsigned int ds) {
   GenericTaskDescriptor::set_deadline_step(ds);
 }
 
+void ResourceReservationTaskDescriptor::display(GenericTaskDescriptor* td,
+                                                const vector<double> &probability, 
+                                                const vector<double> &quality, 
+                                                const vector<long long> &time, 
+                                                bool show_time,
+                                                int index){
+  ResourceReservationTaskDescriptor* t;
+  if (!(t = dynamic_cast<ResourceReservationTaskDescriptor *>(td)))
+    EXC_PRINT_2("Impossible to cast task GenericTaskDescriptor to ResourceReservationTaskDescriptor!\n
+                task: ", td->get_name());
+
+  if(show_time)
+    printf("%20s%20s%20s%20s%20s%20s\n", "Name","Budget","Bandwidth","Probability","Quality","Time");
+  else
+    printf("%20s%20s%20s%20s%20s\n", "Name","Budget","Bandwidth","Probability","Quality");
+
+  printf("%20s%20d%20f%20f%20f", t->get_name().c_str(), 
+                                 t->get_budget(),
+                                 double(t->get_budget())/double(t->get_server_period()),
+                                 probability[index], 
+                                 quality[index]);
+
+  if(show_time)
+    printf("%*llu\n",20,time[index]);
+  else
+    printf("\n");
+
+  t->Btot = double(t->get_budget()) / double(t->get_server_period());
+  t->inf_norm = min<double>(quality[index], t->inf_norm);
+}
+
 }
