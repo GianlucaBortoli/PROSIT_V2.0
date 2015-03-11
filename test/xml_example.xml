@@ -9,7 +9,7 @@
           Periodic tasks require only one probability ditribution (pmf) for the
           computarion time foreach task
     -->
-    <pmf type="beta">
+    <pmfComputation type="beta">
       <cmin>0</cmin>
       <cmax>99500</cmax>
       <a>2</a>
@@ -17,7 +17,7 @@
       <step>500</step>
       <size>100000</size>
       <dump>beta_2_7.txt</dump>
-    </pmf>
+    </pmfComputation>
     <!-- Qos function parameters -->
     <qosfun type="linear">
       <pmin>0.01</pmin>
