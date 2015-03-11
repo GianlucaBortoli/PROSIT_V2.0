@@ -74,6 +74,7 @@ void solve_execute() {
 }
 
 void opt_execute(Parser *p) {
+  /*
   long long t_optimisation_start = 0, t_optimisation_set_up = 0, t_optimisation_end = 0;
   t_optimisation_set_up = PrositAux::my_get_time();// optimization setup time
   vector<GenericTaskDescriptor*> v; //THIS VECTOR IS STILL TO BE INITIALIZED!
@@ -85,8 +86,7 @@ void opt_execute(Parser *p) {
 
   if(verbose_flag)
     cout << "Number of tasks parsed: "<< num << endl;
-    
-  /*  
+      
   InfinityNormBudgetOptimiser Opt(v, p->get_optimisation_epsilon(),p->get_total_bandwidth());
   Opt.init_target_bounds();
 
@@ -105,7 +105,7 @@ void opt_execute(Parser *p) {
     cerr<<"Optimisation failed"<<endl;
     return 0;
   };
-  */
+  
 
   solve_core(v, probability, quality, time, num);
   
@@ -119,6 +119,7 @@ void opt_execute(Parser *p) {
   printf("\tOptimisation time: \t\t%*llu \n", 25, t_optimisation_end - t_optimisation_start);
   printf("\tTotal time: \t\t\t%*llu \n", 25, t_optimisation_end - t_start);
   cout<<"=========================================================================================================="<<endl;
+  */
 }
 
 /*

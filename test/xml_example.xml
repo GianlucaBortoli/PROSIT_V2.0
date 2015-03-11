@@ -1,0 +1,69 @@
+<!-- This is an example of the input XML file format with some specifications -->
+
+<solve> <!-- this can be "solve" or "optimize" -->
+  <task type="periodic" schedule="RR" name="0.3"> <!-- RR stands for Resource Reservation -->
+    <period>100000</period> <!-- This one makes sense IIF the task type is set to periodic -->
+    <serverPeriod>50000</serverPeriod>
+    <serverBudget>15000</serverBudget>
+     <!-- 
+          Periodic tasks require only one probability ditribution (pmf) for the
+          computarion time foreach task
+    -->
+    <pmf type="beta">
+      <cmin>0</cmin>
+      <cmax>99500</cmax>
+      <a>2</a>
+      <b>7</b>
+      <step>500</step>
+      <size>100000</size>
+      <dump>beta_2_7.txt</dump>
+    </pmf>
+    <!-- Qos function parameters -->
+    <qosfun type="linear">
+      <pmin>0.01</pmin>
+      <pmax>0.95</pmax>
+      <scale>0.5</scale>
+    </qosfun>
+    <QoSMax>0.50</QoSMax>
+    <QoSMin>0.1</QoSMin>
+    <!-- sampling parameter -->
+    <Delta>7500</Delta>
+  </task>
+  
+  <task type="aperiodic" schedule="FP" name="0.3"> <!-- FP stands for Fixed Priority -->
+    <!-- the period parameter doesen't make sense here, since the task type is aperiodic -->
+    <serverPeriod>50000</serverPeriod>
+    <serverBudget>15000</serverBudget>
+    <!-- 
+        When the task is aperiodic, we need to specify two distributions:
+            ** pmf for computation time foreach task
+            ** pmf for interarrival times of the tasks
+    -->
+    <pmfComputation type="beta"> <!-- pmf for computation times -->
+      <cmin>0</cmin>
+      <cmax>99500</cmax>
+      <a>2</a>
+      <b>7</b>
+      <step>500</step>
+      <size>100000</size>
+      <dump>beta_2_7.txt</dump>
+    </pmfComputation>
+    <pmfArrival type="beta"> <!-- pmf for interarrival times -->
+      <cmin>0</cmin>
+      <cmax>99500</cmax>
+      <a>5</a>
+      <b>9</b>
+      <step>500</step>
+      <size>100000</size>
+      <dump>beta_5_9.txt</dump>
+    </pmfArrival>
+    <qosfun type="linear">
+      <pmin>0.01</pmin>
+      <pmax>0.95</pmax>
+      <scale>0.5</scale>
+    </qosfun>
+    <QoSMax>0.50</QoSMax>
+    <QoSMin>0.1</QoSMin>
+    <Delta>7500</Delta>
+  </task>
+</solve>

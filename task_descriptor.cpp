@@ -71,8 +71,8 @@ void ResourceReservationTaskDescriptor::display(GenericTaskDescriptor* td,
                                                 int index){
   ResourceReservationTaskDescriptor* t;
   if (!(t = dynamic_cast<ResourceReservationTaskDescriptor *>(td)))
-    EXC_PRINT_2("Impossible to cast task GenericTaskDescriptor to ResourceReservationTaskDescriptor!\n
-                task: ", td->get_name());
+    EXC_PRINT_2("Impossible to cast task GenericTaskDescriptor to ResourceReservationTaskDescriptor for task ", 
+                td->get_name());
 
   if(show_time)
     printf("%20s%20s%20s%20s%20s%20s\n", "Name","Budget","Bandwidth","Probability","Quality","Time");
