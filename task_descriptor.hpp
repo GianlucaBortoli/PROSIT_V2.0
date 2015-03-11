@@ -371,5 +371,6 @@ public:
                        bool show_time,
                        int index);
 };
-};
+
+}
 #endif

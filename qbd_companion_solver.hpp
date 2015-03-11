@@ -2,7 +2,6 @@
 #define QBD_CMP_SOLVER_HPP
 
 #include "probability_solver.hpp"
-#include "auxiliary_func.hpp"
 #include "pmf.hpp"
 #include "task_descriptor.hpp"
 #include <Eigen/Dense>

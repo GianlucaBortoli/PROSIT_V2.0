@@ -5,8 +5,7 @@
 #include "task_descriptor.hpp"
 #include "qos_function.hpp"
 #include <tinyxml2.h>
-#include <iostream>
-using namespace std;
+
 using namespace tinyxml2;
 
 namespace PrositCore {

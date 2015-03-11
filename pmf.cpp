@@ -1,10 +1,4 @@
 #include "pmf.hpp"
-#include <math.h>
-#include <fstream>
-#include <sstream>
-#include <string>
-#include <stdlib.h>
-#include <iostream>
 
 using namespace std;
 

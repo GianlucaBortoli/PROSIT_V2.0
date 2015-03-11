@@ -1,17 +1,19 @@
 ///@file Solver for computation of stady state probabilities from XML
-#include "pmf.hpp"
 #include "auxiliary_func.hpp"
-#include "qbd_rr_solver.hpp"
-#include "qbd_companion_solver.hpp"
-#include "qbd_analytic_solver.hpp"
 #include "exc.hpp"
+#include "pmf.hpp"
+#include "qbd_analytic_solver.hpp"
+#include "qbd_companion_solver.hpp"
+#include "qbd_rr_solver.hpp"
+#include "qos_function.hpp"
 #include "xml_parser.hpp"
 #include "xml_utils.hpp"
-#include "qos_function.hpp"
 #include <iostream>
 #include <stdio.h>
 #include <getopt.h>
 #include <tinyxml2.h>
+
+using namespace PrositCore;
 
 bool verbose_flag; //used also in xml_utils.cpp
 bool silent_flag; //used also in xml_utils.cpp
@@ -57,18 +59,18 @@ int main(int argc, char *argv[]) {
     if( argc-optind != 1 )
       EXC_PRINT("one input file requested");
 
-    PrositCore::Parser *p = new PrositCore::Parser(argv[opt]);
+    Parser *p = new Parser(argv[opt]);
     p->parse();
     if(verbose_flag)
       cout << "XML file succesfully parsed" << endl;
    
     switch(p->get_act()) {
-      case PrositCore::ACTIONS::OPTIMISE: 
-        //PrositCore::opt_execute(p); 
+      case ACTIONS::OPTIMISE: 
+        //opt_execute(p); 
         EXC_PRINT("Action not currently supported");
         break;
-      case PrositCore::ACTIONS::SOLVE:
-        PrositCore::solve_execute();
+      case ACTIONS::SOLVE:
+        solve_execute();
         break;
       default:
         EXC_PRINT("Action not currently recognised");

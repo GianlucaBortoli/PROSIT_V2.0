@@ -1,7 +1,6 @@
 #ifndef PROBABILITY_SOLVER_HPP
 #define PROBABILITY_SOLVER_HPP
 
-#include "prosit_types.hpp"
 #include <map>
 #include <list>
 ///@file probability_solver.hpp

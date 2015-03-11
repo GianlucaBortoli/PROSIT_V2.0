@@ -26,7 +26,7 @@ void ProbabilitySolver::solve() {
 
   post_process_done = true;
   fill_in_probability_map();
-};
+}
 
 bool ResourceReservationProbabilitySolver::check_list() {
   if (!linked_flag)
@@ -49,7 +49,7 @@ bool ResourceReservationProbabilitySolver::check_list() {
                 "set. Task: ",
                 task_descriptor->get_name());
   return true;
-};
+}
 
 void ResourceReservationProbabilitySolver::register_task(GenericTaskDescriptor *td) {
   if (!(task_descriptor = dynamic_cast<ResourceReservationTaskDescriptor *>(td)))
@@ -61,14 +61,14 @@ void ResourceReservationProbabilitySolver::register_task(GenericTaskDescriptor *
 
   if (verbose_flag)
     cout << "Task " << task_descriptor->get_name() << " linked to the solver" << endl;
-};
+}
 
 void FixedPriorityProbabilitySolver::register_task(GenericTaskDescriptor *td) {
   FixedPriorityTaskDescriptor *task_descriptor;
   std::map<unsigned int, std::list<FixedPriorityTaskDescriptor *>>::iterator it;
 
   if (!(task_descriptor = dynamic_cast<FixedPriorityTaskDescriptor *>(td)))
-    EXC_PRINT_2("Resource reservation solver udes for improper task ", td->get_name());
+    EXC_PRINT_2("Resource reservation solver used for improper task ", td->get_name());
 
   if ((it = task_set.find(task_descriptor->get_priority())) == task_set.end()) {
     /* not task at current level of priority */
@@ -88,5 +88,6 @@ void FixedPriorityProbabilitySolver::register_task(GenericTaskDescriptor *td) {
   linked_flag = true;
   if (verbose_flag)
     cout << "Task " << task_descriptor->get_name() << " linked to the solver" << endl;
-};
+}
+
 }

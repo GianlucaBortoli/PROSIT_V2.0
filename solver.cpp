@@ -1,13 +1,15 @@
 ///@file Command line solver for computation of stady state probabilities
-#include "pmf.hpp"
 #include "auxiliary_func.hpp"
-#include "qbd_rr_solver.hpp"
-#include "qbd_companion_solver.hpp"
-#include "qbd_analytic_solver.hpp"
 #include "exc.hpp"
+#include "pmf.hpp"
+#include "qbd_analytic_solver.hpp"
+#include "qbd_companion_solver.hpp"
+#include "qbd_rr_solver.hpp"
 #include <iostream>
 #include <stdio.h>
 #include <getopt.h>
+
+using namespace PrositCore;
 
 #define Nc 2500000
 #define Nz 1000000
@@ -156,7 +158,7 @@ int main(int argc, char *argv[]) {
     std::unique_ptr<PrositAux::pmf> cp(c);
     std::unique_ptr<PrositAux::pmf> up(u);
 
-    PrositCore::ResourceReservationTaskDescriptor task_des(
+    ResourceReservationTaskDescriptor task_des(
         "task", std::move(cp), std::move(up), unsigned(Q), unsigned(T));
     task_des.set_deadline_step(T);
     task_des.set_verbose_flag(verbose_flag ? true : false);
@@ -166,34 +168,34 @@ int main(int argc, char *argv[]) {
     }
 
     if (analytic_flag) {
-      PrositCore::AnalyticResourceReservationProbabilitySolver *tmp =
-        new PrositCore::AnalyticResourceReservationProbabilitySolver(
+      AnalyticResourceReservationProbabilitySolver *tmp =
+        new AnalyticResourceReservationProbabilitySolver(
           *c, unsigned(T), unsigned(Q));
-      std::unique_ptr<PrositCore::ResourceReservationProbabilitySolver> ps(tmp);
+      std::unique_ptr<ResourceReservationProbabilitySolver> ps(tmp);
       task_des.set_solver(ps.get());
       task_des.compute_probability();
     } else {
       if (companion_flag) {
-        PrositCore::CompanionResourceReservationProbabilitySolver *tmp =
-            new PrositCore::CompanionResourceReservationProbabilitySolver(step,
+        CompanionResourceReservationProbabilitySolver *tmp =
+            new CompanionResourceReservationProbabilitySolver(step,
                                                                           eps);
-        std::unique_ptr<PrositCore::ResourceReservationProbabilitySolver> ps(
+        std::unique_ptr<ResourceReservationProbabilitySolver> ps(
             tmp);
         task_des.set_solver(ps.get());
         task_des.compute_probability();
       } else {
-        PrositCore::QBDResourceReservationProbabilitySolver *tmp;
+        QBDResourceReservationProbabilitySolver *tmp;
         if (cr_flag) {
-          tmp = new PrositCore::CRResourceReservationProbabilitySolver(
+          tmp = new CRResourceReservationProbabilitySolver(
               step, shift_flag ? true : false, iter);
         } else if (latouche_flag) {
-          tmp = new PrositCore::LatoucheResourceReservationProbabilitySolver(
+          tmp = new LatoucheResourceReservationProbabilitySolver(
               step, eps, iter);
         } else {
           EXC_PRINT("Solver not implemented yet");
         }
 
-        std::unique_ptr<PrositCore::QBDResourceReservationProbabilitySolver> ps(
+        std::unique_ptr<QBDResourceReservationProbabilitySolver> ps(
             tmp);
 
         task_des.set_solver(ps.get());

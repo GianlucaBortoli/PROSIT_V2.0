@@ -13,7 +13,11 @@
 
 #include "exc.hpp"
 #include "auxiliary_func.hpp"
-#include <algorithm>
+#include <math.h>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <stdlib.h>
 #include <Eigen/Dense>
 #include <Eigen/SVD>
 

@@ -1,5 +1,4 @@
 #include "xml_utils.hpp"
-#include "task_descriptor.hpp"
 
 extern bool verbose_flag; //from xml_solver.cpp
 extern bool silent_flag;
@@ -32,7 +31,7 @@ void solve_core(vector<GenericTaskDescriptor*> &v,
   }
   delete q;
 }
-
+  
 void solve_execute() {
   long long t_solution_start = 0, t_solution_end = 0;
   t_solution_start = PrositAux::my_get_time();// start time

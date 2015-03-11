@@ -1,9 +1,5 @@
 #include "xml_parser.hpp"
-#include "task_descriptor.hpp"
-#include "exc.hpp"
-#include <tinyxml2.h>
-#include <iostream>
-using namespace std;
+
 using namespace tinyxml2;
 
 namespace PrositCore {
@@ -115,8 +111,10 @@ auto_ptr<QosFunction> Parser::qosfun_parse(XMLElement * qosfunElement) throw(Exc
   
   return td;
 }
+*/
 
-GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Exc) {
+GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(PrositAux::Exc) {
+  /*
   const char * task_name;
   const char * type_name;
 
@@ -141,7 +139,8 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Exc) 
     TaskFactory::task_descriptor_factory.set_task_target_qos_bounds(task_name, qos_min,qos_max);
   }
   return td;
+  */
+  return NULL;
 }
-*/
 
 }

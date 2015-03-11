@@ -1,11 +1,6 @@
-///@file qbd_latouche_solver.cpp
-///
+/// @file qbd_latouche_solver.cpp
 /// Implementation of the Cyclic Reduction algorithm
-
 #include "qbd_rr_solver.hpp"
-#include "auxiliary_func.hpp"
-#include "qbd_rr_solver.hpp"
-#include "task_descriptor.hpp"
 
 namespace PrositCore {
 void CRResourceReservationProbabilitySolver::apply_algorithm() {

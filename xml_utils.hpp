@@ -2,8 +2,11 @@
 #define XML_UTILS_HPP
 
 #include "task_descriptor.hpp"
+#include "qos_function.hpp"
 #include "xml_parser.hpp"
 #include <vector>
+
+using namespace PrositCore;
 
 namespace PrositCore {
 long long  t_start = 0, t_xml_parse_end = 0; //for result time computation
