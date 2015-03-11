@@ -219,7 +219,7 @@ public:
                        const vector<double> &quality, 
                        const vector<long long> &time, 
                        bool show_time,
-                       int index){};
+                       int index) = 0;
 };
 
 /// @brief Class for fixed priority task descriptors

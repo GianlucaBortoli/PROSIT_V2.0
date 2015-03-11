@@ -1,5 +1,11 @@
 #include "pmf.hpp"
-
+////////////////////////
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <stdlib.h>
+#include <iostream>
+///////////////////////
 using namespace std;
 
 namespace PrositAux {

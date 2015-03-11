@@ -3,6 +3,11 @@
 
 #include <map>
 #include <list>
+
+/////////////////
+#include "prosit_types.hpp"
+///////////////////
+
 ///@file probability_solver.hpp
 ///
 /// This file contains the abstract definitions for

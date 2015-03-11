@@ -1,5 +1,10 @@
 #include "qbd_companion_solver.hpp"
 
+/////////////////////////
+#include <Eigen/Dense>
+#include <algorithm>
+/////////////////////////
+
 namespace PrositCore {
 static complex<double> GammaFunctionsTotal(const complex<double> &b, int dim,
                                            const RowVectorXd &Alpha) {

@@ -1,4 +1,15 @@
 ///@file Command line solver for computation of stady state probabilities
+#include "pmf.hpp"
+#include "auxiliary_func.hpp"
+#include "qbd_rr_solver.hpp"
+#include "qbd_companion_solver.hpp"
+#include "qbd_analytic_solver.hpp"
+#include "exc.hpp"
+#include <iostream>
+#include <stdio.h>
+#include <getopt.h>
+
+/*
 #include "auxiliary_func.hpp"
 #include "exc.hpp"
 #include "pmf.hpp"
@@ -8,6 +19,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <getopt.h>
+*/
 
 using namespace PrositCore;
 

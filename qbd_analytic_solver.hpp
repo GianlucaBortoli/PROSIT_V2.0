@@ -4,6 +4,11 @@
 #include "probability_solver.hpp"
 #include "pmf.hpp"
 
+/////////////////////
+#include "auxiliary_func.hpp"
+#include <Eigen/Dense>
+/////////////////////
+
 namespace PrositCore {
 class AnalyticResourceReservationProbabilitySolver 
     : public ResourceReservationProbabilitySolver {

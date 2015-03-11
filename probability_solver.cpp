@@ -37,7 +37,7 @@ bool ResourceReservationProbabilitySolver::check_list() {
       cerr << "Solution requested for a problem that has been solved already"
            << endl;
     return false;
-  };
+  }
 
   if (task_descriptor->get_deadline_step() == 0)
     EXC_PRINT_2("QBD solver called for a task for which no deadline step has "
