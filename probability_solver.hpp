@@ -1,12 +1,9 @@
 #ifndef PROBABILITY_SOLVER_HPP
 #define PROBABILITY_SOLVER_HPP
 
+#include "task_descriptor.hpp"
 #include <map>
 #include <list>
-
-/////////////////
-#include "prosit_types.hpp"
-///////////////////
 
 ///@file probability_solver.hpp
 ///

@@ -2,12 +2,6 @@
 /// Implementation of the Cyclic Reduction algorithm
 #include "qbd_rr_solver.hpp"
 
-/////////////////////
-#include "qbd_rr_solver.hpp"
-#include "auxiliary_func.hpp"
-#include "task_descriptor.hpp"
-/////////////////////
-
 namespace PrositCore {
 void CRResourceReservationProbabilitySolver::apply_algorithm() {
   if (!PrositAux::check_sizes(A0, A1) || !PrositAux::check_sizes(A1, A2) ||

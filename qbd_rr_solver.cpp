@@ -1,12 +1,5 @@
 #include "qbd_rr_solver.hpp"
 
-//////////////////
-#include "pmf.hpp"
-#include "task_descriptor.hpp"
-#include <cmath>
-//////////////////////
-
-
 ///@file qbd_rr_solver.cpp
 ///
 /// Implementation of general fuynction for qbd based solvers.

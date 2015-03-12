@@ -1,10 +1,5 @@
 #include "auxiliary_func.hpp"
 
-//////////////////////////
-#include <iostream>
-#include <stdlib.h>
-/////////////////////////
-
 using namespace std;
 
 namespace PrositAux {

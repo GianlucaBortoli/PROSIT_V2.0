@@ -16,13 +16,6 @@ void solve_core(vector<GenericTaskDescriptor*> & v,
                 const vector<double> & quality, 
                 const vector<long long> & time,
                 int num);
-/*
-void solve_display_results(vector<GenericTaskDescriptor*> & v, 
-                           const vector<double> & probability, 
-                           const vector<double> & quality, 
-                           const vector<long long> & time, 
-                           bool show_time);
-*/
 void solve_execute();
 void opt_execute(Parser *p);
 ///@brief returns the number of task taken into consideration

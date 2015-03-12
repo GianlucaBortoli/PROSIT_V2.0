@@ -43,6 +43,8 @@
 using namespace std;
 
 namespace PrositCore {
+//forward declaration
+class ProbabilitySolver;
 /// @brief Generic class descriptor
 /*! It is the root of the hierarchy of task descriptors
  * This descriptor only contains the timing information.
@@ -276,7 +278,7 @@ public:
                        const vector<double> &quality, 
                        const vector<long long> &time, 
                        bool show_time, 
-                       int index);
+                       int index){};
 };
 
 ///@brief Task descriptors for tasks managed by the resource reservation

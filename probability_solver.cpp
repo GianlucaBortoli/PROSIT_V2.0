@@ -1,5 +1,4 @@
 #include "probability_solver.hpp"
-#include "task_descriptor.hpp"
 #include "exc.hpp"
 
 namespace PrositCore {

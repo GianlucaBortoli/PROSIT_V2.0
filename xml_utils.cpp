@@ -121,45 +121,6 @@ void opt_execute(Parser *p) {
   */
 }
 
-/*
-void solve_display_results(vector<GenericTaskDescriptor*> &v, 
-                           const vector<double> &probability, 
-                           const vector<double> &quality, 
-                           const vector<long long> &time, 
-                           bool show_time) {
-  cout<<"Analysis results."<<endl;
-  cout<<"================================================================================================================================="<<endl;
-  cout<<"=                                                         Results                                                               ="<<endl;
-  cout<<"================================================================================================================================="<<endl;
-  double Btot = 0;
-  int i = 0;
-  double inf_norm = 1e38;
-  if(show_time)
-    printf("%20s%20s%20s%20s%20s%20s\n", "Name","Budget","Bandwidth","Probability","Quality","Time");
-  else
-    printf("%20s%20s%20s%20s%20s\n", "Name","Budget","Bandwidth","Probability","Quality");
-
-  vector<GenericTaskDescriptor*>::iterator it;
-  for (it = v.begin() ; (it != v.end()); ++it) {
-    printf("%20s%20d%20f%20f%20f", (*it)->get_name().c_str(), 
-                                   (*it)->get_budget(),
-                                   double((*it)->get_budget())/double((*it)->get_server_period()),
-                                   probability[i], 
-                                   quality[i]);
-    if(show_time)
-      printf("%*llu\n",20,time[i]);
-    else
-      printf("\n");
-    Btot += double((*it)->get_budget())/double((*it)->get_server_period());
-    inf_norm = min<double>(quality[i],inf_norm);    
-    i++;
-  }
-  cout<<"================================================================================================================================="<<endl;
-  printf("\tTotal bandwidth: \t\t%25f\n",Btot);
-  printf("\tInfinity norm value: \t\t%25f\n",inf_norm);
-}
-*/
-
 int get_task_descriptor_vector(vector<GenericTaskDescriptor*> & v) {
   int num = 0;
   vector<GenericTaskDescriptor*>::iterator it;

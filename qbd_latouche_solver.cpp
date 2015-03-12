@@ -3,11 +3,8 @@
 /// Implementation of the Latouche solver:
 /// G. Latouche and V. Ramaswami. A logarithmic reduction algorithm for
 /// quasi-birth-and-death processes. J. Appl. Probab., 30:650--674, 1993.
-
 #include "qbd_rr_solver.hpp"
-#include "auxiliary_func.hpp"
-#include "qbd_rr_solver.hpp"
-#include "task_descriptor.hpp"
+#include "exc.hpp"
 
 namespace PrositCore {
 void LatoucheResourceReservationProbabilitySolver::apply_algorithm() {

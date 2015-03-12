@@ -7,10 +7,6 @@
 #include <Eigen/Dense>
 #include <memory>
 
-//////////////////////
-#include "auxiliary_func.hpp"
-//////////////////////
-
 namespace PrositCore {
 ///@brief Root for the class hierarchy of solvers that apply companion form
 ///methods

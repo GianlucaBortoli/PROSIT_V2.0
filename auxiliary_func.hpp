@@ -13,17 +13,12 @@
 #define AUX_FUNC_HPP
 
 #include "exc.hpp"
-/*
 #include <iostream>
 #include <stdlib.h>
-*/
 #include <Eigen/SVD>
 #include <sys/time.h>
-using namespace Eigen;
 
-/////////////////
-using namespace std;
-/////////////////
+using namespace Eigen;
 
 namespace PrositAux {
 //! Gets absolute time
