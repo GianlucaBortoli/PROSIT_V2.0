@@ -7,5 +7,4 @@ solver
 xml_solver
 
 #Doxygen output
-html/
-latex/
+Doxygen/
