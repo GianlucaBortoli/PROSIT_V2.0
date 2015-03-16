@@ -101,7 +101,7 @@ auto_ptr<QosFunction> Parser::qosfun_parse(XMLElement * qosfunElement) throw(Exc
 GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(PrositAux::Exc) {
   // See file /test/xml_example.xml for an example of the possible parameters and the
   // structure for the xml file used to call the xml_solver
-  PrositCore::GenericTaskDescriptor *td;
+  PrositCore::GenericTaskDescriptor *td = NULL;
 
   const char * type;
   const char * schedule;
@@ -109,12 +109,12 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
   unsigned int budget;
   unsigned int period;
 
+  if(!(name = taskElement->Attribute("name")))
+    EXC_PRINT("Undefined name for task");
   if(!(type = taskElement->Attribute("type")))
     EXC_PRINT_2("Undefined type for task ", name);
   if(!(schedule = taskElement->Attribute("schedule")))
-    EXC_PRINT_2("Undefined schedule for task ", name);
-  if(!(name = taskElement->Attribute("name")))
-    EXC_PRINT("Undefined name for task");
+    EXC_PRINT_2("Undefined schedule for task", name);
 
   XMLElement * internal; //used to parse the first childs parameters
 
@@ -137,7 +137,11 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
         EXC_PRINT_2("Impossible to cast task GenericTaskDescriptor to ResourceReservationTaskDescriptor for task ", 
                 td->get_name());
 
-      td = new ResourceReservationTaskDescriptor(name, comp_time, interr_time, budget, period);
+      td = new ResourceReservationTaskDescriptor(name, 
+                                                 std::move(comp_time), 
+                                                 std::move(interr_time), 
+                                                 budget, 
+                                                 period);
 
     } else { //FP -> fixed priority
       EXC_PRINT("Fixed priority tasks not implemented yet");
