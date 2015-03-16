@@ -118,6 +118,9 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
 
   XMLElement * internal; //used to parse the first childs parameters
 
+  /////////////////////////////////
+  //     Parsing single task
+  ////////////////////////////////
   if((type = "periodic")){ //periodic task
     if((schedule = "RR")){ //RR -> resource reservation
       internal = taskElement->FirstChildElement("serverBudget"); 
@@ -129,12 +132,12 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
       PrositAux::pmf *i = new PrositAux::pmf(Nz, 0); //interarrival
 
       //TODO: initialize comp_time & interr_time
-
+      //Write a new load function that iterates over every task
       std::unique_ptr<PrositAux::pmf> comp_time(c);
       std::unique_ptr<PrositAux::pmf> interr_time(i);
 
       if(!(td = dynamic_cast<ResourceReservationTaskDescriptor *>(td)))
-        EXC_PRINT_2("Impossible to cast task GenericTaskDescriptor to ResourceReservationTaskDescriptor for task ", 
+        EXC_PRINT_2("Impossible to cast GenericTaskDescriptor to ResourceReservationTaskDescriptor for task ", 
                 td->get_name());
 
       td = new ResourceReservationTaskDescriptor(name, 
@@ -147,17 +150,29 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
       EXC_PRINT("Fixed priority tasks not implemented yet");
     }
   }
-  
-  //Parsing Qos Function
-  if((internal = taskElement->FirstChildElement("QoSMax"))) {
-    double qos_min, qos_max;
-    internal->QueryDoubleText(&qos_max);
+  /////////////////////////////////
+  //     Parsing QoS Function
+  ////////////////////////////////
+  if((internal = taskElement->FirstChildElement("qosfun"))) {
+    const char * type;
+    double scale, qos_min, qos_max;
 
-    if (!(internal = taskElement->FirstChildElement("QoSMin")))
-      EXC_PRINT_2("QoSmax defined but QoSMin undefined for task ", name);
+    if(!(type = taskElement->Attribute("type"))) //set type of qos function
+      EXC_PRINT("Undefined type for QoS function");
 
-    internal->QueryDoubleText(&qos_min);
-    PrositCore::QosFunction q(0, qos_min, qos_max, 0);
+    if (!(internal = taskElement->FirstChildElement("pmin")))
+      EXC_PRINT("Minimum not specified");
+    internal->QueryDoubleText(&qos_min); //set min
+
+    if (!(internal = taskElement->FirstChildElement("pmax")))
+      EXC_PRINT("Maximum not specified");
+    internal->QueryDoubleText(&qos_max); //set max
+
+    if (!(internal = taskElement->FirstChildElement("scale")))
+      EXC_PRINT("Scaling factor not specified");
+    internal->QueryDoubleText(&scale); //set scale factor
+
+    PrositCore::QosFunction q(scale, qos_min, qos_max, 0);
   }
   return td;
 }

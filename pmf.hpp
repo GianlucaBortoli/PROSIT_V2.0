@@ -20,6 +20,9 @@
 #include <stdlib.h>
 #include <Eigen/Dense>
 #include <Eigen/SVD>
+#include <tinyxml2.h>
+
+using namespace tinyxml2;
 
 #define EPS 1e-5
 #define TYPICAL_SIZE 10000
@@ -139,6 +142,28 @@ public:
 
   friend void pmf2cdf(const pmf &p, cdf &c);
   friend void cdf2pmf(const cdf &c, pmf &p);
+};
+
+class beta : public distr {
+  double a, b; //alpha & beta parameters for the Beta distribution respectively
+  int b_min, b_cmax, b_step, b_size;
+
+public:
+  beta(double alpha, double beta, int min, int max, int step, int size)
+    : a(alpha), b(beta), min(b_min), max(b_cmax), step(b_step), size(b_size) {
+      if(max < min){
+        EXC_PRINT("Cmax smaller than cmin");
+      }
+      if((max-min)%step != 0){
+        EXC_PRINT("Step has to be an integer submultiple of the interval");
+      }
+      if((alpha <= 1.0) || (beta <= 1.0){
+        EXC_PRINT("Alpha & beta parameters have to be grater than 1.0");
+      }
+  }
+
+  std::unique_ptr<PrositAux::beta> create_beta(XMLElement *e) throw (PrositAux::Exc);
+
 };
 
 void pmf2cdf(const pmf &p, cdf &c);

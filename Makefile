@@ -32,7 +32,7 @@ libprosit.a: $(PROSIT_OBJS)
 .PHONY: clean
 
 clean:
-	rm -f *.o *.d *.a solver
+	rm -f *.o *.d *.a solver xml_solver
 
 %.d: %.cpp
 	@$(CC) $(CPPFLAGS) -MM -MF $@ $<

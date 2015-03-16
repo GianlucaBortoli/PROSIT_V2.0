@@ -227,4 +227,16 @@ void cdf2pmf(const cdf &c, pmf &p) {
 
   return;
 }
+
+std::unique_ptr<PrositAux::beta> beta::create_beta(XMLElement * optElement) {
+  XMLElement * betaElement = optElement->FirstChildElement("pmfComputation");
+  const char * type;
+
+  if((!type = betaElement->Attribute("type")))
+    EXC_PRINT("Type for pmf computation not specified");
+  if(type != "beta")
+    EXC_PRINT("Specified type different from beta");
+
+  
+}
 }

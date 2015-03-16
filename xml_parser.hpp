@@ -23,15 +23,7 @@ class Parser {
     double optim_eps;
     double total_bandwidth;
     bool verbose;
-
-    //used in task_parse function
-    /*
-    static const char * type;
-    static const char * schedule;
-    static const char * name;
-    static const unsigned int budget; 
-    static const unsigned int period;
-    */
+    
   public:
     static GenericTaskDescriptor * task_parse(XMLElement *task) throw(PrositAux::Exc);
     //static auto_ptr<PrositAux::pmf> distr_parse(XMLElement *task) throw(PrositAux::Exc);

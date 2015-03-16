@@ -1,6 +1,6 @@
 <!-- This is an example of the input XML file format with some specifications -->
 
-<solve> <!-- this can be "solve" or "optimize" -->
+<solve> <!-- this can be "solve" or "optimisation" -->
   <task type="periodic" schedule="RR" name="0.3"> <!-- RR stands for Resource Reservation -->
     <period>100000</period> <!-- This one makes sense IIF the task type is set to periodic -->
     <serverPeriod>50000</serverPeriod>
@@ -8,7 +8,7 @@
      <!-- 
           Periodic tasks require only one probability ditribution (pmf) for the
           computarion time foreach task
-    -->
+     -->
     <pmfComputation type="beta">
       <cmin>0</cmin>
       <cmax>99500</cmax>
@@ -24,8 +24,6 @@
       <pmax>0.95</pmax>
       <scale>0.5</scale>
     </qosfun>
-    <QoSMax>0.50</QoSMax>
-    <QoSMin>0.1</QoSMin>
     <!-- sampling parameter -->
     <Delta>7500</Delta>
   </task>
@@ -62,8 +60,6 @@
       <pmax>0.95</pmax>
       <scale>0.5</scale>
     </qosfun>
-    <QoSMax>0.50</QoSMax>
-    <QoSMin>0.1</QoSMin>
     <Delta>7500</Delta>
   </task>
 </solve>
