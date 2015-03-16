@@ -72,31 +72,6 @@ void Parser::task_list_parse(XMLElement * optElement) throw(PrositAux::Exc) {
   }
 }
 
-/*
-auto_ptr<PrositAux::pmf> Parser::distr_parse(XMLElement * distrElement) throw(PrositAux::Exc) {
-  const char * type_name;
-  if(!(type_name = distrElement->Attribute("type"))) 
-    EXC_PRINT("undefined type for distribution");
-  
-  DistrFactory::DistrParameters * p = DistrFactory::distr_factory.parse_parameters(type_name, distrElement);
-  auto_ptr<PrositAux::pmf> td =  DistrFactory::distr_factory.create_instance(type_name, p);
-  delete p;
-  return td;
-}
-
-auto_ptr<QosFunction> Parser::qosfun_parse(XMLElement * qosfunElement) throw(Exc) {
-  const char * type_name;
-  if(!(type_name = qosfunElement->Attribute("type"))) 
-    EXC_PRINT("undefined type for QoS function");
-  
-  QoSFactory::QoSFunParameters * p = QoSFactory::qos_fun_factory.parse_parameters(type_name, qosfunElement);
-  auto_ptr<QosFunction> td =  QoSFactory::qos_fun_factory.create_instance(type_name, p);
-  delete p;
-  
-  return td;
-}
-*/
-
 //Parses a single task
 GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(PrositAux::Exc) {
   // See file /test/xml_example.xml for an example of the possible parameters and the
@@ -121,7 +96,7 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
   /////////////////////////////////
   //     Parsing single task
   ////////////////////////////////
-  if((type = "periodic")){ //periodic task
+  if((type = "periodic")){
     if((schedule = "RR")){ //RR -> resource reservation
       internal = taskElement->FirstChildElement("serverBudget"); 
       internal->QueryUnsignedText(&budget); //set server budget
@@ -135,6 +110,7 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
       //Write a new load function that iterates over every task
       std::unique_ptr<PrositAux::pmf> comp_time(c);
       std::unique_ptr<PrositAux::pmf> interr_time(i);
+      comp_time->create_beta(taskElement);
 
       if(!(td = dynamic_cast<ResourceReservationTaskDescriptor *>(td)))
         EXC_PRINT_2("Impossible to cast GenericTaskDescriptor to ResourceReservationTaskDescriptor for task ", 
@@ -149,6 +125,8 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
     } else { //FP -> fixed priority
       EXC_PRINT("Fixed priority tasks not implemented yet");
     }
+  } else { //Aperiodic
+    EXC_PRINT("Aperiodic tasks not implemented yet");
   }
   /////////////////////////////////
   //     Parsing QoS Function

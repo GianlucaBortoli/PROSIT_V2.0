@@ -228,15 +228,59 @@ void cdf2pmf(const cdf &c, pmf &p) {
   return;
 }
 
-std::unique_ptr<PrositAux::beta> beta::create_beta(XMLElement * optElement) {
+std::unique_ptr<PrositAux::pmf> pmf::create_beta(XMLElement * optElement) {
   XMLElement * betaElement = optElement->FirstChildElement("pmfComputation");
   const char * type;
 
   if((!type = betaElement->Attribute("type")))
     EXC_PRINT("Type for pmf computation not specified");
-  if(type != "beta")
+  if(type != "beta") //if the type specified is not "beta", then die
     EXC_PRINT("Specified type different from beta");
-
   
+  //Parse parameters needed to create the distribution
+  XMLElement * internal;
+  if(!(internal = distrElement->FirstChildElement("a")))
+    EXC_PRINT("a parameter missing");
+  internal->QueryDoubleText(&a); //set alpha
+  
+  if(!(internal = distrElement->FirstChildElement("b")))
+    EXC_PRINT("b parameter missing");
+  internal->QueryDoubleText(&b); //set beta
+
+  if(!(internal = distrElement->FirstChildElement("cmin"))) 
+    EXC_PRINT("cmin missing");
+  internal->QueryIntText(&b_min); //set min
+  
+  if(!(internal = distrElement->FirstChildElement("cmax"))) 
+    EXC_PRINT("cmax missing");
+  internal->QueryIntText(&b_max); //set max
+  
+  if(!(internal = distrElement->FirstChildElement("step"))) 
+    EXC_PRINT("step missing");
+  internal->QueryIntText(&b_step); //set step
+
+  if(!(internal = distrElement->FirstChildElement("size"))) 
+    EXC_PRINT("size missing");
+  internal->QueryIntText(&b_size); //set size
+
+  //Creation of the object with the given parameters
+  //beta * b = new beta(a, b, b_min, b_max, b_step, b_size);
+
+  std::unique_ptr<PrositAux::pmf> x = new PrositAux::pmf(b_size, 0);
+  double total_prob = 0.0;
+  for(int i = b_min; i <= b_max; i += b_step){
+    double p = pow(double(i-b_min)/double(b_max-b_min), a-1) *
+               pow(1-(double(i-b_min)/double(b_max-b_min)), b-1);
+    total_prob += p;
+    x->set(i, p);
+  }
+
+  if(total_prob <= 1){
+    for(int i = b_min; i <= b_max; i += b_step){
+      x->set(i, x->get(i)/total_prob);
+    }
+  }
+  return x;
 }
+
 }

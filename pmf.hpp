@@ -115,6 +115,8 @@ public:
   pmf *resample(int q) const;
   friend void pmf2cdf(const pmf &p, cdf &c);
   friend void cdf2pmf(const cdf &c, pmf &p);
+
+  std::unique_ptr<PrositAux::pmf> create_beta(XMLElement *e) throw (PrositAux::Exc);
 };
 
 class cdf : public distr {
@@ -146,11 +148,11 @@ public:
 
 class beta : public distr {
   double a, b; //alpha & beta parameters for the Beta distribution respectively
-  int b_min, b_cmax, b_step, b_size;
+  int b_min, b_max, b_step, b_size;
 
 public:
   beta(double alpha, double beta, int min, int max, int step, int size)
-    : a(alpha), b(beta), min(b_min), max(b_cmax), step(b_step), size(b_size) {
+    : a(alpha), b(beta), min(b_min), max(b_max), step(b_step), size(b_size) {
       if(max < min){
         EXC_PRINT("Cmax smaller than cmin");
       }
@@ -162,7 +164,7 @@ public:
       }
   }
 
-  std::unique_ptr<PrositAux::beta> create_beta(XMLElement *e) throw (PrositAux::Exc);
+  //std::unique_ptr<PrositAux::pmf> create_beta(XMLElement *e) throw (PrositAux::Exc);
 
 };
 
