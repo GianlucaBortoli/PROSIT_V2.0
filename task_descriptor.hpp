@@ -319,7 +319,8 @@ public:
   ///@param Tsd Reservation period.
   ResourceReservationTaskDescriptor(const char *nm,
                                     unique_ptr<PrositAux::pmf> Cd,
-                                    unsigned int Pd, const unsigned int Qd,
+                                    unsigned int Pd, 
+                                    const unsigned int Qd,
                                     const unsigned int Tsd)
       : GenericTaskDescriptor(nm, std::move(Cd), Pd), Q(Qd), Ts(Tsd) {
     if (double(Qd) / double(Tsd) > 1.0)

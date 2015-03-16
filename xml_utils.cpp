@@ -2,6 +2,8 @@
 
 extern bool verbose_flag; //from xml_solver.cpp
 extern bool silent_flag;
+extern long long t_start;
+extern long long t_xml_parse_end;
 
 namespace PrositCore {
 void solve_core(vector<GenericTaskDescriptor*> &v, 
@@ -35,7 +37,7 @@ void solve_core(vector<GenericTaskDescriptor*> &v,
 void solve_execute() {
   long long t_solution_start = 0, t_solution_end = 0;
   t_solution_start = PrositAux::my_get_time();// start time
-  vector<GenericTaskDescriptor*> v; //THIS VECTOR IS STILL TO BE INITIALIZED!
+  vector<GenericTaskDescriptor*> v; //TODO: initialize this vector
   int num = get_task_descriptor_vector(v);
 
   vector<double> probability(num);
@@ -61,8 +63,6 @@ void solve_execute() {
   cout << "=================================================================================================================================" << endl;
   printf("\tTotal bandwidth: \t\t%25f\n", Btot_final);
   printf("\tInfinity norm value: \t\t%25f\n", inf_norm_final);
-
-  //solve_display_results(v, probability, quality, time, true);
   cout << "=========================================================================================================="<<endl;
   cout << "=                                              Computation time                                         ="<<endl;
   cout << "=========================================================================================================="<<endl;

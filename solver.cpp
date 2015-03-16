@@ -189,10 +189,8 @@ int main(int argc, char *argv[]) {
     } else {
       if (companion_flag) {
         CompanionResourceReservationProbabilitySolver *tmp =
-            new CompanionResourceReservationProbabilitySolver(step,
-                                                                          eps);
-        std::unique_ptr<ResourceReservationProbabilitySolver> ps(
-            tmp);
+            new CompanionResourceReservationProbabilitySolver(step, eps);
+        std::unique_ptr<ResourceReservationProbabilitySolver> ps(tmp);
         task_des.set_solver(ps.get());
         task_des.compute_probability();
       } else {

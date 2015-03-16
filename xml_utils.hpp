@@ -9,8 +9,6 @@
 using namespace PrositCore;
 
 namespace PrositCore {
-long long  t_start = 0, t_xml_parse_end = 0; //for result time computation
-
 void solve_core(vector<GenericTaskDescriptor*> & v,
                 const vector<double> & probability, 
                 const vector<double> & quality, 

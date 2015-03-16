@@ -20,14 +20,22 @@ class Parser {
     void optimisation_parse(XMLElement *e) throw(PrositAux::Exc);
     void analysis_parse(XMLElement *e) throw(PrositAux::Exc);
     void task_list_parse(XMLElement *e) throw(PrositAux::Exc);
-    void verbose_parse(XMLElement *e) throw (PrositAux::Exc);
     double optim_eps;
     double total_bandwidth;
     bool verbose;
+
+    //used in task_parse function
+    /*
+    static const char * type;
+    static const char * schedule;
+    static const char * name;
+    static const unsigned int budget; 
+    static const unsigned int period;
+    */
   public:
     static GenericTaskDescriptor * task_parse(XMLElement *task) throw(PrositAux::Exc);
-    static auto_ptr<PrositAux::pmf> distr_parse(XMLElement *task) throw(PrositAux::Exc);
-    static auto_ptr<PrositCore::QosFunction> qosfun_parse(XMLElement *qosfunElement) throw(PrositAux::Exc);
+    //static auto_ptr<PrositAux::pmf> distr_parse(XMLElement *task) throw(PrositAux::Exc);
+    //static auto_ptr<PrositCore::QosFunction> qosfun_parse(XMLElement *qosfunElement) throw(PrositAux::Exc);
 
     Parser(const char *name) throw(PrositAux::Exc):
       o(NO_OPT), optim_eps(1e-6), total_bandwidth(1.0),

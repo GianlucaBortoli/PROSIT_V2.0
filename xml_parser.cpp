@@ -1,5 +1,8 @@
 #include "xml_parser.hpp"
 
+#define Nc 2500000 //used for interarrival and computation time pmf
+#define Nz 1000000
+
 using namespace tinyxml2;
 
 namespace PrositCore {
@@ -9,18 +12,18 @@ ACTIONS Parser::parse() throw (PrositAux::Exc) {
     optimisation_parse(element); 
     a = OPTIMISE;
     return a;
-  };
+  }
 
   element = doc->FirstChildElement("solve");
-  if (element) {
+  if(element) {
     analysis_parse(element);
     a = SOLVE;
     return a;
-  };
-
-  EXC_PRINT("error in xml format");
+  }
+  EXC_PRINT("Error in xml format");
 }
 
+//Called when "optimization" tag is used
 void Parser::optimisation_parse(XMLElement *optElement) throw(PrositAux::Exc) {
   const char *s;
   string opt_method;
@@ -34,7 +37,6 @@ void Parser::optimisation_parse(XMLElement *optElement) throw(PrositAux::Exc) {
     EXC_PRINT("optimisation method unknown");
   
   o = INFINITY_NORM;
-  verbose_parse(optElement);
   
   XMLElement *el = optElement->FirstChildElement("epsilon");
   if(el) {
@@ -53,39 +55,21 @@ void Parser::optimisation_parse(XMLElement *optElement) throw(PrositAux::Exc) {
   task_list_parse(optElement);
 }
 
-void Parser::verbose_parse(XMLElement * optElement) throw(PrositAux::Exc) {
-  const char * s;
-  string verbose_flag;
-  
-  if ((s = optElement->Attribute("verbose"))) {
-    verbose_flag = s;
-    
-    if (verbose_flag == "true"){
-      verbose = true;
-    } else {
-      if (verbose_flag == "false") {
-        verbose = false;
-      } else {
-        EXC_PRINT("bad setting for verbose flag");
-      }
-    } 
-  }
+//Called when "solve" tag is used
+void Parser::analysis_parse(XMLElement *e) throw(PrositAux::Exc) {
+  task_list_parse(e);
 }
 
+//Parses the whole list of all tasks in the XML file provided by the user
 void Parser::task_list_parse(XMLElement * optElement) throw(PrositAux::Exc) {
   XMLElement * taskElement = optElement->FirstChildElement("task");
   if (!taskElement) 
-    EXC_PRINT("opimisation task section missing");
+    EXC_PRINT("Opimisation task section missing");
   
   while (taskElement) {
     Parser::task_parse(taskElement);
     taskElement = taskElement->NextSiblingElement();
-  };
-}
-
-void Parser::analysis_parse(XMLElement *e) throw(PrositAux::Exc) {
-  verbose_parse(e);
-  task_list_parse(e);
+  }
 }
 
 /*
@@ -113,34 +97,65 @@ auto_ptr<QosFunction> Parser::qosfun_parse(XMLElement * qosfunElement) throw(Exc
 }
 */
 
+//Parses a single task
 GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(PrositAux::Exc) {
-  /*
-  const char * task_name;
-  const char * type_name;
+  // See file /test/xml_example.xml for an example of the possible parameters and the
+  // structure for the xml file used to call the xml_solver
+  PrositCore::GenericTaskDescriptor *td;
 
-  if(!(task_name = taskElement->Attribute("name")))
-    EXC_PRINT("name undefined for task");
-  if(!(type_name = taskElement->Attribute("type")))
-    EXC_PRINT_2("type undefined for task",task_name);
+  const char * type;
+  const char * schedule;
+  const char * name;
+  unsigned int budget;
+  unsigned int period;
+
+  if(!(type = taskElement->Attribute("type")))
+    EXC_PRINT_2("Undefined type for task ", name);
+  if(!(schedule = taskElement->Attribute("schedule")))
+    EXC_PRINT_2("Undefined schedule for task ", name);
+  if(!(name = taskElement->Attribute("name")))
+    EXC_PRINT("Undefined name for task");
+
+  XMLElement * internal; //used to parse the first childs parameters
+
+  if((type = "periodic")){ //periodic task
+    if((schedule = "RR")){ //RR -> resource reservation
+      internal = taskElement->FirstChildElement("serverBudget"); 
+      internal->QueryUnsignedText(&budget); //set server budget
+      internal = taskElement->FirstChildElement("serverPeriod");
+      internal->QueryUnsignedText(&period); //set server period
+
+      PrositAux::pmf *c = new PrositAux::pmf(Nc, 0); //computation
+      PrositAux::pmf *i = new PrositAux::pmf(Nz, 0); //interarrival
+
+      //TODO: initialize comp_time & interr_time
+
+      std::unique_ptr<PrositAux::pmf> comp_time(c);
+      std::unique_ptr<PrositAux::pmf> interr_time(i);
+
+      if(!(td = dynamic_cast<ResourceReservationTaskDescriptor *>(td)))
+        EXC_PRINT_2("Impossible to cast task GenericTaskDescriptor to ResourceReservationTaskDescriptor for task ", 
+                td->get_name());
+
+      td = new ResourceReservationTaskDescriptor(name, comp_time, interr_time, budget, period);
+
+    } else { //FP -> fixed priority
+      EXC_PRINT("Fixed priority tasks not implemented yet");
+    }
+  }
   
-  TaskFactory::GenericTaskParameters * p = TaskFactory::task_descriptor_factory.parse_parameters(type_name, task_name, taskElement);
-  GenericTaskDescriptor *td =  TaskFactory::task_descriptor_factory.create_instance(type_name, task_name, p);
-  delete p;
-  
-  XMLElement * internal;
-  if(internal = taskElement->FirstChildElement("QoSMax")) {
+  //Parsing Qos Function
+  if((internal = taskElement->FirstChildElement("QoSMax"))) {
     double qos_min, qos_max;
     internal->QueryDoubleText(&qos_max);
 
     if (!(internal = taskElement->FirstChildElement("QoSMin")))
-      EXC_PRINT_2(" QoSmax defined but QoSMin undefined for task ", task_name);
+      EXC_PRINT_2("QoSmax defined but QoSMin undefined for task ", name);
 
     internal->QueryDoubleText(&qos_min);
-    TaskFactory::task_descriptor_factory.set_task_target_qos_bounds(task_name, qos_min,qos_max);
+    PrositCore::QosFunction q(0, qos_min, qos_max, 0);
   }
   return td;
-  */
-  return NULL;
 }
 
 }
