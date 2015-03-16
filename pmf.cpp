@@ -228,7 +228,7 @@ void cdf2pmf(const cdf &c, pmf &p) {
   return;
 }
 
-std::unique_ptr<PrositAux::pmf> pmf::create_beta(XMLElement * optElement) {
+unique_ptr<PrositAux::pmf> pmf::create_beta(XMLElement * optElement) {
   XMLElement * betaElement = optElement->FirstChildElement("pmfComputation");
   const char * type;
 

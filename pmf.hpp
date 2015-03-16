@@ -22,6 +22,7 @@
 #include <Eigen/SVD>
 #include <tinyxml2.h>
 
+using namespace std;
 using namespace tinyxml2;
 
 #define EPS 1e-5
@@ -116,7 +117,7 @@ public:
   friend void pmf2cdf(const pmf &p, cdf &c);
   friend void cdf2pmf(const cdf &c, pmf &p);
 
-  std::unique_ptr<PrositAux::pmf> create_beta(XMLElement *e) throw (PrositAux::Exc);
+  unique_ptr<PrositAux::pmf> create_beta(XMLElement *e) throw (PrositAux::Exc);
 };
 
 class cdf : public distr {
@@ -152,14 +153,14 @@ class beta : public distr {
 
 public:
   beta(double alpha, double beta, int min, int max, int step, int size)
-    : a(alpha), b(beta), min(b_min), max(b_max), step(b_step), size(b_size) {
-      if(max < min){
+    : a(alpha), b(beta), b_min(min), b_max(max), b_step(step), b_size(size) {
+      if(b_max < b_min){
         EXC_PRINT("Cmax smaller than cmin");
       }
-      if((max-min)%step != 0){
+      if((b_max-b_min)%b_step != 0){
         EXC_PRINT("Step has to be an integer submultiple of the interval");
       }
-      if((alpha <= 1.0) || (beta <= 1.0){
+      if((a <= 1.0) || (b <= 1.0)){
         EXC_PRINT("Alpha & beta parameters have to be grater than 1.0");
       }
   }
