@@ -101,12 +101,15 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
       internal = taskElement->FirstChildElement("serverPeriod");
       internal->QueryUnsignedText(&period); //set server period
 
-      //TODO: initialize comp_time & interr_time
-      //Write a new load function that iterates over every task
+      /////////////////////////////////////////////////////////////////////////////
+      //   Beta distribution for computation & interarrival time initialisation
+      /////////////////////////////////////////////////////////////////////////////
       std::unique_ptr<PrositAux::beta> comp_time(new PrositAux::beta());
-      comp_time->create_beta(taskElement);
-      std::unique_ptr<PrositAux::beta> interr_time;
+      comp_time->create_beta_computation(taskElement);
+      std::unique_ptr<PrositAux::beta> interr_time(new PrositAux::beta());
+      interr_time->create_beta_interarrival(taskElement);
 
+      // RR task descriptor creation
       if(!(td = dynamic_cast<ResourceReservationTaskDescriptor *>(td)))
         EXC_PRINT_2("Impossible to cast GenericTaskDescriptor to ResourceReservationTaskDescriptor for task ", 
                 td->get_name());

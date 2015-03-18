@@ -165,9 +165,14 @@ public:
       }
   }
 
-  ///Creates a beta probability function from the parameters in the XML file
+  //TODO: these two function are nearly the same: can I merge it into a single one? Think about it
+
+  ///Creates a beta probability function from the parameters in the XML file for the computation time
   ///@param e the input XML file
-  unique_ptr<PrositAux::pmf> create_beta(XMLElement *e) throw (PrositAux::Exc);
+  unique_ptr<PrositAux::pmf> create_beta_computation(XMLElement *e) throw (PrositAux::Exc);
+  ///Creates a beta probability function from the parameters in the XML file for the interarrival time
+  ///@param e the input XML file
+  unique_ptr<PrositAux::pmf> create_beta_interarrival(XMLElement *e) throw (PrositAux::Exc);
 };
 
 void pmf2cdf(const pmf &p, cdf &c);

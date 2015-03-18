@@ -229,8 +229,62 @@ void cdf2pmf(const cdf &c, pmf &p) {
   return;
 }
 
-unique_ptr<PrositAux::pmf> beta::create_beta(XMLElement *e) throw (PrositAux::Exc) {
+unique_ptr<PrositAux::pmf> beta::create_beta_computation(XMLElement *e) throw (PrositAux::Exc) {
   XMLElement * betaElement = e->FirstChildElement("pmfComputation");
+  const char * type;
+
+  if(!(type = betaElement->Attribute("type")))
+    EXC_PRINT("Type for pmf computation not specified");
+  if(strcmp(type, "beta") != 0) //if the type specified is not "beta", then die
+    EXC_PRINT("Specified type is different from beta");
+  
+  //Parse parameters needed to create the distribution
+  XMLElement * internal;
+  if(!(internal = betaElement->FirstChildElement("a")))
+    EXC_PRINT("a parameter missing");
+  internal->QueryDoubleText(&a); //set alpha
+  
+  if(!(internal = betaElement->FirstChildElement("b")))
+    EXC_PRINT("b parameter missing");
+  internal->QueryDoubleText(&b); //set beta
+
+  if(!(internal = betaElement->FirstChildElement("cmin"))) 
+    EXC_PRINT("cmin missing");
+  internal->QueryIntText(&b_min); //set min
+  
+  if(!(internal = betaElement->FirstChildElement("cmax"))) 
+    EXC_PRINT("cmax missing");
+  internal->QueryIntText(&b_max); //set max
+  
+  if(!(internal = betaElement->FirstChildElement("step"))) 
+    EXC_PRINT("step missing");
+  internal->QueryIntText(&b_step); //set step
+
+  if(!(internal = betaElement->FirstChildElement("size"))) 
+    EXC_PRINT("size missing");
+  internal->QueryIntText(&b_size); //set size
+
+  // Initialization of the distribution function
+  std::unique_ptr<PrositAux::pmf> x(new PrositAux::pmf(b_size, 0));
+  double total_prob = 0.0;
+  for(int i = b_min; i <= b_max; i += b_step){
+    double p = pow(double(i-b_min)/double(b_max-b_min), a-1) *
+               pow(1-(double(i-b_min)/double(b_max-b_min)), b-1);
+    total_prob += p;
+    x->set(i, p);
+  }
+
+  if(total_prob <= 1){
+    for(int i = b_min; i <= b_max; i += b_step){
+      x->set(i, x->get(i)/total_prob);
+    }
+  }
+  return move(x); //need to move ownerwhip in order to assign the return 
+                  //value calling this function
+}
+
+unique_ptr<PrositAux::pmf> beta::create_beta_interarrival(XMLElement *e) throw (PrositAux::Exc) {
+  XMLElement * betaElement = e->FirstChildElement("pmfInterarrival");
   const char * type;
 
   if(!(type = betaElement->Attribute("type")))

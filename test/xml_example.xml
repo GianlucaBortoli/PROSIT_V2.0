@@ -16,8 +16,17 @@
       <b>7</b>
       <step>500</step>
       <size>100000</size>
-      <dump>beta_2_7.txt</dump>
+      <dump>beta_computation.txt</dump>
     </pmfComputation>
+    <pmfInterarrival type="beta">
+      <cmin>0</cmin>
+      <cmax>99500</cmax>
+      <a>2</a>
+      <b>7</b>
+      <step>500</step>
+      <size>100000</size>
+      <dump>beta_interarrival.txt</dump>
+    </pmfInterarrival>
     <!-- Qos function parameters -->
     <qosfun type="linear">
       <pmin>0.01</pmin>
