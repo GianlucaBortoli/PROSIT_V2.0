@@ -1,7 +1,5 @@
 #include "xml_parser.hpp"
-
-#define Nc 2500000 //used for interarrival and computation time pmf
-#define Nz 1000000
+#include <memory>
 
 using namespace tinyxml2;
 
@@ -103,14 +101,11 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
       internal = taskElement->FirstChildElement("serverPeriod");
       internal->QueryUnsignedText(&period); //set server period
 
-      PrositAux::pmf *c = new PrositAux::pmf(Nc, 0); //computation
-      PrositAux::pmf *i = new PrositAux::pmf(Nz, 0); //interarrival
-
       //TODO: initialize comp_time & interr_time
       //Write a new load function that iterates over every task
-      std::unique_ptr<PrositAux::pmf> comp_time(c);
-      std::unique_ptr<PrositAux::pmf> interr_time(i);
+      std::unique_ptr<PrositAux::beta> comp_time(new PrositAux::beta());
       comp_time->create_beta(taskElement);
+      std::unique_ptr<PrositAux::beta> interr_time;
 
       if(!(td = dynamic_cast<ResourceReservationTaskDescriptor *>(td)))
         EXC_PRINT_2("Impossible to cast GenericTaskDescriptor to ResourceReservationTaskDescriptor for task ", 

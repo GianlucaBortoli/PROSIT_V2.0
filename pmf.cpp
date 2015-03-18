@@ -1,4 +1,5 @@
 #include "pmf.hpp"
+#include <string.h>
 
 using namespace std;
 
@@ -228,45 +229,43 @@ void cdf2pmf(const cdf &c, pmf &p) {
   return;
 }
 
-unique_ptr<PrositAux::pmf> pmf::create_beta(XMLElement * optElement) {
-  XMLElement * betaElement = optElement->FirstChildElement("pmfComputation");
+unique_ptr<PrositAux::pmf> beta::create_beta(XMLElement *e) throw (PrositAux::Exc) {
+  XMLElement * betaElement = e->FirstChildElement("pmfComputation");
   const char * type;
 
-  if((!type = betaElement->Attribute("type")))
+  if(!(type = betaElement->Attribute("type")))
     EXC_PRINT("Type for pmf computation not specified");
-  if(type != "beta") //if the type specified is not "beta", then die
-    EXC_PRINT("Specified type different from beta");
+  if(strcmp(type, "beta") != 0) //if the type specified is not "beta", then die
+    EXC_PRINT("Specified type is different from beta");
   
   //Parse parameters needed to create the distribution
   XMLElement * internal;
-  if(!(internal = distrElement->FirstChildElement("a")))
+  if(!(internal = betaElement->FirstChildElement("a")))
     EXC_PRINT("a parameter missing");
   internal->QueryDoubleText(&a); //set alpha
   
-  if(!(internal = distrElement->FirstChildElement("b")))
+  if(!(internal = betaElement->FirstChildElement("b")))
     EXC_PRINT("b parameter missing");
   internal->QueryDoubleText(&b); //set beta
 
-  if(!(internal = distrElement->FirstChildElement("cmin"))) 
+  if(!(internal = betaElement->FirstChildElement("cmin"))) 
     EXC_PRINT("cmin missing");
   internal->QueryIntText(&b_min); //set min
   
-  if(!(internal = distrElement->FirstChildElement("cmax"))) 
+  if(!(internal = betaElement->FirstChildElement("cmax"))) 
     EXC_PRINT("cmax missing");
   internal->QueryIntText(&b_max); //set max
   
-  if(!(internal = distrElement->FirstChildElement("step"))) 
+  if(!(internal = betaElement->FirstChildElement("step"))) 
     EXC_PRINT("step missing");
   internal->QueryIntText(&b_step); //set step
 
-  if(!(internal = distrElement->FirstChildElement("size"))) 
+  if(!(internal = betaElement->FirstChildElement("size"))) 
     EXC_PRINT("size missing");
   internal->QueryIntText(&b_size); //set size
 
-  //Creation of the object with the given parameters
-  //beta * b = new beta(a, b, b_min, b_max, b_step, b_size);
-
-  std::unique_ptr<PrositAux::pmf> x = new PrositAux::pmf(b_size, 0);
+  // Initialization of the distribution function
+  std::unique_ptr<PrositAux::pmf> x(new PrositAux::pmf(b_size, 0));
   double total_prob = 0.0;
   for(int i = b_min; i <= b_max; i += b_step){
     double p = pow(double(i-b_min)/double(b_max-b_min), a-1) *
@@ -280,7 +279,8 @@ unique_ptr<PrositAux::pmf> pmf::create_beta(XMLElement * optElement) {
       x->set(i, x->get(i)/total_prob);
     }
   }
-  return x;
+  return move(x); //need to move ownerwhip in order to assign the return 
+                  //value calling this function
 }
 
 }

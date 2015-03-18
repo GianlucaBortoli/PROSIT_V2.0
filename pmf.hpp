@@ -14,6 +14,7 @@
 #include "exc.hpp"
 #include "auxiliary_func.hpp"
 #include <math.h>
+#include <memory>
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -116,8 +117,6 @@ public:
   pmf *resample(int q) const;
   friend void pmf2cdf(const pmf &p, cdf &c);
   friend void cdf2pmf(const cdf &c, pmf &p);
-
-  unique_ptr<PrositAux::pmf> create_beta(XMLElement *e) throw (PrositAux::Exc);
 };
 
 class cdf : public distr {
@@ -147,11 +146,12 @@ public:
   friend void cdf2pmf(const cdf &c, pmf &p);
 };
 
-class beta : public distr {
+class beta : public pmf {
   double a, b; //alpha & beta parameters for the Beta distribution respectively
   int b_min, b_max, b_step, b_size;
 
 public:
+  beta(){}
   beta(double alpha, double beta, int min, int max, int step, int size)
     : a(alpha), b(beta), b_min(min), b_max(max), b_step(step), b_size(size) {
       if(b_max < b_min){
@@ -165,8 +165,9 @@ public:
       }
   }
 
-  //std::unique_ptr<PrositAux::pmf> create_beta(XMLElement *e) throw (PrositAux::Exc);
-
+  ///Creates a beta probability function from the parameters in the XML file
+  ///@param e the input XML file
+  unique_ptr<PrositAux::pmf> create_beta(XMLElement *e) throw (PrositAux::Exc);
 };
 
 void pmf2cdf(const pmf &p, cdf &c);

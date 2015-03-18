@@ -314,7 +314,7 @@ public:
   ///@param nm task name
   ///@param Cd distribution of the computation time. The descriptor takes
   ///ownership of this pointer.
-  ///@param Pd Tas period
+  ///@param Pd Task period
   ///@param Qd Reservation Budget
   ///@param Tsd Reservation period.
   ResourceReservationTaskDescriptor(const char *nm,
