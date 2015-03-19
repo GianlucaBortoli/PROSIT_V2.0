@@ -2,11 +2,17 @@
 #include <memory>
 
 using namespace tinyxml2;
+using namespace std;
+
+extern bool verbose_flag; //from xml_solver.cpp
 
 namespace PrositCore {
 ACTIONS Parser::parse() throw (PrositAux::Exc) {
   XMLElement *element = doc->FirstChildElement("optimisation");
   if(element) {
+    if(verbose_flag)
+      cout << "Optimisation parsing chosen" << endl;
+    
     optimisation_parse(element); 
     a = OPTIMISE;
     return a;
@@ -14,6 +20,9 @@ ACTIONS Parser::parse() throw (PrositAux::Exc) {
 
   element = doc->FirstChildElement("solve");
   if(element) {
+    if(verbose_flag)
+      cout << "Solve parsing chosen" << endl;
+    
     analysis_parse(element);
     a = SOLVE;
     return a;
@@ -64,7 +73,7 @@ void Parser::task_list_parse(XMLElement * optElement) throw(PrositAux::Exc) {
   if (!taskElement) 
     EXC_PRINT("Opimisation task section missing");
   
-  while (taskElement) {
+  while (taskElement) { //goes through every task tag defined in xml file
     Parser::task_parse(taskElement);
     taskElement = taskElement->NextSiblingElement();
   }
@@ -96,6 +105,9 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
   ////////////////////////////////
   if((type = "periodic")){
     if((schedule = "RR")){ //RR -> resource reservation
+      if(verbose_flag)
+        cout << "Periodic RR task defined in XML file" << endl;
+      
       internal = taskElement->FirstChildElement("serverBudget"); 
       internal->QueryUnsignedText(&budget); //set server budget
       internal = taskElement->FirstChildElement("serverPeriod");
@@ -104,14 +116,20 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
       /////////////////////////////////////////////////////////////////////////////
       //   Beta distribution for computation & interarrival time initialisation
       /////////////////////////////////////////////////////////////////////////////
+      if(verbose_flag)
+        cout << "Creating probability distribution for computation and interarrival time..." << endl;
+
       std::unique_ptr<PrositAux::beta> comp_time(new PrositAux::beta());
       comp_time->create_beta_computation(taskElement);
       std::unique_ptr<PrositAux::beta> interr_time(new PrositAux::beta());
       interr_time->create_beta_interarrival(taskElement);
 
+      if(verbose_flag) 
+        cout << "Pmf created...now creating RR task descriptor object" << endl;
+
       // RR task descriptor creation
       if(!(td = dynamic_cast<ResourceReservationTaskDescriptor *>(td)))
-        EXC_PRINT_2("Impossible to cast GenericTaskDescriptor to ResourceReservationTaskDescriptor for task ", 
+        EXC_PRINT_2("Impossible to cast GenericTaskDescriptor to ResourceReservationTaskDescriptor for task", 
                 td->get_name());
 
       td = new ResourceReservationTaskDescriptor(name, 
@@ -119,6 +137,9 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
                                                  std::move(interr_time), 
                                                  budget, 
                                                  period);
+      
+      if(verbose_flag) 
+        cout << "RR task descriptor object created successfully!" << endl;
 
     } else { //FP -> fixed priority
       EXC_PRINT("Fixed priority tasks not implemented yet");

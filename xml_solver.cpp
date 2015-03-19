@@ -15,9 +15,8 @@
 
 using namespace PrositCore;
 
-bool verbose_flag; //used also in xml_utils.cpp
+bool verbose_flag; //used also in xml_utils.cpp & xml_parser.cpp
 bool silent_flag; //used also in xml_utils.cpp
-bool help_flag;
 long long  t_start = 0, t_xml_parse_end = 0; //for result time computation, used also in xml_utils.cpp
 
 static int opts_parse(int argc, char *argv[]) {
@@ -32,7 +31,6 @@ static int opts_parse(int argc, char *argv[]) {
   //defaults values
   verbose_flag = false;
   silent_flag = false;
-  help_flag = false;
 
   while ((opt = getopt_long(argc, argv, ":vhs",long_options,0)) != -1) {
     switch (opt) {
@@ -58,7 +56,7 @@ int main(int argc, char *argv[]) {
   try {
     t_start = PrositAux::my_get_time(); //start parsing
     int opt = opts_parse(argc, argv);
-    if( argc-optind != 1 )
+    if(argc-optind != 1)
       EXC_PRINT("one input file requested");
 
     Parser *p = new Parser(argv[opt]);

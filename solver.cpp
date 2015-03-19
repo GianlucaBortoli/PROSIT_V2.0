@@ -9,18 +9,6 @@
 #include <stdio.h>
 #include <getopt.h>
 
-/*
-#include "auxiliary_func.hpp"
-#include "exc.hpp"
-#include "pmf.hpp"
-#include "qbd_analytic_solver.hpp"
-#include "qbd_companion_solver.hpp"
-#include "qbd_rr_solver.hpp"
-#include <iostream>
-#include <stdio.h>
-#include <getopt.h>
-*/
-
 using namespace PrositCore;
 
 #define Nc 2500000
