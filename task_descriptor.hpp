@@ -77,7 +77,8 @@ public:
    *  @param Cd pointer to the distribution of the computation times
    *  @param Zd distribution of the interarrival time
    */
-  GenericTaskDescriptor(const char *nm, unique_ptr<PrositAux::pmf> Cd,
+  GenericTaskDescriptor(const char *nm, 
+                        unique_ptr<PrositAux::pmf> Cd,
                         unique_ptr<PrositAux::pmf> Zd) throw(PrositAux::Exc)
       : solved(false), name(nm), C(std::move(Cd)), Z(std::move(Zd)),
         verbose_flag(false), periodic(false), P(0), deadline_step(0),
@@ -88,7 +89,8 @@ public:
    *  @param Cd pointer to the distribution of the computation times
    *  @param Pd task period
    */
-  GenericTaskDescriptor(const char *nm, unique_ptr<PrositAux::pmf> Cd,
+  GenericTaskDescriptor(const char *nm, 
+                        unique_ptr<PrositAux::pmf> Cd,
                         unsigned int Pd) throw(PrositAux::Exc)
       : solved(false), name(nm), C(std::move(Cd)), Z(new PrositAux::pmf()),
         verbose_flag(false), periodic(true), P(Pd), deadline_step(0),

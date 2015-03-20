@@ -98,7 +98,7 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
   if(!(schedule = taskElement->Attribute("schedule")))
     EXC_PRINT_2("Undefined schedule for task", name);
 
-  XMLElement * internal; //used to parse the first childs parameters
+  XMLElement * internal; //used to parse the first childs parameters of the task tag
 
   /////////////////////////////////
   //     Parsing single task
@@ -128,15 +128,13 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
         cout << "Pmf created...now creating RR task descriptor object" << endl;
 
       // RR task descriptor creation
-      if(!(td = dynamic_cast<ResourceReservationTaskDescriptor *>(td)))
-        EXC_PRINT_2("Impossible to cast GenericTaskDescriptor to ResourceReservationTaskDescriptor for task", 
-                td->get_name());
-
-      td = new ResourceReservationTaskDescriptor(name, 
-                                                 std::move(comp_time), 
-                                                 std::move(interr_time), 
-                                                 budget, 
-                                                 period);
+      ResourceReservationTaskDescriptor td (name, 
+                                            std::move(comp_time), 
+                                            std::move(interr_time), 
+                                            budget, 
+                                            period);
+      td.set_deadline_step(period);
+      td.set_verbose_flag(verbose_flag ? true : false);
       
       if(verbose_flag) 
         cout << "RR task descriptor object created successfully!" << endl;
@@ -150,24 +148,33 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
   /////////////////////////////////
   //     Parsing QoS Function
   ////////////////////////////////
-  if((internal = taskElement->FirstChildElement("qosfun"))) {
+  XMLElement * qosElement;
+  if((qosElement = taskElement->FirstChildElement("qosfun"))) {
     const char * type;
     double scale, qos_min, qos_max;
 
-    if(!(type = taskElement->Attribute("type"))) //set type of qos function
-      EXC_PRINT("Undefined type for QoS function");
+    if(verbose_flag) 
+      cout << "Parsing QoS function parameters" << endl;
 
-    if (!(internal = taskElement->FirstChildElement("pmin")))
+    if(!(type = qosElement->Attribute("type"))) //set type of qos function
+      EXC_PRINT("Undefined type for QoS function");
+    cout << type << endl;
+
+    //parsing parameters
+    if (!(internal = qosElement->FirstChildElement("pmin")))
       EXC_PRINT("Minimum not specified");
     internal->QueryDoubleText(&qos_min); //set min
+    cout << qos_min << endl;
 
-    if (!(internal = taskElement->FirstChildElement("pmax")))
+    if (!(internal = qosElement->FirstChildElement("pmax")))
       EXC_PRINT("Maximum not specified");
     internal->QueryDoubleText(&qos_max); //set max
+    cout << qos_max << endl;
 
-    if (!(internal = taskElement->FirstChildElement("scale")))
+    if (!(internal = qosElement->FirstChildElement("scale")))
       EXC_PRINT("Scaling factor not specified");
     internal->QueryDoubleText(&scale); //set scale factor
+    cout << scale << endl;
 
     PrositCore::QosFunction q(scale, qos_min, qos_max, 0);
   }
