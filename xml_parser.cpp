@@ -158,23 +158,19 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
 
     if(!(type = qosElement->Attribute("type"))) //set type of qos function
       EXC_PRINT("Undefined type for QoS function");
-    cout << type << endl;
 
     //parsing parameters
     if (!(internal = qosElement->FirstChildElement("pmin")))
       EXC_PRINT("Minimum not specified");
     internal->QueryDoubleText(&qos_min); //set min
-    cout << qos_min << endl;
 
     if (!(internal = qosElement->FirstChildElement("pmax")))
       EXC_PRINT("Maximum not specified");
     internal->QueryDoubleText(&qos_max); //set max
-    cout << qos_max << endl;
 
     if (!(internal = qosElement->FirstChildElement("scale")))
       EXC_PRINT("Scaling factor not specified");
-    internal->QueryDoubleText(&scale); //set scale factor
-    cout << scale << endl;
+    internal->QueryDoubleText(&scale); //set scaling factor
 
     PrositCore::QosFunction q(scale, qos_min, qos_max, 0);
   }
