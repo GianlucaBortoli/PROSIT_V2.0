@@ -54,7 +54,6 @@ class ProbabilitySolver;
 class GenericTaskDescriptor {
 protected:
   bool solved; /*!< The solver has been called */
-protected:
   string name;                  /*!< Name of the task */
   unique_ptr<PrositAux::pmf> C; /*!< Distribution of the computation time */
   unique_ptr<PrositAux::pmf> Z; /*!< Distribution of the interarrival time */
@@ -63,7 +62,7 @@ protected:
   bool periodic;     /*!< Flag for periodic tasks */
   unsigned int P;    /*!< Period (has meaning onlly if periodic flag is set) */
   unsigned int deadline_step; /*!< Granularity to define probabilistic deadlines */
-
+  int delta;
   DeadlineProbabilityMap probabilistic_deadlines; /*!< Map associating deadlines
                                                      with probabilities */
   ProbabilitySolver *probability_solver; /*!< Pointer to the object containing

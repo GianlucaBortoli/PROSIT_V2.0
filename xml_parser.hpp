@@ -23,6 +23,7 @@ class Parser {
     double optim_eps;
     double total_bandwidth;
     bool verbose;
+    bool if_solve; //true if the initial tag is "solve", false if "optimisation"
     
   public:
     static GenericTaskDescriptor * task_parse(XMLElement *task) throw(PrositAux::Exc);

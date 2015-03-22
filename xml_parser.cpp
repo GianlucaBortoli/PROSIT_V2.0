@@ -13,6 +13,7 @@ ACTIONS Parser::parse() throw (PrositAux::Exc) {
     if(verbose_flag)
       cout << "Optimisation parsing chosen" << endl;
     
+    if_solve = false;
     optimisation_parse(element); 
     a = OPTIMISE;
     return a;
@@ -23,6 +24,7 @@ ACTIONS Parser::parse() throw (PrositAux::Exc) {
     if(verbose_flag)
       cout << "Solve parsing chosen" << endl;
     
+    if_solve = true;
     analysis_parse(element);
     a = SOLVE;
     return a;
@@ -148,31 +150,38 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
   /////////////////////////////////
   //     Parsing QoS Function
   ////////////////////////////////
-  XMLElement * qosElement;
+  XMLElement * qosElement; 
+  // if optimisation -> mandatory
+  // if solve        -> optional
   if((qosElement = taskElement->FirstChildElement("qosfun"))) {
-    const char * type;
-    double scale, qos_min, qos_max;
+    if(qosElement != NULL){//if exists all parameters have to be set, both in solve & optimisation cases 
+      const char * type;
+      double scale, qos_min, qos_max;
 
-    if(verbose_flag) 
-      cout << "Parsing QoS function parameters" << endl;
+      if(verbose_flag) 
+        cout << "Parsing QoS function parameters" << endl;
 
-    if(!(type = qosElement->Attribute("type"))) //set type of qos function
-      EXC_PRINT("Undefined type for QoS function");
+      if(!(type = qosElement->Attribute("type"))) //set type of qos function
+        EXC_PRINT("Undefined type for QoS function");
 
-    //parsing parameters
-    if (!(internal = qosElement->FirstChildElement("pmin")))
-      EXC_PRINT("Minimum not specified");
-    internal->QueryDoubleText(&qos_min); //set min
+      if (!(internal = qosElement->FirstChildElement("pmin")))
+        EXC_PRINT("Minimum not specified");
+      internal->QueryDoubleText(&qos_min); //set min
 
-    if (!(internal = qosElement->FirstChildElement("pmax")))
-      EXC_PRINT("Maximum not specified");
-    internal->QueryDoubleText(&qos_max); //set max
+      if (!(internal = qosElement->FirstChildElement("pmax")))
+        EXC_PRINT("Maximum not specified");
+      internal->QueryDoubleText(&qos_max); //set max
 
-    if (!(internal = qosElement->FirstChildElement("scale")))
-      EXC_PRINT("Scaling factor not specified");
-    internal->QueryDoubleText(&scale); //set scaling factor
+      if (!(internal = qosElement->FirstChildElement("scale")))
+        EXC_PRINT("Scaling factor not specified");
+      internal->QueryDoubleText(&scale); //set scaling factor
 
-    PrositCore::QosFunction q(scale, qos_min, qos_max, 0);
+      PrositCore::QosFunction q(scale, qos_min, qos_max, 0);
+    } else if((qosElement == NULL) && (!if_solve)){//if not exists + optimisation tag
+      EXC_PRINT("QoS function parameters are mandatory in the optimisation case!");
+    } else if((qosElement == NULL) && if_solve){//if not exists + solve tag
+      cout << "QoS function element not present in XML for \"solve\" tag" << endl;
+    }
   }
   return td;
 }

@@ -27,7 +27,8 @@
       <size>100000</size>
       <dump>beta_interarrival.txt</dump>
     </pmfInterarrival>
-    <!-- Qos function parameters -->
+    <!-- Qos function parameters: this secrion is OPTIONAL if the tag is "solve"
+         while it's MANDATORY if it is "optimisation" -->
     <qosfun type="linear">
       <pmin>0.01</pmin>
       <pmax>0.95</pmax>
