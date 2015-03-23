@@ -16,10 +16,11 @@ void solve_core(vector<GenericTaskDescriptor*> &v,
     cout << "Number of tasks parsed: " << num << endl;
   
   int i = 0;
+  printf("%d\n", i);
   PrositCore::QosFunction *q = new PrositCore::QosFunction(0, 0, 1, 0.95); //used to calculate qos quality function
   for (vector<GenericTaskDescriptor*>::iterator it = v.begin() ; (it != v.end()); ++it) {
     t_solution_start_i = PrositAux::my_get_time();
-    
+
     // Cycle foreach multiples of the server_period until the maximum probability is reached
     // in order to set the probability vector
     for(unsigned int k = 0; k < probability.size(); k++) {

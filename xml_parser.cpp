@@ -77,7 +77,7 @@ void Parser::task_list_parse(XMLElement * optElement) throw(PrositAux::Exc) {
   if (!taskElement) 
     EXC_PRINT("Opimisation task section missing");
   
-  while (taskElement) { //goes through every task tag defined in xml file
+  while(taskElement) { //goes through every task tag defined in xml file
     vect.push_back(Parser::task_parse(taskElement)); //initialise vector with all tasks
     taskElement = taskElement->NextSiblingElement();
   }
@@ -162,10 +162,17 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
   } else { //Aperiodic
     EXC_PRINT("Aperiodic tasks not implemented yet");
   }
+  
+  return td;
+}
+
+QosFunction * Parser::qos_parse(XMLElement * taskElement) throw(PrositAux::Exc){
   /////////////////////////////////
   //     Parsing QoS Function
   ////////////////////////////////
-  XMLElement * qosElement; 
+  PrositCore::QosFunction * q = NULL;
+  XMLElement * qosElement;
+  XMLElement * internal; 
   // if optimisation -> mandatory
   // if solve        -> optional
   if((qosElement = taskElement->FirstChildElement("qosfun"))) {
@@ -188,14 +195,15 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
         EXC_PRINT("Scaling factor not specified");
       internal->QueryDoubleText(&scale); //set scaling factor
 
-      PrositCore::QosFunction q(scale, qos_min, qos_max, 0);
+      QosFunction q(scale, qos_min, qos_max, 0);
     } else if((qosElement == NULL) && (!if_solve)){//if not exists + optimisation tag
       EXC_PRINT("QoS function parameters are mandatory in the optimisation case!");
     } else if((qosElement == NULL) && if_solve){//if not exists + solve tag
       cout << "QoS function element not present in XML for \"solve\" tag" << endl;
     }
   }
-  return td;
+
+  return q;
 }
 
 }

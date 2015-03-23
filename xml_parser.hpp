@@ -28,6 +28,7 @@ class Parser {
 
   public:
     static GenericTaskDescriptor * task_parse(XMLElement *task) throw(PrositAux::Exc);
+    static QosFunction * qos_parse(XMLElement * taskElement) throw(PrositAux::Exc);
 
     Parser(const char *name) throw(PrositAux::Exc):
       o(NO_OPT), optim_eps(1e-6), total_bandwidth(1.0),
