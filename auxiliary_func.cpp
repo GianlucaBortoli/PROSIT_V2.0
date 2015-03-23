@@ -50,7 +50,7 @@ void help() {
 void help_xml() {
   cout << "Usage: ./xml_solver <xml file with tasks> [options]\n"
        << "\t-h (--help): show help for possible parameters\n"
-       << "\t-v (--verbose_flag): sets verbose mode (NB: overrides settings in XML)\n"
+       << "\t-v (--verbose): sets verbose mode (NB: overrides settings in XML)\n"
        << "\t-s (--silent): sets silent mode (NB: overrides settings in XML)\n"
        << endl;
   exit(0);

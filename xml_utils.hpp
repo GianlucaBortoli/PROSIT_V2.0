@@ -14,9 +14,7 @@ void solve_core(vector<GenericTaskDescriptor*> & v,
                 const vector<double> & quality, 
                 const vector<long long> & time,
                 int num);
-void solve_execute();
+void solve_execute(Parser *p);
 void opt_execute(Parser *p);
-///@brief returns the number of task taken into consideration
-int get_task_descriptor_vector(vector<GenericTaskDescriptor*> & v);
 }
 #endif

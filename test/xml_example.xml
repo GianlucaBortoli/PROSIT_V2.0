@@ -1,7 +1,7 @@
 <!-- This is an example of the input XML file format with some specifications -->
 
 <solve> <!-- this can be "solve" or "optimisation" -->
-  <task type="periodic" schedule="RR" name="0.3"> <!-- RR stands for Resource Reservation -->
+  <task type="periodic" schedule="RR" name="0.3" algorithm="analytic"> <!-- RR stands for Resource Reservation -->
     <period>100000</period> <!-- This one makes sense IIF the task type is set to periodic -->
     <serverPeriod>50000</serverPeriod>
     <serverBudget>15000</serverBudget>
@@ -36,9 +36,10 @@
     </qosfun>
     <!-- sampling parameter -->
     <Delta>7500</Delta>
+    <maxDeadline>1</maxDeadline>
   </task>
   
-  <task type="aperiodic" schedule="FP" name="0.3"> <!-- FP stands for Fixed Priority -->
+  <task type="aperiodic" schedule="FP" name="0.3" algorithm="analytic"> <!-- FP stands for Fixed Priority -->
     <!-- the period parameter doesen't make sense here, since the task type is aperiodic -->
     <serverPeriod>50000</serverPeriod>
     <serverBudget>15000</serverBudget>
@@ -71,5 +72,6 @@
       <scale>0.5</scale>
     </qosfun>
     <Delta>7500</Delta>
+    <maxDeadline>1</maxDeadline>
   </task>
 </solve>

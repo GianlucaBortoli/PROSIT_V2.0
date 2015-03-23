@@ -1,6 +1,6 @@
-<!-- This one is ok for periodic tasks -->
+<!-- This one is ok for periodic tasks with analytic solver -->
 <solve> 
-  <task type="periodic" schedule="RR" name="0.3"> 
+  <task type="periodic" schedule="RR" name="0.3" algorithm="analytic"> 
     <period>100000</period> 
     <serverPeriod>50000</serverPeriod>
     <serverBudget>15000</serverBudget>
@@ -28,9 +28,10 @@
       <scale>0.5</scale>
     </qosfun>
     <Delta>7500</Delta>
+    <maxDeadline>1</maxDeadline>
   </task>
 
-  <task type="periodic" schedule="RR" name="0.4"> 
+  <task type="periodic" schedule="RR" name="0.4" algorithm="analytic"> 
     <period>100000</period> 
     <serverPeriod>50000</serverPeriod>
     <serverBudget>15000</serverBudget>
@@ -58,9 +59,10 @@
       <scale>0.5</scale>
     </qosfun>
     <Delta>7500</Delta>
+    <maxDeadline>1</maxDeadline>
   </task>
 
-  <task type="periodic" schedule="RR" name="0.5"> 
+  <task type="periodic" schedule="RR" name="0.5" algorithm="analytic"> 
     <period>100000</period> 
     <serverPeriod>50000</serverPeriod>
     <serverBudget>15000</serverBudget>
@@ -88,5 +90,6 @@
       <scale>0.5</scale>
     </qosfun>
     <Delta>7500</Delta>
+    <maxDeadline>1</maxDeadline>
   </task>
 </solve>

@@ -1,10 +1,12 @@
 #include "xml_parser.hpp"
+#include "task_descriptor.hpp"
 #include <memory>
 
 using namespace tinyxml2;
 using namespace std;
 
 extern bool verbose_flag; //from xml_solver.cpp
+extern bool if_solve; //from xml_solver.cpp
 
 namespace PrositCore {
 ACTIONS Parser::parse() throw (PrositAux::Exc) {
@@ -76,7 +78,7 @@ void Parser::task_list_parse(XMLElement * optElement) throw(PrositAux::Exc) {
     EXC_PRINT("Opimisation task section missing");
   
   while (taskElement) { //goes through every task tag defined in xml file
-    Parser::task_parse(taskElement);
+    vect.push_back(Parser::task_parse(taskElement)); //initialise vector with all tasks
     taskElement = taskElement->NextSiblingElement();
   }
 }
@@ -90,8 +92,10 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
   const char * type;
   const char * schedule;
   const char * name;
+  const char * algorithm;
   unsigned int budget;
   unsigned int period;
+  unsigned int max_deadline;
 
   if(!(name = taskElement->Attribute("name")))
     EXC_PRINT("Undefined name for task");
@@ -99,6 +103,8 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
     EXC_PRINT_2("Undefined type for task ", name);
   if(!(schedule = taskElement->Attribute("schedule")))
     EXC_PRINT_2("Undefined schedule for task", name);
+  if(!(algorithm = taskElement->Attribute("algorithm")))
+    EXC_PRINT_2("Undefined algorithm selected", algorithm);
 
   XMLElement * internal; //used to parse the first childs parameters of the task tag
 
@@ -114,6 +120,12 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
       internal->QueryUnsignedText(&budget); //set server budget
       internal = taskElement->FirstChildElement("serverPeriod");
       internal->QueryUnsignedText(&period); //set server period
+      internal = taskElement->FirstChildElement("maxDeadline");
+      internal->QueryUnsignedText(&max_deadline); //set max deadline
+
+      if(max_deadline <= 0){
+        EXC_PRINT("Maximum deadline not properly set");
+      }
 
       /////////////////////////////////////////////////////////////////////////////
       //   Beta distribution for computation & interarrival time initialisation
@@ -137,6 +149,9 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
                                             period);
       td.set_deadline_step(period);
       td.set_verbose_flag(verbose_flag ? true : false);
+      for (unsigned int i = 0; i <= max_deadline; i++) {
+        td.insert_deadline(i);
+      }
       
       if(verbose_flag) 
         cout << "RR task descriptor object created successfully!" << endl;
@@ -163,15 +178,12 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
 
       if(!(type = qosElement->Attribute("type"))) //set type of qos function
         EXC_PRINT("Undefined type for QoS function");
-
       if (!(internal = qosElement->FirstChildElement("pmin")))
         EXC_PRINT("Minimum not specified");
       internal->QueryDoubleText(&qos_min); //set min
-
       if (!(internal = qosElement->FirstChildElement("pmax")))
         EXC_PRINT("Maximum not specified");
       internal->QueryDoubleText(&qos_max); //set max
-
       if (!(internal = qosElement->FirstChildElement("scale")))
         EXC_PRINT("Scaling factor not specified");
       internal->QueryDoubleText(&scale); //set scaling factor

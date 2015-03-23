@@ -5,6 +5,7 @@
 #include "task_descriptor.hpp"
 #include "qos_function.hpp"
 #include <tinyxml2.h>
+#include <vector>
 
 using namespace tinyxml2;
 
@@ -23,8 +24,8 @@ class Parser {
     double optim_eps;
     double total_bandwidth;
     bool verbose;
-    bool if_solve; //true if the initial tag is "solve", false if "optimisation"
-    
+    vector<GenericTaskDescriptor*> vect;
+
   public:
     static GenericTaskDescriptor * task_parse(XMLElement *task) throw(PrositAux::Exc);
 
@@ -58,6 +59,7 @@ class Parser {
     OptType get_optimisation_type() const {return o;}
     double get_optimisation_epsilon() const {return optim_eps;}
     double get_total_bandwidth() const {return total_bandwidth;}
+    vector<GenericTaskDescriptor*> get_vector(){return vect;}
 };
 
 }

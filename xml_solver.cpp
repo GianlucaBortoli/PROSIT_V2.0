@@ -17,6 +17,7 @@ using namespace PrositCore;
 
 bool verbose_flag; //used also in xml_utils.cpp & xml_parser.cpp
 bool silent_flag; //used also in xml_utils.cpp
+bool if_solve; //true if the initial tag is "solve", false if "optimisation"; used in xml_parser.cpp
 long long  t_start = 0, t_xml_parse_end = 0; //for result time computation, used also in xml_utils.cpp
 
 static int opts_parse(int argc, char *argv[]) {
@@ -63,7 +64,7 @@ int main(int argc, char *argv[]) {
     p->parse();
     if(verbose_flag)
       cout << "XML file succesfully parsed" << endl;
-    t_xml_parse_end = PrositAux::my_get_time(); //end parsing   
+    t_xml_parse_end = PrositAux::my_get_time(); //end parsing  
     
     switch(p->get_act()) {
       case ACTIONS::OPTIMISE: 
@@ -71,7 +72,7 @@ int main(int argc, char *argv[]) {
         EXC_PRINT("Action not currently supported");
         break;
       case ACTIONS::SOLVE:
-        solve_execute();
+        solve_execute(p);
         break;
       default:
         EXC_PRINT("Action not recognised");
