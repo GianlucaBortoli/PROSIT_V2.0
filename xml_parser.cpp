@@ -75,10 +75,11 @@ void Parser::analysis_parse(XMLElement *e) throw(PrositAux::Exc) {
 void Parser::task_list_parse(XMLElement * optElement) throw(PrositAux::Exc) {
   XMLElement * taskElement = optElement->FirstChildElement("task");
   if (!taskElement) 
-    EXC_PRINT("Opimisation task section missing");
+    EXC_PRINT("Task section missing");
   
   while(taskElement) { //goes through every task tag defined in xml file
     vect.push_back(Parser::task_parse(taskElement)); //initialise vector with all tasks
+    q = qos_parse(taskElement);
     taskElement = taskElement->NextSiblingElement();
   }
 }
@@ -180,9 +181,6 @@ QosFunction * Parser::qos_parse(XMLElement * taskElement) throw(PrositAux::Exc){
       const char * type;
       double scale, qos_min, qos_max;
 
-      if(verbose_flag) 
-        cout << "Parsing QoS function parameters" << endl;
-
       if(!(type = qosElement->Attribute("type"))) //set type of qos function
         EXC_PRINT("Undefined type for QoS function");
       if (!(internal = qosElement->FirstChildElement("pmin")))
@@ -195,7 +193,10 @@ QosFunction * Parser::qos_parse(XMLElement * taskElement) throw(PrositAux::Exc){
         EXC_PRINT("Scaling factor not specified");
       internal->QueryDoubleText(&scale); //set scaling factor
 
-      QosFunction q(scale, qos_min, qos_max, 0);
+      if(verbose_flag) 
+        printf("Qos function parameters: %f %f %f %f\n", scale, qos_min, qos_max, 0.95);
+
+      QosFunction q(scale, qos_min, qos_max, 0.95);
     } else if((qosElement == NULL) && (!if_solve)){//if not exists + optimisation tag
       EXC_PRINT("QoS function parameters are mandatory in the optimisation case!");
     } else if((qosElement == NULL) && if_solve){//if not exists + solve tag

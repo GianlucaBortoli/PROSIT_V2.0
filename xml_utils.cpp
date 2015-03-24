@@ -10,15 +10,16 @@ void solve_core(vector<GenericTaskDescriptor*> &v,
                       vector<double> &probability, 
                       vector<double> &quality, 
                       vector<long long> &time,
-                      int num) {
+                      int num,
+                      Parser *p) {
   long long t_solution_start_i = 0, t_solution_end_i = 0;
   if(verbose_flag)
     cout << "Number of tasks parsed: " << num << endl;
   
   int i = 0;
-  printf("%d\n", i);
-  PrositCore::QosFunction *q = new PrositCore::QosFunction(0, 0, 1, 0.95); //used to calculate qos quality function
-  for (vector<GenericTaskDescriptor*>::iterator it = v.begin() ; (it != v.end()); ++it) {
+  QosFunction *q = p->get_qos_function();
+  printf("after qos fun constructor");
+  for (vector<GenericTaskDescriptor*>::iterator it = v.begin(); it != v.end(); it++) {
     t_solution_start_i = PrositAux::my_get_time();
 
     // Cycle foreach multiples of the server_period until the maximum probability is reached
@@ -46,7 +47,7 @@ void solve_execute(Parser *p) {
   vector<double> quality(num);
   vector<long long> time(num);
 
-  solve_core(v, probability, quality, time, num);
+  solve_core(v, probability, quality, time, num, p);
   t_solution_end = PrositAux::my_get_time();// end time
 
   cout << "Analysis results:" << endl;
@@ -56,7 +57,7 @@ void solve_execute(Parser *p) {
   int i = 0;
   double Btot_final = 0.0, inf_norm_final = 0.0;
   vector<GenericTaskDescriptor*>::iterator it;
-  for (it = v.begin(); it != v.end(); it++) {
+  for (vector<GenericTaskDescriptor*>::iterator it = v.begin(); it != v.end(); it++) {
     (*it)->display((*it), probability, quality, time, true, i);
     Btot_final += (*it)->Btot;
     inf_norm_final = min<double>(quality[i], (*it)->inf_norm);

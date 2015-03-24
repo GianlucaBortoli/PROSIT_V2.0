@@ -13,7 +13,8 @@ void solve_core(vector<GenericTaskDescriptor*> & v,
                 const vector<double> & probability, 
                 const vector<double> & quality, 
                 const vector<long long> & time,
-                int num);
+                int num,
+                Parser *p);
 void solve_execute(Parser *p);
 void opt_execute(Parser *p);
 }

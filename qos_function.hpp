@@ -10,15 +10,15 @@ class QosFunction {
   double pmax; /**< Upper bound for the probability of deadline hit (quality saturates above) */
   double offset; /**< Minimum value for the quality */
 public:
-  QosFunction(double scaled, double pmind, double pmaxd, double offsetd=0) 
+  QosFunction(double scaled, double pmind, double pmaxd, double offsetd=0.95) 
     : scale(scaled), pmin(pmind), pmax(pmaxd), offset(offsetd) {
     if((pmind > pmaxd) || (pmind < 0) || 
-       (pmind > 1.0) || (pmaxd < 0) ||
-       (pmaxd >1.0)) {
-      EXC_PRINT("wrong probability limits");
+       (pmind > 1.0)   || (pmaxd < 0) ||
+       (pmaxd > 1.0)) {
+      EXC_PRINT("Wrong probability limits");
     }
     if(scaled < 0) {
-      EXC_PRINT("wrong scaling constant");
+      EXC_PRINT("Wrong scaling constant");
     }
   }
   //! Function returning the quality
