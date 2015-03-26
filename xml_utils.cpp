@@ -7,33 +7,24 @@ extern long long t_xml_parse_end;
 
 namespace PrositCore {
 void solve_core(vector<GenericTaskDescriptor*> &v, 
-                      vector<double> &probability, 
-                      vector<double> &quality, 
-                      vector<long long> &time,
-                      int num,
-                      Parser *p) {
+                const vector<double> &probability, 
+                const vector<double> &quality, 
+                const vector<long long> &time,
+                int num,
+                Parser *p) {
   long long t_solution_start_i = 0, t_solution_end_i = 0;
   if(verbose_flag)
     cout << "Number of tasks parsed: " << num << endl;
   
   int i = 0;
-  QosFunction *q = p->get_qos_function();
-  printf("after qos fun constructor");
   for (vector<GenericTaskDescriptor*>::iterator it = v.begin(); it != v.end(); it++) {
     t_solution_start_i = PrositAux::my_get_time();
-
-    // Cycle foreach multiples of the server_period until the maximum probability is reached
-    // in order to set the probability vector
-    for(unsigned int k = 0; k < probability.size(); k++) {
-      probability[k] = double((*it)->get_deadline_step() * k);
-    }
-
+    probability[i] = (*it)->get_probability(1); //TODO: check this, segmentation fault!
     t_solution_end_i = PrositAux::my_get_time();
-    quality[i] = q->eval(probability[i]);
+    quality[i] = p->q->eval(probability[i]);
     time[i] = t_solution_end_i - t_solution_start_i;
     i++;
   }
-  delete q;
 }
   
 void solve_execute(Parser *p) {

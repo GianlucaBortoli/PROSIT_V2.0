@@ -24,12 +24,12 @@ class Parser {
     double optim_eps;
     double total_bandwidth;
     bool verbose;
-    vector<GenericTaskDescriptor*> vect;
-    QosFunction * q;
+    vector<GenericTaskDescriptor*> vect; //vector with all parsed tasks
 
   public:
-    static GenericTaskDescriptor * task_parse(XMLElement * taskElement) throw(PrositAux::Exc);
-    static QosFunction * qos_parse(XMLElement * taskElement) throw(PrositAux::Exc);
+    QosFunction * q; //pointer to qos function
+    GenericTaskDescriptor * task_parse(XMLElement * taskElement) throw(PrositAux::Exc);
+    void qos_parse(XMLElement * taskElement) throw(PrositAux::Exc);
 
     Parser(const char *name) throw(PrositAux::Exc):
       o(NO_OPT), optim_eps(1e-6), total_bandwidth(1.0),
@@ -62,7 +62,6 @@ class Parser {
     double get_optimisation_epsilon() const {return optim_eps;}
     double get_total_bandwidth() const {return total_bandwidth;}
     vector<GenericTaskDescriptor*> get_vector(){return vect;}
-    QosFunction * get_qos_function(){return q;}
 };
 
 }

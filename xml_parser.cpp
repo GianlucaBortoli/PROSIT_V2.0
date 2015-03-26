@@ -77,9 +77,9 @@ void Parser::task_list_parse(XMLElement * optElement) throw(PrositAux::Exc) {
   if (!taskElement) 
     EXC_PRINT("Task section missing");
   
+  qos_parse(taskElement); //parse & create qos function from first task
   while(taskElement) { //goes through every task tag defined in xml file
     vect.push_back(Parser::task_parse(taskElement)); //initialise vector with all tasks
-    q = qos_parse(taskElement);
     taskElement = taskElement->NextSiblingElement();
   }
 }
@@ -167,11 +167,8 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
   return td;
 }
 
-QosFunction * Parser::qos_parse(XMLElement * taskElement) throw(PrositAux::Exc){
-  /////////////////////////////////
-  //     Parsing QoS Function
-  ////////////////////////////////
-  PrositCore::QosFunction * q = NULL;
+// Parsing & creating QoS Function
+void Parser::qos_parse(XMLElement * taskElement) throw(PrositAux::Exc){
   XMLElement * qosElement;
   XMLElement * internal; 
   // if optimisation -> mandatory
@@ -196,15 +193,13 @@ QosFunction * Parser::qos_parse(XMLElement * taskElement) throw(PrositAux::Exc){
       if(verbose_flag) 
         printf("Qos function parameters: %f %f %f %f\n", scale, qos_min, qos_max, 0.95);
 
-      QosFunction q(scale, qos_min, qos_max, 0.95);
+      q = new QosFunction(scale, qos_min, qos_max, 0.95);
     } else if((qosElement == NULL) && (!if_solve)){//if not exists + optimisation tag
       EXC_PRINT("QoS function parameters are mandatory in the optimisation case!");
     } else if((qosElement == NULL) && if_solve){//if not exists + solve tag
       cout << "QoS function element not present in XML for \"solve\" tag" << endl;
     }
   }
-
-  return q;
 }
 
 }
