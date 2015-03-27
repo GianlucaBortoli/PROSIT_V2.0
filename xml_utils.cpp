@@ -28,9 +28,13 @@ void solve_core(vector<GenericTaskDescriptor*> &v,
     t_solution_start_i = PrositAux::my_get_time();
 
     /////////////////////////////////////////////////////
-    //  Setting sovler & setting relative probability
+    //  Setting sovler & assigning relative probability
     /////////////////////////////////////////////////////
-    if(strcmp((*it)->algorithm, "analytic")) {
+    if(strcmp((*it)->algorithm, "analytic") != 0) {
+      /* TODO: check this
+      if(verbose_flag)
+        cout << "Analytic solver chosen" << endl;
+
       ResourceReservationTaskDescriptor * t;
       t = dynamic_cast<ResourceReservationTaskDescriptor *>((*it));
 
@@ -39,22 +43,31 @@ void solve_core(vector<GenericTaskDescriptor*> &v,
           t->get_comp_time_distr(), t->get_ts(), t->get_q());
       std::unique_ptr<ResourceReservationProbabilitySolver> ps(tmp);
       (*it)->set_solver(ps.get());
-      probability[i] = (*it)->get_probability(1); 
-    } else if(strcmp((*it)->algorithm, "companion")) {
+      probability[i] = (*it)->get_probability(1); */
+    } else if(strcmp((*it)->algorithm, "companion") != 0) {
+      if(verbose_flag)
+        cout << "Companion solver chosen" << endl;
+
       CompanionResourceReservationProbabilitySolver *tmp = 
         new CompanionResourceReservationProbabilitySolver(
           (*it)->get_deadline_step(), eps);
       std::unique_ptr<ResourceReservationProbabilitySolver> ps(tmp);
       (*it)->set_solver(ps.get());
       probability[i] = (*it)->get_probability(1); 
-    } else if(strcmp((*it)->algorithm, "cyclic")) {
+    } else if(strcmp((*it)->algorithm, "cyclic") != 0) {
+      if(verbose_flag)
+        cout << "Cyclic solver chosen" << endl;
+
       QBDResourceReservationProbabilitySolver *tmp = 
         new CRResourceReservationProbabilitySolver(
           (*it)->get_deadline_step(), false, max_iteration);
       std::unique_ptr<QBDResourceReservationProbabilitySolver> ps(tmp);
       (*it)->set_solver(ps.get());
       probability[i] = (*it)->get_probability(1);
-    } else if(strcmp((*it)->algorithm, "latouche")) {
+    } else if(strcmp((*it)->algorithm, "latouche") != 0) {
+      if(verbose_flag)
+        cout << "Latouche solver chosen" << endl;
+
       QBDResourceReservationProbabilitySolver *tmp = 
         new LatoucheResourceReservationProbabilitySolver(
           (*it)->get_deadline_step(), eps, max_iteration);
@@ -78,6 +91,9 @@ void solve_execute(Parser *p) {
 
   vector<GenericTaskDescriptor*> v = p->get_vector();//holds every task
   int num = v.size();
+
+  //TODO: check when task is added to the task vector
+  cout << "-->" << v[0]->inf_norm << endl;
 
   vector<double> probability(num);
   vector<double> quality(num);

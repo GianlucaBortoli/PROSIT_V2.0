@@ -79,7 +79,7 @@ void Parser::task_list_parse(XMLElement * optElement) throw(PrositAux::Exc) {
   
   qos_parse(taskElement); //parse & create qos function from first task
   while(taskElement) { //goes through every task tag defined in xml file
-    vect.push_back(Parser::task_parse(taskElement)); //initialise vector with all tasks
+    vect.push_back(task_parse(taskElement)); //initialise vector with all tasks
     taskElement = taskElement->NextSiblingElement();
   }
 }
