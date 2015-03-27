@@ -71,29 +71,37 @@ protected:
 public:
   double Btot = 0.0;      /*!< Total bandwidth used */
   double inf_norm = 1e38; /*!< Used to calculate Qos */
+  const char * algorithm; /*!< Used to set solver */
+
+  unique_ptr<PrositAux::pmf> get_comp_time_distr(){return std::move(C);}
+  unique_ptr<PrositAux::pmf> get_interr_time_distr(){return std::move(Z);}  
   ///@brief Constructor for aperiodic Tasks
   /*! @param nm unique identifier for the task
    *  @param Cd pointer to the distribution of the computation times
    *  @param Zd distribution of the interarrival time
+   *  @param algorithm the solver to be set
    */
   GenericTaskDescriptor(const char *nm, 
                         unique_ptr<PrositAux::pmf> Cd,
-                        unique_ptr<PrositAux::pmf> Zd) throw(PrositAux::Exc)
+                        unique_ptr<PrositAux::pmf> Zd,
+                        const char * algorithm) throw(PrositAux::Exc)
       : solved(false), name(nm), C(std::move(Cd)), Z(std::move(Zd)),
         verbose_flag(false), periodic(false), P(0), deadline_step(0),
-        probability_solver(0){};
+        probability_solver(0), algorithm(algorithm) {};
 
   ///@brief Constructor for periodic tasks
   /*! @param nm unique identifier for the task
    *  @param Cd pointer to the distribution of the computation times
    *  @param Pd task period
+   *  @param algorithm the solver to be set
    */
   GenericTaskDescriptor(const char *nm, 
                         unique_ptr<PrositAux::pmf> Cd,
-                        unsigned int Pd) throw(PrositAux::Exc)
+                        unsigned int Pd,
+                        const char * algorithm) throw(PrositAux::Exc)
       : solved(false), name(nm), C(std::move(Cd)), Z(new PrositAux::pmf()),
         verbose_flag(false), periodic(true), P(Pd), deadline_step(0),
-        probability_solver(0) {
+        probability_solver(0), algorithm(algorithm) {
     Z->set(Pd, 1.0);
   };
 
@@ -238,8 +246,9 @@ public:
    */
   FixedPriorityTaskDescriptor(const char *nm, unique_ptr<PrositAux::pmf> Cd,
                               unique_ptr<PrositAux::pmf> Zd,
-                              unsigned int priorityd) throw(PrositAux::Exc)
-      : GenericTaskDescriptor(nm, std::move(Cd), std::move(Zd)) {
+                              unsigned int priorityd,
+                              const char * algorithm) throw(PrositAux::Exc)
+      : GenericTaskDescriptor(nm, std::move(Cd), std::move(Zd), algorithm) {
     if (priorityd > 99)
       EXC_PRINT_2("Priority out of range for task ", nm);
     priority = priorityd;
@@ -253,8 +262,9 @@ public:
    */
   FixedPriorityTaskDescriptor(const char *nm, unique_ptr<PrositAux::pmf> Cd,
                               unsigned int Pd,
-                              unsigned int priorityd) throw(PrositAux::Exc)
-      : GenericTaskDescriptor(nm, std::move(Cd), std::move(Pd)) {
+                              unsigned int priorityd,
+                              const char * algorithm) throw(PrositAux::Exc)
+      : GenericTaskDescriptor(nm, std::move(Cd), std::move(Pd), algorithm) {
     if (priorityd > 99)
       EXC_PRINT_2("Priority out of range for task ", nm);
     priority = priorityd;
@@ -289,6 +299,8 @@ protected:
   unsigned int Q;  /*!< Reservation budget */
   unsigned int Ts; /*!< Reservation period */
 public:
+  unsigned int get_q(){return Q;}
+  unsigned int get_ts(){return Ts;}
   ///@brief Constructor for aperiodic tasks
   ///
   /// An exception is thhrown if the budget is set improperly.
@@ -299,12 +311,14 @@ public:
   ///of this pointer.
   ///@param Qd Reservation Budget
   ///@param Tsd Reservation period.
+  ///@param algorithm the solver to be set
   ResourceReservationTaskDescriptor(const char *nm,
                                     unique_ptr<PrositAux::pmf> Cd,
                                     unique_ptr<PrositAux::pmf> Zd,
                                     const unsigned int Qd,
-                                    const unsigned int Tsd)
-      : GenericTaskDescriptor(nm, std::move(Cd), std::move(Zd)), Q(Qd),
+                                    const unsigned int Tsd,
+                                    const char * algorithm)
+      : GenericTaskDescriptor(nm, std::move(Cd), std::move(Zd), algorithm), Q(Qd),
         Ts(Tsd) {
     if (double(Qd) / double(Tsd) > 1.0)
       EXC_PRINT_2("Server period period too small for task", name);
@@ -322,8 +336,9 @@ public:
                                     unique_ptr<PrositAux::pmf> Cd,
                                     unsigned int Pd, 
                                     const unsigned int Qd,
-                                    const unsigned int Tsd)
-      : GenericTaskDescriptor(nm, std::move(Cd), Pd), Q(Qd), Ts(Tsd) {
+                                    const unsigned int Tsd,
+                                    const char * algorithm)
+      : GenericTaskDescriptor(nm, std::move(Cd), Pd, algorithm), Q(Qd), Ts(Tsd) {
     if (double(Qd) / double(Tsd) > 1.0)
       EXC_PRINT_2("Server period period too small for task", name);
   };

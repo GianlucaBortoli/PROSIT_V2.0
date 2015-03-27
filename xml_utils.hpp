@@ -10,9 +10,9 @@ using namespace PrositCore;
 
 namespace PrositCore {
 void solve_core(vector<GenericTaskDescriptor*> & v,
-                const vector<double> & probability, 
-                const vector<double> & quality, 
-                const vector<long long> & time,
+                vector<double> & probability, 
+                vector<double> & quality, 
+                vector<long long> & time,
                 int num,
                 Parser *p);
 void solve_execute(Parser *p);

@@ -1,4 +1,8 @@
 #include "xml_utils.hpp"
+#include "qbd_rr_solver.hpp"
+#include "qbd_companion_solver.hpp"
+#include "qbd_analytic_solver.hpp"
+#include "auxiliary_func.hpp"
 
 extern bool verbose_flag; //from xml_solver.cpp
 extern bool silent_flag;
@@ -6,10 +10,13 @@ extern long long t_start;
 extern long long t_xml_parse_end;
 
 namespace PrositCore {
+static double eps = 1e-4;
+static int max_iteration = 100;
+
 void solve_core(vector<GenericTaskDescriptor*> &v, 
-                const vector<double> &probability, 
-                const vector<double> &quality, 
-                const vector<long long> &time,
+                vector<double> &probability, 
+                vector<double> &quality, 
+                vector<long long> &time,
                 int num,
                 Parser *p) {
   long long t_solution_start_i = 0, t_solution_end_i = 0;
@@ -19,7 +26,45 @@ void solve_core(vector<GenericTaskDescriptor*> &v,
   int i = 0;
   for (vector<GenericTaskDescriptor*>::iterator it = v.begin(); it != v.end(); it++) {
     t_solution_start_i = PrositAux::my_get_time();
-    probability[i] = (*it)->get_probability(1); //TODO: check this, segmentation fault!
+
+    /////////////////////////////////////////////////////
+    //  Setting sovler & setting relative probability
+    /////////////////////////////////////////////////////
+    if(strcmp((*it)->algorithm, "analytic")) {
+      ResourceReservationTaskDescriptor * t;
+      t = dynamic_cast<ResourceReservationTaskDescriptor *>((*it));
+
+      AnalyticResourceReservationProbabilitySolver *tmp = 
+        new AnalyticResourceReservationProbabilitySolver(
+          t->get_comp_time_distr(), t->get_ts(), t->get_q());
+      std::unique_ptr<ResourceReservationProbabilitySolver> ps(tmp);
+      (*it)->set_solver(ps.get());
+      probability[i] = (*it)->get_probability(1); 
+    } else if(strcmp((*it)->algorithm, "companion")) {
+      CompanionResourceReservationProbabilitySolver *tmp = 
+        new CompanionResourceReservationProbabilitySolver(
+          (*it)->get_deadline_step(), eps);
+      std::unique_ptr<ResourceReservationProbabilitySolver> ps(tmp);
+      (*it)->set_solver(ps.get());
+      probability[i] = (*it)->get_probability(1); 
+    } else if(strcmp((*it)->algorithm, "cyclic")) {
+      QBDResourceReservationProbabilitySolver *tmp = 
+        new CRResourceReservationProbabilitySolver(
+          (*it)->get_deadline_step(), false, max_iteration);
+      std::unique_ptr<QBDResourceReservationProbabilitySolver> ps(tmp);
+      (*it)->set_solver(ps.get());
+      probability[i] = (*it)->get_probability(1);
+    } else if(strcmp((*it)->algorithm, "latouche")) {
+      QBDResourceReservationProbabilitySolver *tmp = 
+        new LatoucheResourceReservationProbabilitySolver(
+          (*it)->get_deadline_step(), eps, max_iteration);
+      std::unique_ptr<QBDResourceReservationProbabilitySolver> ps(tmp);
+      (*it)->set_solver(ps.get());
+      probability[i] = (*it)->get_probability(1);
+    } else {
+      EXC_PRINT("Solver not recognized!");
+    }
+
     t_solution_end_i = PrositAux::my_get_time();
     quality[i] = p->q->eval(probability[i]);
     time[i] = t_solution_end_i - t_solution_start_i;

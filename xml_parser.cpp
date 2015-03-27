@@ -147,7 +147,8 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
                                             std::move(comp_time), 
                                             std::move(interr_time), 
                                             budget, 
-                                            period);
+                                            period,
+                                            algorithm);
       td.set_deadline_step(period);
       td.set_verbose_flag(verbose_flag ? true : false);
       for (unsigned int i = 0; i <= max_deadline; i++) {

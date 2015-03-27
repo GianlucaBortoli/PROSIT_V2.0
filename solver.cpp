@@ -159,7 +159,7 @@ int main(int argc, char *argv[]) {
     std::unique_ptr<PrositAux::pmf> up(u);
 
     ResourceReservationTaskDescriptor task_des(
-        "task", std::move(cp), std::move(up), unsigned(Q), unsigned(T));
+        "task", std::move(cp), std::move(up), unsigned(Q), unsigned(T), "");
     task_des.set_deadline_step(T);
     task_des.set_verbose_flag(verbose_flag ? true : false);
 
