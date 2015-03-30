@@ -46,7 +46,7 @@ static int opts_parse(int argc, char *argv[]) {
     case 'h':
       PrositAux::help_xml();
       break;
-    default: /* ?~@~Y??~@~Y */
+    default: 
       EXC_PRINT("opts_parse parameters incorrect");
     }
   }

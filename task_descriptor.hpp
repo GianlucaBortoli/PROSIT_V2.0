@@ -73,8 +73,12 @@ public:
   double inf_norm = 1e38; /*!< Used to calculate Qos */
   const char * algorithm; /*!< Used to set solver */
 
+  ///@brief Returns a unique_ptr to the computatio time pmf
   unique_ptr<PrositAux::pmf> get_comp_time_distr(){return std::move(C);}
-  unique_ptr<PrositAux::pmf> get_interr_time_distr(){return std::move(Z);}  
+
+  ///@brief Returns a unique_ptr to the interarrival time pmf
+  unique_ptr<PrositAux::pmf> get_interr_time_distr(){return std::move(Z);} 
+  
   ///@brief Constructor for aperiodic Tasks
   /*! @param nm unique identifier for the task
    *  @param Cd pointer to the distribution of the computation times

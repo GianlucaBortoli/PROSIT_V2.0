@@ -88,7 +88,7 @@ void Parser::task_list_parse(XMLElement * optElement) throw(PrositAux::Exc) {
 GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(PrositAux::Exc) {
   // See file /test/xml_example.xml for an example of the possible parameters and the
   // structure for the xml file used to call the xml_solver
-  PrositCore::GenericTaskDescriptor *td = NULL;
+  GenericTaskDescriptor *td = NULL;
 
   const char * type;
   const char * schedule;
@@ -109,9 +109,7 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
 
   XMLElement * internal; //used to parse the first childs parameters of the task tag
 
-  /////////////////////////////////
-  //     Parsing single task
-  ////////////////////////////////
+  // Parsing single task parameters
   if((type = "periodic")){
     if((schedule = "RR")){ //RR -> resource reservation
       if(verbose_flag)
@@ -128,9 +126,7 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
         EXC_PRINT("Maximum deadline not properly set");
       }
 
-      /////////////////////////////////////////////////////////////////////////////
-      //   Beta distribution for computation & interarrival time initialisation
-      /////////////////////////////////////////////////////////////////////////////
+      // Beta distribution for computation & interarrival time initialisation
       if(verbose_flag)
         cout << "Creating probability distribution for computation and interarrival time..." << endl;
 

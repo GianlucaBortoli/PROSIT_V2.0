@@ -31,7 +31,6 @@ void solve_core(vector<GenericTaskDescriptor*> &v,
     //  Setting sovler & assigning relative probability
     /////////////////////////////////////////////////////
     if(strcmp((*it)->algorithm, "analytic") != 0) {
-      /* TODO: check this */
       if(verbose_flag)
         cout << "Analytic solver chosen" << endl;
 
@@ -93,8 +92,8 @@ void solve_execute(Parser *p) {
   vector<GenericTaskDescriptor*> v = p->get_vector();//holds every task
   int num = v.size();
 
-  //TODO: check when task is added to the task vector
-  //cout << "-->" << v[0]->Btot << endl;
+  //TODO: check when task is added to the task vector. Segnemtation fault here!
+  cout << "-->" << v[0]->algorithm << endl;
 
   vector<double> probability(num);
   vector<double> quality(num);
