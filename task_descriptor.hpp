@@ -144,7 +144,7 @@ public:
 
   /// Returns a copy of the interarrival time distribution
   /*!
-   * @return a copy of the pmf related to the interarrival time (Exceprion of
+   * @return a copy of the pmf related to the interarrival time (except if
    * the task is periodic)
    */
   PrositAux::pmf *get_interarrival_time() const throw(PrositAux::Exc) {

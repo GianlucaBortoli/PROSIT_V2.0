@@ -31,19 +31,20 @@ void solve_core(vector<GenericTaskDescriptor*> &v,
     //  Setting sovler & assigning relative probability
     /////////////////////////////////////////////////////
     if(strcmp((*it)->algorithm, "analytic") != 0) {
-      /* TODO: check this
+      /* TODO: check this */
       if(verbose_flag)
         cout << "Analytic solver chosen" << endl;
 
       ResourceReservationTaskDescriptor * t;
       t = dynamic_cast<ResourceReservationTaskDescriptor *>((*it));
 
+      PrositAux::pmf * p = t->get_comp_time_distr().get(); //the pmf of the task 
       AnalyticResourceReservationProbabilitySolver *tmp = 
         new AnalyticResourceReservationProbabilitySolver(
-          t->get_comp_time_distr(), t->get_ts(), t->get_q());
+          *p, t->get_ts(), t->get_q());
       std::unique_ptr<ResourceReservationProbabilitySolver> ps(tmp);
       (*it)->set_solver(ps.get());
-      probability[i] = (*it)->get_probability(1); */
+      probability[i] = (*it)->get_probability(1);
     } else if(strcmp((*it)->algorithm, "companion") != 0) {
       if(verbose_flag)
         cout << "Companion solver chosen" << endl;
@@ -93,7 +94,7 @@ void solve_execute(Parser *p) {
   int num = v.size();
 
   //TODO: check when task is added to the task vector
-  cout << "-->" << v[0]->inf_norm << endl;
+  //cout << "-->" << v[0]->Btot << endl;
 
   vector<double> probability(num);
   vector<double> quality(num);
