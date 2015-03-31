@@ -139,16 +139,16 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
         cout << "Pmf created...now creating RR task descriptor object" << endl;
 
       // RR task descriptor creation
-      ResourceReservationTaskDescriptor td (name, 
-                                            std::move(comp_time), 
-                                            std::move(interr_time), 
-                                            budget, 
-                                            period,
-                                            algorithm);
-      td.set_deadline_step(period);
-      td.set_verbose_flag(verbose_flag ? true : false);
+      td = new ResourceReservationTaskDescriptor(name, 
+                                                 std::move(comp_time), 
+                                                 std::move(interr_time), 
+                                                 budget, 
+                                                 period,
+                                                 algorithm);
+      td->set_deadline_step(period);
+      td->set_verbose_flag(verbose_flag ? true : false);
       for (unsigned int i = 0; i <= max_deadline; i++) {
-        td.insert_deadline(i);
+        td->insert_deadline(i);
       }
       
       if(verbose_flag) 

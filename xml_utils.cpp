@@ -92,9 +92,6 @@ void solve_execute(Parser *p) {
   vector<GenericTaskDescriptor*> v = p->get_vector();//holds every task
   int num = v.size();
 
-  //TODO: check when task is added to the task vector. Segnemtation fault here!
-  cout << "-->" << v[0]->algorithm << endl;
-
   vector<double> probability(num);
   vector<double> quality(num);
   vector<long long> time(num);
