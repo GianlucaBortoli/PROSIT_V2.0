@@ -280,8 +280,6 @@ PrositAux::pmf * beta::create_beta_computation(XMLElement *e) throw (PrositAux::
     }
   }
   return x;
-  //return move(x); //need to move ownerwhip in order to assign the return 
-                  //value calling this function
 }
 
 PrositAux::pmf * beta::create_beta_interarrival(XMLElement *e) throw (PrositAux::Exc) {
@@ -335,8 +333,6 @@ PrositAux::pmf * beta::create_beta_interarrival(XMLElement *e) throw (PrositAux:
     }
   }
   return x;
-  //return move(x); //need to move ownerwhip in order to assign the return 
-                  //value calling this function
 }
 
 }

@@ -43,7 +43,7 @@ void solve_core(vector<GenericTaskDescriptor*> &v,
           *p, t->get_ts(), t->get_q());
       std::unique_ptr<ResourceReservationProbabilitySolver> ps(tmp);
       (*it)->set_solver(ps.get());
-      probability[i] = (*it)->get_probability(1); //TODO: must be set first
+      probability[i] = (*it)->get_probability(1); //TODO: check set of the distribution
       printf("\t\t\t prob: %f", probability[i]);
     } else if(strcmp((*it)->algorithm, "companion") == 0) {
       if(verbose_flag)
