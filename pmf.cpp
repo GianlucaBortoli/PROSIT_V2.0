@@ -229,7 +229,7 @@ void cdf2pmf(const cdf &c, pmf &p) {
   return;
 }
 
-unique_ptr<PrositAux::pmf> beta::create_beta_computation(XMLElement *e) throw (PrositAux::Exc) {
+PrositAux::pmf * beta::create_beta_computation(XMLElement *e) throw (PrositAux::Exc) {
   XMLElement * betaElement = e->FirstChildElement("pmfComputation");
   const char * type;
 
@@ -265,7 +265,7 @@ unique_ptr<PrositAux::pmf> beta::create_beta_computation(XMLElement *e) throw (P
   internal->QueryIntText(&b_size); //set size
 
   // Initialization of the distribution function
-  std::unique_ptr<PrositAux::pmf> x(new PrositAux::pmf(b_size, 0));
+  PrositAux::pmf * x = new PrositAux::pmf(b_size, 0);
   double total_prob = 0.0;
   for(int i = b_min; i <= b_max; i += b_step){
     double p = pow(double(i-b_min)/double(b_max-b_min), a-1) *
@@ -279,11 +279,12 @@ unique_ptr<PrositAux::pmf> beta::create_beta_computation(XMLElement *e) throw (P
       x->set(i, x->get(i)/total_prob);
     }
   }
-  return move(x); //need to move ownerwhip in order to assign the return 
+  return x;
+  //return move(x); //need to move ownerwhip in order to assign the return 
                   //value calling this function
 }
 
-unique_ptr<PrositAux::pmf> beta::create_beta_interarrival(XMLElement *e) throw (PrositAux::Exc) {
+PrositAux::pmf * beta::create_beta_interarrival(XMLElement *e) throw (PrositAux::Exc) {
   XMLElement * betaElement = e->FirstChildElement("pmfInterarrival");
   const char * type;
 
@@ -319,7 +320,7 @@ unique_ptr<PrositAux::pmf> beta::create_beta_interarrival(XMLElement *e) throw (
   internal->QueryIntText(&b_size); //set size
 
   // Initialization of the distribution function
-  std::unique_ptr<PrositAux::pmf> x(new PrositAux::pmf(b_size, 0));
+  PrositAux::pmf * x = new PrositAux::pmf(b_size, 0);
   double total_prob = 0.0;
   for(int i = b_min; i <= b_max; i += b_step){
     double p = pow(double(i-b_min)/double(b_max-b_min), a-1) *
@@ -333,7 +334,8 @@ unique_ptr<PrositAux::pmf> beta::create_beta_interarrival(XMLElement *e) throw (
       x->set(i, x->get(i)/total_prob);
     }
   }
-  return move(x); //need to move ownerwhip in order to assign the return 
+  return x;
+  //return move(x); //need to move ownerwhip in order to assign the return 
                   //value calling this function
 }
 

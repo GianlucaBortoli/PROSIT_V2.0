@@ -13,9 +13,6 @@ cdf::cdf(unsigned int sz, unsigned int offs, double my_epsilon)
 cdf::~cdf(){};
 
 double cdf::get(int el) const throw(Exc) {
-  // #ifdef DEBUG
-  //  cerr<<"cdf::get("<<el<<") "<<elems(el+offset)<<endl;
-  // #endif
   if (just_created)
     EXC_PRINT("function called on an empty cdf");
 
@@ -30,7 +27,7 @@ double cdf::get(int el) const throw(Exc) {
     return 0.0;
 
   return elems(el + offset);
-};
+}
 
 int cdf::load(const string &filename) throw(Exc) {
   int j = distr::load(filename);

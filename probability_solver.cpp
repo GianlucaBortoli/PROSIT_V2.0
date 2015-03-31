@@ -4,26 +4,26 @@
 namespace PrositCore {
 void ProbabilitySolver::solve() {
   if (!check_list()) {
-    if (linked_flag && (verbose_flag))
+    if (linked_flag && verbose_flag)
       cerr << "Probability solver will not execute." << endl;
     return;
   }
 
   pre_process();
   if (verbose_flag)
-    cout << "Preprocessing phase completed." << endl;
-
+    cout << "Pre-processing completed." << endl;
   pre_process_done = true;
+  
   apply_algorithm();
   if (verbose_flag)
     cout << "Solver computation completed" << endl;
-
   solved = true;
+
   post_process();
   if (verbose_flag)
     cout << "Post-processing completed" << endl;
-
   post_process_done = true;
+
   fill_in_probability_map();
 }
 

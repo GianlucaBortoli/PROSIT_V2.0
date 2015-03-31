@@ -130,9 +130,9 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
       if(verbose_flag)
         cout << "Creating probability distribution for computation and interarrival time..." << endl;
 
-      std::unique_ptr<PrositAux::beta> comp_time(new PrositAux::beta());
+      std::unique_ptr<PrositAux::beta> comp_time = std::unique_ptr<PrositAux::beta>(new PrositAux::beta());
       comp_time->create_beta_computation(taskElement);
-      std::unique_ptr<PrositAux::beta> interr_time(new PrositAux::beta());
+      std::unique_ptr<PrositAux::beta> interr_time = std::unique_ptr<PrositAux::beta>(new PrositAux::beta());
       interr_time->create_beta_interarrival(taskElement);
 
       if(verbose_flag) 

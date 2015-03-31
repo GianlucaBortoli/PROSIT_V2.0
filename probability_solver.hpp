@@ -27,11 +27,8 @@ protected:
                   configuration of tasks? */
   bool pre_process_done;
   bool post_process_done;
-  bool
-      verbose_flag; /*!< True if any of the task linked is has verbose_flag set
-                       */
-  bool linked_flag; /*!< True if the solver has been linked with at least one
-                       task */
+  bool verbose_flag; /*!< True if any of the task linked is has verbose_flag set */
+  bool linked_flag; /*!< True if the solver has been linked with at least one task */
   ///@brief Prepare computation
   virtual void pre_process() = 0;
   virtual void apply_algorithm() = 0;

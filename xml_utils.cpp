@@ -30,21 +30,22 @@ void solve_core(vector<GenericTaskDescriptor*> &v,
     /////////////////////////////////////////////////////
     //  Setting sovler & assigning relative probability
     /////////////////////////////////////////////////////
-    if(strcmp((*it)->algorithm, "analytic") != 0) {
+    if(strcmp((*it)->algorithm, "analytic") == 0) {
       if(verbose_flag)
         cout << "Analytic solver chosen" << endl;
 
       ResourceReservationTaskDescriptor * t;
       t = dynamic_cast<ResourceReservationTaskDescriptor *>((*it));
 
-      PrositAux::pmf * p = t->get_comp_time_distr().get(); //the pmf of the task 
+      PrositAux::pmf * p = t->get_comp_time_distr().std::unique_ptr<PrositAux::pmf>::get(); //the pmf of the task 
       AnalyticResourceReservationProbabilitySolver *tmp = 
         new AnalyticResourceReservationProbabilitySolver(
           *p, t->get_ts(), t->get_q());
       std::unique_ptr<ResourceReservationProbabilitySolver> ps(tmp);
       (*it)->set_solver(ps.get());
-      probability[i] = (*it)->get_probability(1);
-    } else if(strcmp((*it)->algorithm, "companion") != 0) {
+      probability[i] = (*it)->get_probability(1); //TODO: must be set first
+      printf("\t\t\t prob: %f", probability[i]);
+    } else if(strcmp((*it)->algorithm, "companion") == 0) {
       if(verbose_flag)
         cout << "Companion solver chosen" << endl;
 
@@ -54,7 +55,7 @@ void solve_core(vector<GenericTaskDescriptor*> &v,
       std::unique_ptr<ResourceReservationProbabilitySolver> ps(tmp);
       (*it)->set_solver(ps.get());
       probability[i] = (*it)->get_probability(1); 
-    } else if(strcmp((*it)->algorithm, "cyclic") != 0) {
+    } else if(strcmp((*it)->algorithm, "cyclic") == 0) {
       if(verbose_flag)
         cout << "Cyclic solver chosen" << endl;
 
@@ -64,7 +65,7 @@ void solve_core(vector<GenericTaskDescriptor*> &v,
       std::unique_ptr<QBDResourceReservationProbabilitySolver> ps(tmp);
       (*it)->set_solver(ps.get());
       probability[i] = (*it)->get_probability(1);
-    } else if(strcmp((*it)->algorithm, "latouche") != 0) {
+    } else if(strcmp((*it)->algorithm, "latouche") == 0) {
       if(verbose_flag)
         cout << "Latouche solver chosen" << endl;
 

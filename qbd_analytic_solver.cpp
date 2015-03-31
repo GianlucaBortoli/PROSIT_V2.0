@@ -29,7 +29,8 @@ void AnalyticResourceReservationProbabilitySolver::apply_algorithm(){
     pi_0 -= (i-server_period*budget)*(c.get(i)-c.get(i-1))/a0p;
 
   if(verbose_flag)
-    cout << "Analytic computarion completed" << endl;
+    cout << "Analytic computation completed" << endl;
+  
   if(pi_0 < 0)
     pi_0 = 0;
 
