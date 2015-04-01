@@ -111,10 +111,11 @@ int pmf::set(int val, double p) throw(Exc) {
 }
 
 double pmf::get(int el) const throw(Exc) {
-  if (el + offset > size - 1)
+  if (el + offset > size - 1){
     EXC_PRINT("access out of range while getting");
-  else
+  } else {
     return elems(el + offset);
+  }
 }
 
 int pmf::set_samples(int samples) {

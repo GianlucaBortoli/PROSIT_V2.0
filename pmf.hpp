@@ -40,13 +40,10 @@ protected:
 
 public:
   double epsilon;
-  distr(unsigned int sz = TYPICAL_SIZE, unsigned int offs = 0,
-        double my_epsilon = EPS)
-      : elems(sz), size(sz), offset(offs), min(sz - offs), max(-offs),
-        epsilon(my_epsilon){};
+  distr(unsigned int sz = TYPICAL_SIZE, unsigned int offs = 0, double my_epsilon = EPS)
+      : elems(sz), size(sz), offset(offs), min(sz - offs), max(-offs), epsilon(my_epsilon){};
   distr(const distr &p)
-      : elems(p.elems), size(p.size), offset(p.offset), min(p.min), max(p.max),
-        epsilon(p.epsilon){};
+      : elems(p.elems), size(p.size), offset(p.offset), min(p.min), max(p.max), epsilon(p.epsilon){};
   virtual ~distr(){};
 
   const distr &operator=(const distr &p) {
@@ -90,8 +87,7 @@ public:
     PMF_SMALLER_ONE,
     PMF_GREATER_ONE
   } ERR_CODES;
-  pmf(unsigned int sz = TYPICAL_SIZE, unsigned int offs = 0,
-      double my_epsilon = EPS);
+  pmf(unsigned int sz = TYPICAL_SIZE, unsigned int offs = 0, double my_epsilon = EPS);
   pmf(const pmf &p) : distr::distr(p) { tail = p.tail; };
   ~pmf(){};
   double avg() const;
@@ -116,7 +112,6 @@ public:
 
 class cdf : public distr {
   bool just_created;
-
 public:
   typedef enum ERR_CODES {
     CDF_OK,
@@ -124,8 +119,7 @@ public:
     CDF_BAD_MIN,
     CDF_NON_INCREASING
   } ERR_CODES;
-  cdf(unsigned int sz = TYPICAL_SIZE, unsigned int offs = 0,
-      double epsilon = EPS);
+  cdf(unsigned int sz = TYPICAL_SIZE, unsigned int offs = 0, double epsilon = EPS);
   cdf(const cdf &p) : distr::distr(p) { just_created = p.just_created; };
   ~cdf();
 
@@ -148,7 +142,8 @@ class beta : public pmf {
 public:
   beta(){}
   beta(double alpha, double beta, int min, int max, int step, int size)
-    : a(alpha), b(beta), b_min(min), b_max(max), b_step(step), b_size(size) {
+    : pmf::pmf(size, 0, EPS), 
+      a(alpha), b(beta), b_min(min), b_max(max), b_step(step), b_size(size) {
       if(b_max < b_min){
         EXC_PRINT("Cmax smaller than cmin");
       }

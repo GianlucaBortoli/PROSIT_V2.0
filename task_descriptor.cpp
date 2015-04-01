@@ -25,12 +25,12 @@ void GenericTaskDescriptor::compute_probability() {
 double GenericTaskDescriptor::get_probability(DeadlineUnit deadline) {
   if (!probability_solver)
     EXC_PRINT("Task is not linked to any solver");
+  
   DeadlineProbabilityMapIter it = probabilistic_deadlines.find(deadline);
 
   if (!probability_solver->is_solved()) {
     if (verbose_flag)
-      cout << "Probability requested for unsolved task. Now solving...."
-           << endl;
+      cout << "Probability requested for unsolved task. Now solving..." << endl;
     compute_probability();
   }
 

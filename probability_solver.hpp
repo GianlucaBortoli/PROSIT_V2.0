@@ -23,14 +23,15 @@ class FixedPriorityTaskDescriptor;
 ///@brief root of the hiearachy. Essentially this is class defines an interface.
 class ProbabilitySolver {
 protected:
-  bool solved; /*!< Has the solver been already called on the current
-                  configuration of tasks? */
+  bool solved; /*!< True if the solver has already been called on the current configuration of tasks */
   bool pre_process_done;
   bool post_process_done;
   bool verbose_flag; /*!< True if any of the task linked is has verbose_flag set */
   bool linked_flag; /*!< True if the solver has been linked with at least one task */
+  
   ///@brief Prepare computation
   virtual void pre_process() = 0;
+  ///@brief Applies the correct algorithm
   virtual void apply_algorithm() = 0;
   ///@brief Post processing after solution
   virtual void post_process() = 0;
