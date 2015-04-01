@@ -118,7 +118,7 @@ void solve_execute(Parser *p) {
   printf("\tTotal bandwidth: \t\t%25f\n", Btot_final);
   printf("\tInfinity norm value: \t\t%25f\n", inf_norm_final);
   cout << "=========================================================================================================="<<endl;
-  cout << "=                                              Computation time                                         ="<<endl;
+  cout << "=                                              Computation time                                          ="<<endl;
   cout << "=========================================================================================================="<<endl;
   printf("\tParsing time: \t\t\t%*llu \n", 25, t_xml_parse_end - t_start);
   printf("\tSolution time: \t\t\t%*llu \n", 25, t_solution_end - t_solution_start);

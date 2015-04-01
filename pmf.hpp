@@ -164,8 +164,10 @@ public:
   ///@param e the input XML file
   PrositAux::pmf * create_beta_interarrival(XMLElement *e) throw (PrositAux::Exc);
   
+  /*
   virtual double get(int el) const throw(Exc);
   virtual int set(int val, double p) throw(Exc);
+  */
 };
 
 void pmf2cdf(const pmf &p, cdf &c);

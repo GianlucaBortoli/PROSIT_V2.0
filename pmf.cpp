@@ -341,6 +341,7 @@ pmf * beta::create_beta_interarrival(XMLElement *e) throw (Exc) {
   return x;
 }
 
+/*
 double beta::get(int el) const throw(Exc){
   printf("\t\tbeta get called\n");
   return 0.0;
@@ -350,5 +351,6 @@ int beta::set(int val, double p) throw(Exc){
   printf("\t\tbeta set called\n");
   return 0;
 }
+*/
 
 }
