@@ -1,5 +1,5 @@
 <solve> 
-  <task type="periodic" schedule="RR" name="0.3" algorithm="cyclic"> 
+  <task type="periodic" schedule="RR" name="0.3" algorithm="companion"> 
     <period>100000</period> 
     <serverPeriod>50000</serverPeriod>
     <serverBudget>15000</serverBudget>
@@ -30,7 +30,7 @@
     <maxDeadline>1</maxDeadline>
   </task>
 
-  <task type="periodic" schedule="RR" name="0.4" algorithm="cyclic"> 
+  <task type="periodic" schedule="RR" name="0.4" algorithm="companion"> 
     <period>100000</period> 
     <serverPeriod>50000</serverPeriod>
     <serverBudget>15000</serverBudget>
@@ -61,7 +61,7 @@
     <maxDeadline>1</maxDeadline>
   </task>
 
-  <task type="periodic" schedule="RR" name="0.5" algorithm="cyclic"> 
+  <task type="periodic" schedule="RR" name="0.5" algorithm="companion"> 
     <period>100000</period> 
     <serverPeriod>50000</serverPeriod>
     <serverBudget>15000</serverBudget>

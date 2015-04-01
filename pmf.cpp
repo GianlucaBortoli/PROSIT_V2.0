@@ -88,11 +88,9 @@ pmf::pmf(unsigned int sz, unsigned int offs, double epsilon)
   return;
 }
 
-pmf::~pmf(){};
-
 int pmf::set(int val, double p) throw(Exc) {
   if (val > (int)size - (int)offset) {
-    EXC_PRINT("access out of range");
+    EXC_PRINT("access out of range while setting");
   }
 
   // if equal??
@@ -110,6 +108,13 @@ int pmf::set(int val, double p) throw(Exc) {
   elems(val + offset) = p;
   // cerr<<"SET: Min: "<<get_min()<<", Max: "<<get_max()<<endl;
   return 1;
+}
+
+double pmf::get(int el) const throw(Exc) {
+  if (el + offset > size - 1)
+    EXC_PRINT("access out of range while getting");
+  else
+    return elems(el + offset);
 }
 
 int pmf::set_samples(int samples) {
@@ -229,7 +234,7 @@ void cdf2pmf(const cdf &c, pmf &p) {
   return;
 }
 
-PrositAux::pmf * beta::create_beta_computation(XMLElement *e) throw (PrositAux::Exc) {
+pmf * beta::create_beta_computation(XMLElement *e) throw (Exc) {
   XMLElement * betaElement = e->FirstChildElement("pmfComputation");
   const char * type;
 
@@ -265,7 +270,7 @@ PrositAux::pmf * beta::create_beta_computation(XMLElement *e) throw (PrositAux::
   internal->QueryIntText(&b_size); //set size
 
   // Initialization of the distribution function
-  PrositAux::pmf * x = new PrositAux::pmf(b_size, 0);
+  pmf * x = new pmf(b_size, 0);
   double total_prob = 0.0;
   for(int i = b_min; i <= b_max; i += b_step){
     double p = pow(double(i-b_min)/double(b_max-b_min), a-1) *
@@ -282,7 +287,7 @@ PrositAux::pmf * beta::create_beta_computation(XMLElement *e) throw (PrositAux::
   return x;
 }
 
-PrositAux::pmf * beta::create_beta_interarrival(XMLElement *e) throw (PrositAux::Exc) {
+pmf * beta::create_beta_interarrival(XMLElement *e) throw (Exc) {
   XMLElement * betaElement = e->FirstChildElement("pmfInterarrival");
   const char * type;
 
@@ -318,7 +323,7 @@ PrositAux::pmf * beta::create_beta_interarrival(XMLElement *e) throw (PrositAux:
   internal->QueryIntText(&b_size); //set size
 
   // Initialization of the distribution function
-  PrositAux::pmf * x = new PrositAux::pmf(b_size, 0);
+  pmf * x = new pmf(b_size, 0);
   double total_prob = 0.0;
   for(int i = b_min; i <= b_max; i += b_step){
     double p = pow(double(i-b_min)/double(b_max-b_min), a-1) *
@@ -333,6 +338,16 @@ PrositAux::pmf * beta::create_beta_interarrival(XMLElement *e) throw (PrositAux:
     }
   }
   return x;
+}
+
+double beta::get(int el) const throw(Exc){
+  printf("\t\tbeta get called\n");
+  return 0.0;
+}
+
+int beta::set(int val, double p) throw(Exc){
+  printf("\t\tbeta set called\n");
+  return 0;
 }
 
 }

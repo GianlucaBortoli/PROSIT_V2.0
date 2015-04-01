@@ -76,12 +76,13 @@ public:
   virtual int load(const string &filename) throw(Exc) = 0;
 };
 
+//forward declaration
 class pmf;
 class cdf;
+class beta;
 
 class pmf : public distr {
   double tail;
-
 public:
   typedef enum ERR_CODES {
     PMF_OK,
@@ -92,7 +93,7 @@ public:
   pmf(unsigned int sz = TYPICAL_SIZE, unsigned int offs = 0,
       double my_epsilon = EPS);
   pmf(const pmf &p) : distr::distr(p) { tail = p.tail; };
-  ~pmf();
+  ~pmf(){};
   double avg() const;
   double std() const;
   double var() const;
@@ -101,13 +102,7 @@ public:
   ERR_CODES check() const;
   double get_tail() { return tail; };
 
-  virtual double get(int el) const throw(Exc) {
-    if (el + offset > size - 1)
-      EXC_PRINT("access out of range");
-    else
-      return elems(el + offset);
-  };
-
+  virtual double get(int el) const throw(Exc);
   virtual int set(int val, double p) throw(Exc);
   virtual int load(const string &filename) throw(Exc);
   ///@brief Creates a clone of the pmf, which is resampled at the requested
@@ -173,6 +168,9 @@ public:
   ///Creates a beta probability function from the parameters in the XML file for the interarrival time
   ///@param e the input XML file
   PrositAux::pmf * create_beta_interarrival(XMLElement *e) throw (PrositAux::Exc);
+  
+  virtual double get(int el) const throw(Exc);
+  virtual int set(int val, double p) throw(Exc);
 };
 
 void pmf2cdf(const pmf &p, cdf &c);

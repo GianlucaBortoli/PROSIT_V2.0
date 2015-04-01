@@ -44,7 +44,7 @@ void solve_core(vector<GenericTaskDescriptor*> &v,
       std::unique_ptr<ResourceReservationProbabilitySolver> ps(tmp);
       (*it)->set_solver(ps.get());
       probability[i] = (*it)->get_probability(1); //TODO: check set of the distribution
-      printf("\t\t\t prob: %f", probability[i]);
+      printf("\t\t\t prob: %f\n", probability[i]);
     } else if(strcmp((*it)->algorithm, "companion") == 0) {
       if(verbose_flag)
         cout << "Companion solver chosen" << endl;
@@ -54,7 +54,8 @@ void solve_core(vector<GenericTaskDescriptor*> &v,
           (*it)->get_deadline_step(), eps);
       std::unique_ptr<ResourceReservationProbabilitySolver> ps(tmp);
       (*it)->set_solver(ps.get());
-      probability[i] = (*it)->get_probability(1); 
+      probability[i] = (*it)->get_probability(0); 
+      printf("\t\t\t prob: %f\n", probability[i]);
     } else if(strcmp((*it)->algorithm, "cyclic") == 0) {
       if(verbose_flag)
         cout << "Cyclic solver chosen" << endl;
@@ -113,7 +114,7 @@ void solve_execute(Parser *p) {
     inf_norm_final = min<double>(quality[i], (*it)->inf_norm);
     i++;
   }
-  cout << "=================================================================================================================================" << endl;
+  cout << "=========================================================================================================="<<endl;
   printf("\tTotal bandwidth: \t\t%25f\n", Btot_final);
   printf("\tInfinity norm value: \t\t%25f\n", inf_norm_final);
   cout << "=========================================================================================================="<<endl;
