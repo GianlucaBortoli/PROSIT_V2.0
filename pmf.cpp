@@ -285,6 +285,8 @@ pmf * beta::create_beta_computation(XMLElement *e) throw (Exc) {
       x->set(i, x->get(i)/total_prob);
     }
   }
+
+  printf("max value computation time = %d\n", x->get_max());
   return x;
 }
 
@@ -338,6 +340,8 @@ pmf * beta::create_beta_interarrival(XMLElement *e) throw (Exc) {
       x->set(i, x->get(i)/total_prob);
     }
   }
+
+  printf("max value interarrival time = %d\n", x->get_max());
   return x;
 }
 

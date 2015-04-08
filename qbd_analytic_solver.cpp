@@ -4,12 +4,11 @@ namespace PrositCore {
 void AnalyticResourceReservationProbabilitySolver::pre_process(){}
 
 void AnalyticResourceReservationProbabilitySolver::apply_algorithm(){
-  PrositAux::pmf * c = new PrositAux::pmf(prob_function.get_size(), prob_function.get_offset());
-  double bandwith = server_period * budget;
-  unsigned WCET = c->get_max();
+  unsigned bandwith = server_period * budget;
+  unsigned WCET = prob_function->get_max();
   double pi_0 = 1.0; //where the result will be stored
 
-  printf("Bandwith: %f\nWCET: %d\n", bandwith, WCET);
+  printf("Bandwith: %d\nWCET: %d\n", bandwith, WCET);
 
   if(verbose_flag)
     cout << "Prepearing analytic form" << endl;
@@ -26,8 +25,8 @@ void AnalyticResourceReservationProbabilitySolver::apply_algorithm(){
     }
   }
 
-  for(unsigned int i = bandwith+1; i < WCET; i++)
-    pi_0 -= (i-bandwith)*(c->get(i)-c->get(i-1))/bandwith;
+  for(unsigned i = bandwith+1; i < WCET; i++)
+    pi_0 -= (i-bandwith)*(prob_function->get(i)-prob_function->get(i-1))/bandwith;
 
   if(verbose_flag)
     cout << "Analytic computation completed" << endl;

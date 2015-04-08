@@ -37,14 +37,13 @@ void solve_core(vector<GenericTaskDescriptor*> &v,
       ResourceReservationTaskDescriptor * t;
       t = dynamic_cast<ResourceReservationTaskDescriptor *>((*it));
 
-      PrositAux::pmf * p = t->get_comp_time_distr().std::unique_ptr<PrositAux::pmf>::get(); //the pmf of the task 
       AnalyticResourceReservationProbabilitySolver *tmp = 
         new AnalyticResourceReservationProbabilitySolver(
-          *p, t->get_ts(), t->get_q());
+          t->get_comp_time_distr(), t->get_ts(), t->get_q());
       std::unique_ptr<ResourceReservationProbabilitySolver> ps(tmp);
       (*it)->set_solver(ps.get());
-      probability[i] = (*it)->get_probability(1); //TODO: check set of the distribution
-      printf("\t\t\t prob: %f\n", probability[i]);
+      probability[i] = (*it)->get_probability(1); //TODO: check this
+      //printf("\t\t\t prob: %f\n", probability[i]);
     } else if(strcmp((*it)->algorithm, "companion") == 0) {
       if(verbose_flag)
         cout << "Companion solver chosen" << endl;
@@ -55,7 +54,7 @@ void solve_core(vector<GenericTaskDescriptor*> &v,
       std::unique_ptr<ResourceReservationProbabilitySolver> ps(tmp);
       (*it)->set_solver(ps.get());
       probability[i] = (*it)->get_probability(0); 
-      printf("\t\t\t prob: %f\n", probability[i]);
+      //printf("\t\t\t prob: %f\n", probability[i]);
     } else if(strcmp((*it)->algorithm, "cyclic") == 0) {
       if(verbose_flag)
         cout << "Cyclic solver chosen" << endl;

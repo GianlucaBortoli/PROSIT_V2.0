@@ -170,7 +170,7 @@ int main(int argc, char *argv[]) {
     if (analytic_flag) {
       AnalyticResourceReservationProbabilitySolver *tmp =
         new AnalyticResourceReservationProbabilitySolver(
-          *c, unsigned(T), unsigned(Q));
+          std::move(cp), unsigned(T), unsigned(Q));
       std::unique_ptr<ResourceReservationProbabilitySolver> ps(tmp);
       task_des.set_solver(ps.get());
       task_des.compute_probability();

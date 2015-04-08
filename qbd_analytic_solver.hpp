@@ -8,7 +8,7 @@ namespace PrositCore {
 class AnalyticResourceReservationProbabilitySolver 
     : public ResourceReservationProbabilitySolver {
 protected:
-  PrositAux::pmf prob_function;
+  unique_ptr<PrositAux::pmf> prob_function;
   unsigned int server_period;
   unsigned int budget;
 
@@ -27,10 +27,10 @@ public:
    * @param N server period
    * @param Q budget 
    */
-  AnalyticResourceReservationProbabilitySolver(PrositAux::pmf & p,
+  AnalyticResourceReservationProbabilitySolver(unique_ptr<PrositAux::pmf>  p,
                                                unsigned int N,
                                                unsigned int Q)
-    : prob_function(p), server_period(N), budget(Q){};
+    : prob_function(std::move(p)), server_period(N), budget(Q){};
 
   virtual ~AnalyticResourceReservationProbabilitySolver(){};
 };
