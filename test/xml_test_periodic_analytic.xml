@@ -26,6 +26,7 @@
       <pmin>0.01</pmin>
       <pmax>0.95</pmax>
       <scale>0.5</scale>
+      <offset>0.95</offset>
     </qosfun>
     <Delta>7500</Delta>
     <maxDeadline>1</maxDeadline>
@@ -57,6 +58,7 @@
       <pmin>0.01</pmin>
       <pmax>0.95</pmax>
       <scale>0.5</scale>
+      <offset>0.95</offset>
     </qosfun>
     <Delta>7500</Delta>
     <maxDeadline>1</maxDeadline>
@@ -88,6 +90,7 @@
       <pmin>0.01</pmin>
       <pmax>0.95</pmax>
       <scale>0.5</scale>
+      <offset>0.95</offset>
     </qosfun>
     <Delta>7500</Delta>
     <maxDeadline>1</maxDeadline>

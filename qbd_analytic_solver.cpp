@@ -6,7 +6,6 @@ void AnalyticResourceReservationProbabilitySolver::pre_process(){}
 void AnalyticResourceReservationProbabilitySolver::apply_algorithm(){
   unsigned bandwith = server_period * budget;
   unsigned WCET = prob_function->get_max();
-  double pi_0 = 1.0; //where the result will be stored
 
   printf("Bandwith: %d\nWCET: %d\n", bandwith, WCET);
 
@@ -38,5 +37,13 @@ void AnalyticResourceReservationProbabilitySolver::apply_algorithm(){
 }
 
 void AnalyticResourceReservationProbabilitySolver::post_process(){}
-void AnalyticResourceReservationProbabilitySolver::fill_in_probability_map(){}
+
+void AnalyticResourceReservationProbabilitySolver::fill_in_probability_map(){
+  DeadlineProbabilityMap *pm = task_descriptor->get_probabilistic_deadlines();
+  DeadlineProbabilityMapIter pmi;
+
+  for(pmi = pm->begin(); pmi != pm->end(); pmi++){
+    (*pmi).second = pi_0;
+  }
+}
 }

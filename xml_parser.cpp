@@ -173,7 +173,7 @@ void Parser::qos_parse(XMLElement * taskElement) throw(PrositAux::Exc){
   if((qosElement = taskElement->FirstChildElement("qosfun"))) {
     if(qosElement != NULL){//if exists all parameters have to be set, both in solve & optimisation cases 
       const char * type;
-      double scale, qos_min, qos_max;
+      double scale, qos_min, qos_max, offset;
 
       if(!(type = qosElement->Attribute("type"))) //set type of qos function
         EXC_PRINT("Undefined type for QoS function");
@@ -186,11 +186,17 @@ void Parser::qos_parse(XMLElement * taskElement) throw(PrositAux::Exc){
       if (!(internal = qosElement->FirstChildElement("scale")))
         EXC_PRINT("Scaling factor not specified");
       internal->QueryDoubleText(&scale); //set scaling factor
+      if ((internal = qosElement->FirstChildElement("offset"))) {
+        internal->QueryDoubleText(&offset); //set offset
+      } else {
+        offset = 0.95; //the offset value in the xml is optional; Default value set
+        cout << "Offset value not specified, default is 0.95" << endl;
+      }
 
       if(verbose_flag) 
-        printf("Qos function parameters: %f %f %f %f\n", scale, qos_min, qos_max, 0.95);
+        printf("Qos function parameters: %f %f %f %f\n", scale, qos_min, qos_max, offset);
 
-      q = new QosFunction(scale, qos_min, qos_max, 0.95);
+      q = new QosFunction(scale, qos_min, qos_max, offset);
     } else if((qosElement == NULL) && (!if_solve)){//if not exists + optimisation tag
       EXC_PRINT("QoS function parameters are mandatory in the optimisation case!");
     } else if((qosElement == NULL) && if_solve){//if not exists + solve tag

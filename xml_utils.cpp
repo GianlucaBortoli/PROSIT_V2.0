@@ -26,7 +26,6 @@ void solve_core(vector<GenericTaskDescriptor*> &v,
   int i = 0;
   for (vector<GenericTaskDescriptor*>::iterator it = v.begin(); it != v.end(); it++) {
     t_solution_start_i = PrositAux::my_get_time();
-
     /////////////////////////////////////////////////////
     //  Setting sovler & assigning relative probability
     /////////////////////////////////////////////////////
@@ -53,7 +52,7 @@ void solve_core(vector<GenericTaskDescriptor*> &v,
           (*it)->get_deadline_step(), eps);
       std::unique_ptr<ResourceReservationProbabilitySolver> ps(tmp);
       (*it)->set_solver(ps.get());
-      probability[i] = (*it)->get_probability(0); 
+      probability[i] = (*it)->get_probability(1); 
       //printf("\t\t\t prob: %f\n", probability[i]);
     } else if(strcmp((*it)->algorithm, "cyclic") == 0) {
       if(verbose_flag)

@@ -11,6 +11,7 @@ protected:
   unique_ptr<PrositAux::pmf> prob_function;
   unsigned int server_period;
   unsigned int budget;
+  double pi_0 = 1.0; //where the result probability will be stored
 
   ///@brief Generates matrices required for the solution
   void pre_process();
