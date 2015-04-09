@@ -32,7 +32,8 @@ libprosit.a: $(PROSIT_OBJS)
 .PHONY: clean
 
 clean:
-	rm -f *.o *.d *.a solver xml_solver
+	@# txt is for dumped distributions, if any
+	rm -f *.o *.d *.a *.txt solver xml_solver 
 
 %.d: %.cpp
 	@$(CC) $(CPPFLAGS) -MM -MF $@ $<

@@ -135,6 +135,18 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
       std::unique_ptr<PrositAux::beta> interr_time = std::unique_ptr<PrositAux::beta>(new PrositAux::beta());
       interr_time->create_beta_interarrival(taskElement);
 
+      //Dump distribution, if tag is present
+      XMLElement * dumpSection;
+      const char * fileName;
+      if((dumpSection = taskElement->FirstChildElement("pmfComputation")->FirstChildElement("dump"))){
+        fileName = dumpSection->GetText();
+        comp_time->dump(fileName);
+      }
+      if((dumpSection = taskElement->FirstChildElement("pmfInterarrival")->FirstChildElement("dump"))){
+        fileName = dumpSection->GetText();
+        interr_time->dump(fileName);
+      }
+
       if(verbose_flag) 
         cout << "Pmf created...now creating RR task descriptor object" << endl;
 

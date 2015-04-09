@@ -62,15 +62,11 @@ public:
   unsigned int get_offset() const { return offset; };
   int load(const char *filename) throw(Exc) { return load(string(filename)); };
 
-  virtual void print() const {
-    for (int i = get_min(); i <= get_max(); i++) {
-      cout << i << ": " << get(i) << endl;
-    }
-  };
-
   virtual int set(int val, double p) throw(Exc) = 0;
   virtual double get(int el) const throw(Exc) = 0;
   virtual int load(const string &filename) throw(Exc) = 0;
+  virtual void dump(const char * filename);
+  virtual void print() const;
 };
 
 //forward declaration
