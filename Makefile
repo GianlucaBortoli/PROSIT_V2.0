@@ -32,8 +32,10 @@ libprosit.a: $(PROSIT_OBJS)
 .PHONY: clean
 
 clean:
-	@# txt is for dumped distributions, if any
-	rm -f *.o *.d *.a *.txt solver xml_solver 
+	rm -f *.o *.d *.a solver xml_solver
+	@#Removes all beta_computation/interarrival.txt files from repo 
+	find . -name \beta_computation.txt -exec rm -f {} +
+	find . -name \beta_interarrival.txt -exec rm -f {} +
 
 %.d: %.cpp
 	@$(CC) $(CPPFLAGS) -MM -MF $@ $<

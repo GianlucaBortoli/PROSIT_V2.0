@@ -5,6 +5,8 @@
 *.so
 solver
 xml_solver
+beta_computation.txt
+beta_interarrival.txt
 
 #Doxygen output
 Doxygen/
