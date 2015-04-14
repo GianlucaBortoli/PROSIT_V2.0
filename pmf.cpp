@@ -255,7 +255,7 @@ void cdf2pmf(const cdf &c, pmf &p) {
   return;
 }
 
-pmf * beta::create_beta_computation(XMLElement *e) throw (Exc) {
+unique_ptr<PrositAux::beta> beta::create_beta_computation(XMLElement *e) throw (Exc) {
   XMLElement * betaElement = e->FirstChildElement("pmfComputation");
   const char * type;
 
@@ -291,7 +291,7 @@ pmf * beta::create_beta_computation(XMLElement *e) throw (Exc) {
   internal->QueryIntText(&b_size); //set size
 
   // Initialization of the distribution function
-  pmf * x = new pmf(b_size, 0);
+  unique_ptr<PrositAux::beta> x = unique_ptr<PrositAux::beta>(new beta(a, b, b_min, b_max, b_step, b_size));
   double total_prob = 0.0;
   for(int i = b_min; i <= b_max; i += b_step){
     double p = pow(double(i-b_min)/double(b_max-b_min), a-1) *
@@ -307,10 +307,10 @@ pmf * beta::create_beta_computation(XMLElement *e) throw (Exc) {
   }
 
   printf("max value computation time = %d\n", x->get_max());
-  return x;
+  return std::move(x);
 }
 
-pmf * beta::create_beta_interarrival(XMLElement *e) throw (Exc) {
+unique_ptr<PrositAux::beta> beta::create_beta_interarrival(XMLElement *e) throw (Exc) {
   XMLElement * betaElement = e->FirstChildElement("pmfInterarrival");
   const char * type;
 
@@ -346,7 +346,7 @@ pmf * beta::create_beta_interarrival(XMLElement *e) throw (Exc) {
   internal->QueryIntText(&b_size); //set size
 
   // Initialization of the distribution function
-  pmf * x = new pmf(b_size, 0);
+  unique_ptr<PrositAux::beta> x =  unique_ptr<PrositAux::beta>(new beta(a, b, b_min, b_max, b_step, b_size));
   double total_prob = 0.0;
   for(int i = b_min; i <= b_max; i += b_step){
     double p = pow(double(i-b_min)/double(b_max-b_min), a-1) *
@@ -362,7 +362,7 @@ pmf * beta::create_beta_interarrival(XMLElement *e) throw (Exc) {
   }
 
   printf("max value interarrival time = %d\n", x->get_max());
-  return x;
+  return std::move(x);
 }
 
 /*
