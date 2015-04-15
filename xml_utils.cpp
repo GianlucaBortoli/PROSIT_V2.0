@@ -106,8 +106,15 @@ void solve_execute(Parser *p) {
   int i = 0;
   double Btot_final = 0.0, inf_norm_final = 0.0;
   vector<GenericTaskDescriptor*>::iterator it;
+  bool show_time = false;
+
+  if(show_time)
+    printf("%20s%20s%20s%20s%20s%20s\n", "Name","Budget","Bandwidth","Probability","Quality","Time");
+  else
+    printf("%20s%20s%20s%20s%20s\n", "Name","Budget","Bandwidth","Probability","Quality");
+
   for (vector<GenericTaskDescriptor*>::iterator it = v.begin(); it != v.end(); it++) {
-    (*it)->display((*it), probability, quality, time, true, i);
+    (*it)->display((*it), probability, quality, time, show_time, i);
     Btot_final += (*it)->Btot;
     inf_norm_final = min<double>(quality[i], (*it)->inf_norm);
     i++;
