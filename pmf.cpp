@@ -203,6 +203,12 @@ pmf *pmf::resample(int q) const {
 
   if (q != 1) {
     sum = 0;
+
+    cout << "size = " << size << endl;
+    cout << "-->" << (unsigned((get_max() / q) * q + q) < size-1) << endl; 
+    cout << "lower bound = " << get_min() << endl;
+    cout << "upper bound = " << (get_max() / q) * q + q << endl;
+
     for (int i = get_min(); i <= (get_max() / q) * q + q; i++) {
       sum += get(i);
       if (i % q == 0) {

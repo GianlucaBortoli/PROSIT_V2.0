@@ -97,6 +97,7 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
   unsigned int budget;
   unsigned int period;
   unsigned int max_deadline;
+  int step;
 
   if(!(name = taskElement->Attribute("name")))
     EXC_PRINT("Undefined name for task");
@@ -121,6 +122,7 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
       internal->QueryUnsignedText(&period); //set server period
       internal = taskElement->FirstChildElement("maxDeadline");
       internal->QueryUnsignedText(&max_deadline); //set max deadline
+      taskElement->FirstChildElement("pmfComputation")->FirstChildElement("step")->QueryIntText(&step);
 
       if(max_deadline <= 0){
         EXC_PRINT("Maximum deadline not properly set");

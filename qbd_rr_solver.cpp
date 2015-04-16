@@ -173,8 +173,11 @@ void QBDResourceReservationProbabilitySolver::pre_process() {
            << endl;
       cout << "Now resampling the distribution" << endl;
     }
-    tmp = (task_descriptor->get_computation_time())->resample(step);
 
+    cout << "prima" << endl;
+    tmp = (task_descriptor->get_computation_time())->resample(step);
+    cout << "dopo" << endl;
+    
     if (verbose_flag) {
       cout << "Distribution resampled" << endl;
       cout << "WCET: " << tmp->get_max() << endl;

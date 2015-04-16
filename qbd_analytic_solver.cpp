@@ -9,7 +9,7 @@ void AnalyticResourceReservationProbabilitySolver::apply_algorithm(){
 
   if(verbose_flag)
     cout << "Bandwith: " << bandwith << "\nWCET: " << WCET << endl;
-    //printf("Bandwith: %d\nWCET: %d\n", bandwith, WCET);
+
   if(verbose_flag)
     cout << "Prepearing analytic form" << endl;
   if(bandwith > WCET){

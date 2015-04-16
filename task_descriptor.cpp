@@ -48,18 +48,14 @@ void GenericTaskDescriptor::set_solver(ProbabilitySolver *psd) {
 
 void GenericTaskDescriptor::set_deadline_step(unsigned int ds) {
   if ((deadline_step != 0) && (!probabilistic_deadlines.empty()))
-    EXC_PRINT_2(
-        "Deadline step reset in presence of probabilistic deadlines for task  ",
-        name);
+    EXC_PRINT_2("Deadline step reset in presence of probabilistic deadlines for task", name);
   deadline_step = ds;
   return;
 }
 
 void ResourceReservationTaskDescriptor::set_deadline_step(unsigned int ds) {
-  if ((ds != 0) && (ds % Ts) != 0)
-    EXC_PRINT_2(
-        "Deadline step has to be a multiple of the server period for task ",
-        name);
+  if ((ds != 0) && ((ds % Ts) > 1))
+    EXC_PRINT_2("Deadline step has to be a multiple of the server period for task", name);
   GenericTaskDescriptor::set_deadline_step(ds);
 }
 

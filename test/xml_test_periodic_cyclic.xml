@@ -4,20 +4,20 @@
     <serverPeriod>50000</serverPeriod>
     <serverBudget>15000</serverBudget>
     <pmfComputation type="beta">
-      <cmin>0</cmin>
-      <cmax>99500</cmax>
+      <cmin>500</cmin>
+      <cmax>510</cmax>
       <a>2</a>
       <b>7</b>
-      <step>500</step>
+      <step>2</step>
       <size>100000</size>
       <dump>beta_computation.txt</dump>
     </pmfComputation>
     <pmfInterarrival type="beta">
-      <cmin>0</cmin>
-      <cmax>99500</cmax>
+      <cmin>500</cmin>
+      <cmax>510</cmax>
       <a>2</a>
       <b>7</b>
-      <step>500</step>
+      <step>2</step>
       <size>100000</size>
       <dump>beta_interarrival.txt</dump>
     </pmfInterarrival>
@@ -36,20 +36,20 @@
     <serverPeriod>50000</serverPeriod>
     <serverBudget>15000</serverBudget>
     <pmfComputation type="beta">
-      <cmin>0</cmin>
-      <cmax>99500</cmax>
+      <cmin>500</cmin>
+      <cmax>510</cmax>
       <a>2</a>
       <b>7</b>
-      <step>500</step>
+      <step>2</step>
       <size>100000</size>
       <dump>beta_computation.txt</dump>
     </pmfComputation>
     <pmfInterarrival type="beta">
-      <cmin>0</cmin>
-      <cmax>99500</cmax>
+      <cmin>500</cmin>
+      <cmax>510</cmax>
       <a>2</a>
       <b>7</b>
-      <step>500</step>
+      <step>2</step>
       <size>100000</size>
       <dump>beta_interarrival.txt</dump>
     </pmfInterarrival>
@@ -68,20 +68,20 @@
     <serverPeriod>50000</serverPeriod>
     <serverBudget>15000</serverBudget>
     <pmfComputation type="beta">
-      <cmin>0</cmin>
-      <cmax>99500</cmax>
+      <cmin>500</cmin>
+      <cmax>510</cmax>
       <a>2</a>
       <b>7</b>
-      <step>500</step>
+      <step>2</step>
       <size>100000</size>
       <dump>beta_computation.txt</dump>
     </pmfComputation>
     <pmfInterarrival type="beta">
-      <cmin>0</cmin>
-      <cmax>99500</cmax>
+      <cmin>500</cmin>
+      <cmax>510</cmax>
       <a>2</a>
       <b>7</b>
-      <step>500</step>
+      <step>2</step>
       <size>100000</size>
       <dump>beta_interarrival.txt</dump>
     </pmfInterarrival>
