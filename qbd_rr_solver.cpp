@@ -174,9 +174,7 @@ void QBDResourceReservationProbabilitySolver::pre_process() {
       cout << "Now resampling the distribution" << endl;
     }
 
-    cout << "prima" << endl;
     tmp = (task_descriptor->get_computation_time())->resample(step);
-    cout << "dopo" << endl;
     
     if (verbose_flag) {
       cout << "Distribution resampled" << endl;
@@ -305,8 +303,7 @@ bool QBDResourceReservationProbabilitySolver::compute_pi0() {
   }
 
   if ((ArrayXd(eigensolver.eigenvalues()).abs().maxCoeff() > 1) && verbose_flag)
-    cerr << "QBD_COMPUTE_PI0: Warning: R has spectral radius greater than 1"
-         << endl;
+    cerr << "QBD_COMPUTE_PI0: Warning: R has spectral radius greater than 1" << endl;
 
   int n = R.rows();
   MatrixXd Id = MatrixXd::Identity(n, n);
@@ -361,6 +358,10 @@ void QBDResourceReservationProbabilitySolver::fill_in_probability_map() {
     if (max_deadline < (*pmi).first)
       max_deadline = (*pmi).first;
   }
+
+  cout << "max_deadline = " << max_deadline << endl;
+  cout << "Q = " << Q << endl;
+  cout << "size = " << pi0.size() << endl;
 
   /// The probability of state pi_h is found as pi_0 R^h
   /// Thus he have to didentify the maximum H

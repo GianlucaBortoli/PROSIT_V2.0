@@ -205,7 +205,7 @@ pmf *pmf::resample(int q) const {
     sum = 0;
 
     cout << "size = " << size << endl;
-    cout << "-->" << (unsigned((get_max() / q) * q + q) < size-1) << endl; 
+    cout << "resample ok? " << (unsigned((get_max() / q) * q + q) < size-1) << endl; 
     cout << "lower bound = " << get_min() << endl;
     cout << "upper bound = " << (get_max() / q) * q + q << endl;
 

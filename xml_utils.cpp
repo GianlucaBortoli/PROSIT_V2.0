@@ -106,7 +106,7 @@ void solve_execute(Parser *p) {
   int i = 0;
   double Btot_final = 0.0, inf_norm_final = 0.0;
   vector<GenericTaskDescriptor*>::iterator it;
-  bool show_time = false;
+  bool show_time = true;
 
   if(show_time)
     printf("%20s%20s%20s%20s%20s%20s\n", "Name","Budget","Bandwidth","Probability","Quality","Time");

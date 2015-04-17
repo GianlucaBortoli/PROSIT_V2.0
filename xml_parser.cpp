@@ -137,10 +137,6 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
       std::unique_ptr<PrositAux::beta> interr_time = std::unique_ptr<PrositAux::beta>(new PrositAux::beta());
       interr_time = interr_time->create_beta_interarrival(taskElement);
 
-      // TODO: FIX THISls
-      // chiamo la funzione create_beta_* dal puntatore alla pmf, ma quella funzione ritorna
-      // un puntatore, non va a modificare la pmf da cui l'ho chiamata!!!!!!!
-
       //Dump distribution, if tag is present
       XMLElement * dumpSection;
       const char * fileName;

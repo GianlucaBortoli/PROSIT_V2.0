@@ -1,14 +1,14 @@
 <solve> 
   <task type="periodic" schedule="RR" name="0.3" algorithm="cyclic"> 
-    <period>100000</period> 
-    <serverPeriod>50000</serverPeriod>
+    <period>25000</period> 
+    <serverPeriod>25000</serverPeriod>
     <serverBudget>15000</serverBudget>
     <pmfComputation type="beta">
       <cmin>500</cmin>
       <cmax>510</cmax>
       <a>2</a>
       <b>7</b>
-      <step>2</step>
+      <step>1</step>
       <size>100000</size>
       <dump>beta_computation.txt</dump>
     </pmfComputation>
@@ -17,7 +17,7 @@
       <cmax>510</cmax>
       <a>2</a>
       <b>7</b>
-      <step>2</step>
+      <step>1</step>
       <size>100000</size>
       <dump>beta_interarrival.txt</dump>
     </pmfInterarrival>
@@ -32,15 +32,15 @@
   </task>
 
   <task type="periodic" schedule="RR" name="0.4" algorithm="cyclic"> 
-    <period>100000</period> 
-    <serverPeriod>50000</serverPeriod>
+    <period>25000</period> 
+    <serverPeriod>25000</serverPeriod>
     <serverBudget>15000</serverBudget>
     <pmfComputation type="beta">
       <cmin>500</cmin>
       <cmax>510</cmax>
       <a>2</a>
       <b>7</b>
-      <step>2</step>
+      <step>1</step>
       <size>100000</size>
       <dump>beta_computation.txt</dump>
     </pmfComputation>
@@ -49,7 +49,7 @@
       <cmax>510</cmax>
       <a>2</a>
       <b>7</b>
-      <step>2</step>
+      <step>1</step>
       <size>100000</size>
       <dump>beta_interarrival.txt</dump>
     </pmfInterarrival>
@@ -64,15 +64,15 @@
   </task>
 
   <task type="periodic" schedule="RR" name="0.5" algorithm="cyclic"> 
-    <period>100000</period> 
-    <serverPeriod>50000</serverPeriod>
+    <period>25000</period> 
+    <serverPeriod>25000</serverPeriod>
     <serverBudget>15000</serverBudget>
     <pmfComputation type="beta">
       <cmin>500</cmin>
       <cmax>510</cmax>
       <a>2</a>
       <b>7</b>
-      <step>2</step>
+      <step>1</step>
       <size>100000</size>
       <dump>beta_computation.txt</dump>
     </pmfComputation>
@@ -81,7 +81,7 @@
       <cmax>510</cmax>
       <a>2</a>
       <b>7</b>
-      <step>2</step>
+      <step>1</step>
       <size>100000</size>
       <dump>beta_interarrival.txt</dump>
     </pmfInterarrival>

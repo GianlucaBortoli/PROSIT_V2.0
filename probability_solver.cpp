@@ -25,6 +25,8 @@ void ProbabilitySolver::solve() {
   post_process_done = true;
 
   fill_in_probability_map();
+  if (verbose_flag)
+    cout << "Probability map correctly filled" << endl;
 }
 
 bool ResourceReservationProbabilitySolver::check_list() {
