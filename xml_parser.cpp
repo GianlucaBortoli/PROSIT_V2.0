@@ -97,6 +97,7 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
   unsigned int budget;
   unsigned int period;
   unsigned int max_deadline;
+  unsigned int delta;
   int step;
 
   if(!(name = taskElement->Attribute("name")))
@@ -120,6 +121,8 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
       internal->QueryUnsignedText(&budget); //set server budget
       internal = taskElement->FirstChildElement("serverPeriod");
       internal->QueryUnsignedText(&period); //set server period
+      internal = taskElement->FirstChildElement("Delta");
+      internal->QueryUnsignedText(&delta); //set granularity
       internal = taskElement->FirstChildElement("maxDeadline");
       internal->QueryUnsignedText(&max_deadline); //set max deadline
       taskElement->FirstChildElement("pmfComputation")->FirstChildElement("step")->QueryIntText(&step);
@@ -161,6 +164,7 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
                                                  algorithm);
       td->set_deadline_step(period);
       td->set_verbose_flag(verbose_flag ? true : false);
+      td->set_delta(delta);
       for (unsigned int i = 0; i <= max_deadline; i++) {
         td->insert_deadline(i);
       }

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-.././solver --cyclic --budget 11250 --period 25000 beta2.txt z.txt --verbose --step 100 -M 1
+../solver --cyclic --budget 7450 --period 25000 normal-100.txt z_2.txt --verbose --step 100 -M 4

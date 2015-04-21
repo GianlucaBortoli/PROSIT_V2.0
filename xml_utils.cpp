@@ -41,26 +41,24 @@ void solve_core(vector<GenericTaskDescriptor*> &v,
           t->get_comp_time_distr(), t->get_ts(), t->get_q());
       std::unique_ptr<ResourceReservationProbabilitySolver> ps(tmp);
       (*it)->set_solver(ps.get());
-      probability[i] = (*it)->get_probability(1); //TODO: check this
-      //printf("\t\t\t prob: %f\n", probability[i]);
+      probability[i] = (*it)->get_probability(1);
     } else if(strcmp((*it)->algorithm, "companion") == 0) {
       if(verbose_flag)
         cout << "Companion solver chosen" << endl;
 
       CompanionResourceReservationProbabilitySolver *tmp = 
         new CompanionResourceReservationProbabilitySolver(
-          (*it)->get_deadline_step(), eps);
+          (*it)->get_delta(), eps);
       std::unique_ptr<ResourceReservationProbabilitySolver> ps(tmp);
       (*it)->set_solver(ps.get());
       probability[i] = (*it)->get_probability(1); 
-      //printf("\t\t\t prob: %f\n", probability[i]);
     } else if(strcmp((*it)->algorithm, "cyclic") == 0) {
       if(verbose_flag)
         cout << "Cyclic solver chosen" << endl;
 
       QBDResourceReservationProbabilitySolver *tmp = 
         new CRResourceReservationProbabilitySolver(
-          (*it)->get_deadline_step(), false, max_iteration);
+          (*it)->get_delta(), false, max_iteration);
       std::unique_ptr<QBDResourceReservationProbabilitySolver> ps(tmp);
       (*it)->set_solver(ps.get());
       probability[i] = (*it)->get_probability(1);

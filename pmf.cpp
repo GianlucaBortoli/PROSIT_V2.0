@@ -312,7 +312,6 @@ unique_ptr<PrositAux::beta> beta::create_beta_computation(XMLElement *e) throw (
     }
   }
 
-  //printf("max value computation time = %d\n", x->get_max());
   return std::move(x);
 }
 
@@ -367,7 +366,6 @@ unique_ptr<PrositAux::beta> beta::create_beta_interarrival(XMLElement *e) throw 
     }
   }
 
-  //printf("max value interarrival time = %d\n", x->get_max());
   return std::move(x);
 }
 

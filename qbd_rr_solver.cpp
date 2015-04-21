@@ -276,9 +276,7 @@ bool QBDResourceReservationProbabilitySolver::compute_pi0() {
   if (!task_descriptor)
     EXC_PRINT("Computation of pi0 requires a task descriptor");
   if (!solved)
-    EXC_PRINT_2("Computation of pi0 comes after solution. Task: ",
-
-                task_descriptor->get_name());
+    EXC_PRINT_2("Computation of pi0 comes after solution. Task: ", task_descriptor->get_name());
   if (post_process_done) {
     if (verbose_flag)
       cerr << "Computation of pi0 required twice. Task "
@@ -366,8 +364,11 @@ void QBDResourceReservationProbabilitySolver::fill_in_probability_map() {
   /// The probability of state pi_h is found as pi_0 R^h
   /// Thus he have to didentify the maximum H
   int H = ceil((max_deadline * Q) / (pi0.size()));
+  cout << "H = " << H << endl;
 
   Q = Q / granularity;
+  cout << "gran = " << granularity << endl;
+
   Eigen::RowVectorXd pi = pi0;
   int delta = 0;
   double prob = 0.0;

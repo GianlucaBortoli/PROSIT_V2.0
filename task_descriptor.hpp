@@ -62,7 +62,7 @@ protected:
   bool periodic;     /*!< Flag for periodic tasks */
   unsigned int P;    /*!< Period (has meaning onlly if periodic flag is set) */
   unsigned int deadline_step; /*!< Granularity to define probabilistic deadlines */
-  int delta;
+  unsigned int delta;
   DeadlineProbabilityMap probabilistic_deadlines; /*!< Map associating deadlines
                                                      with probabilities */
   ProbabilitySolver *probability_solver; /*!< Pointer to the object containing
@@ -118,8 +118,12 @@ public:
     bool current = verbose_flag;
     verbose_flag = verbose_flagd;
     return current;
-  };
+  }
 
+  ///@brief Sets delta parameter as granularity
+  void set_delta(unsigned int d);
+  ///@brief Get delta parameter from task
+  unsigned int get_delta(){ return delta; }
   ///@brief Verify if the task is periodic
   bool is_periodic() const { return periodic; };
   ///@brief Returns the verbose_flag flag
