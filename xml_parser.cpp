@@ -131,23 +131,55 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
         EXC_PRINT("Maximum deadline not properly set");
       }
 
-      // Beta distribution for computation & interarrival time initialisation
-      if(verbose_flag)
-        cout << "Creating probability distribution for computation and interarrival time..." << endl;
+      // TODO: tag to get pmf (both interarrival and computation) from file
+      // something like: <file>filename.txt</file> and call the load function from file
+      // (the one used in the command line solver)
+      XMLElement *fileComputation, *fileInterarrival;
+      std::unique_ptr<PrositAux::beta> comp_time, interr_time;
+      const char * fromFile;
 
-      std::unique_ptr<PrositAux::beta> comp_time = std::unique_ptr<PrositAux::beta>(new PrositAux::beta());
-      comp_time = comp_time->create_beta_computation(taskElement);
-      std::unique_ptr<PrositAux::beta> interr_time = std::unique_ptr<PrositAux::beta>(new PrositAux::beta());
-      interr_time = interr_time->create_beta_interarrival(taskElement);
+      if((fileComputation = taskElement->FirstChildElement("pmfComputation")->FirstChildElement("file"))) {
+        //if pmf loaded from file
+        comp_time = std::unique_ptr<PrositAux::beta>(new PrositAux::beta());
+        fromFile = fileComputation->GetText();
+        cout << fromFile << endl;
+        comp_time->load(fromFile);
+
+        if(verbose_flag)  
+          printf("Pmf for computation time successfully retrieved from file %s\n", fromFile);
+      } else {
+        //if created from parameters parsed from xml
+        comp_time = std::unique_ptr<PrositAux::beta>(new PrositAux::beta());
+        comp_time = comp_time->create_beta_computation(taskElement);
+
+        if(verbose_flag)  
+          cout << "Pmf for computation time successfully retrieved from xml" << endl;
+      } 
+
+      if((fileInterarrival = taskElement->FirstChildElement("pmfInterarrival")->FirstChildElement("file"))) {
+        //if pmf loaded from file
+        interr_time = std::unique_ptr<PrositAux::beta>(new PrositAux::beta());
+        fromFile = fileInterarrival->GetText();
+        interr_time->load(fromFile);
+
+        if(verbose_flag)  
+          printf("Pmf for interarrival time successfully retrieved from file %s\n", fromFile);
+      } else {
+        //if created from parameters parsed from xml
+        interr_time = std::unique_ptr<PrositAux::beta>(new PrositAux::beta());
+        interr_time = interr_time->create_beta_interarrival(taskElement);
+
+        cout << "Pmf for interarrival time successfully retrieved from xml" << endl;
+      }
 
       //Dump distribution, if tag is present
       XMLElement * dumpSection;
       const char * fileName;
-      if((dumpSection = taskElement->FirstChildElement("pmfComputation")->FirstChildElement("dump"))){
+      if((dumpSection = taskElement->FirstChildElement("pmfComputation")->FirstChildElement("dump"))) {
         fileName = dumpSection->GetText();
         comp_time->dump(fileName);
       }
-      if((dumpSection = taskElement->FirstChildElement("pmfInterarrival")->FirstChildElement("dump"))){
+      if((dumpSection = taskElement->FirstChildElement("pmfInterarrival")->FirstChildElement("dump"))) {
         fileName = dumpSection->GetText();
         interr_time->dump(fileName);
       }

@@ -138,7 +138,8 @@ class beta : public pmf {
   int b_min, b_max, b_step, b_size;
 
 public:
-  beta(){}
+  beta()
+    : pmf::pmf(2500000, 0, EPS){}
   beta(double alpha, double beta, int min, int max, int step, int size)
     : pmf::pmf(size, 0, EPS), 
       a(alpha), b(beta), b_min(min), b_max(max), b_step(step), b_size(size) {

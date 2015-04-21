@@ -68,7 +68,7 @@ void distr::dump(const char * filename){
 
   if(dumpFile.is_open()){
     for (int i = get_min(); i <= get_max(); i++) {
-      dumpFile << i << ": " << get(i) << '\n';
+      dumpFile << i << " " << get(i) << '\n';
     }
     dumpFile.close();
   } else {

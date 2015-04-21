@@ -10,6 +10,7 @@
       <b>7</b>
       <step>1</step>
       <size>100000</size>
+      <file>normal-100.txt</file>
       <dump>beta_computation.txt</dump>
     </pmfComputation>
     <pmfInterarrival type="beta">
@@ -19,6 +20,7 @@
       <b>7</b>
       <step>1</step>
       <size>100000</size>
+      <file>z_2.txt</file>
       <dump>beta_interarrival.txt</dump>
     </pmfInterarrival>
     <qosfun type="linear">
