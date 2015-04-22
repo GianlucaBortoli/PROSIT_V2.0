@@ -360,14 +360,14 @@ void QBDResourceReservationProbabilitySolver::fill_in_probability_map() {
   cout << "max_deadline = " << max_deadline << endl;
   cout << "Q = " << Q << endl;
   cout << "size = " << pi0.size() << endl;
-
+  cout << "gran = " << granularity << endl;
+  
   /// The probability of state pi_h is found as pi_0 R^h
   /// Thus he have to didentify the maximum H
   int H = ceil((max_deadline * Q) / (pi0.size()));
   cout << "H = " << H << endl;
 
   Q = Q / granularity;
-  cout << "gran = " << granularity << endl;
 
   Eigen::RowVectorXd pi = pi0;
   int delta = 0;

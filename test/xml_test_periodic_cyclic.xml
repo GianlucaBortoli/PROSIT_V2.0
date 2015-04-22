@@ -1,27 +1,15 @@
 <solve> 
   <task type="periodic" schedule="RR" name="0.3" algorithm="cyclic"> 
-    <period>10000</period> 
-    <serverPeriod>2500</serverPeriod>
-    <serverBudget>100</serverBudget>
+    <period>20000</period> 
+    <serverPeriod>25000</serverPeriod>
+    <serverBudget>7450</serverBudget>
     <pmfComputation type="beta">
-      <cmin>500</cmin>
-      <cmax>5000</cmax>
-      <a>2</a>
-      <b>7</b>
-      <step>1</step>
-      <size>100000</size>
+      <step>100</step>
       <file>normal-100.txt</file>
-      <dump>beta_computation.txt</dump>
     </pmfComputation>
     <pmfInterarrival type="beta">
-      <cmin>500</cmin>
-      <cmax>5000</cmax>
-      <a>2</a>
-      <b>7</b>
-      <step>1</step>
-      <size>100000</size>
+      <step>100</step>
       <file>z_2.txt</file>
-      <dump>beta_interarrival.txt</dump>
     </pmfInterarrival>
     <qosfun type="linear">
       <pmin>0.01</pmin>

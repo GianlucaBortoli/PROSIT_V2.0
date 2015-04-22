@@ -35,8 +35,8 @@ protected:
   VectorXd elems;
   unsigned int size;
   unsigned int offset;
-  int min;
-  int max;
+  double min;
+  double max;
 
 public:
   double epsilon;
@@ -56,8 +56,8 @@ public:
     return *this;
   };
 
-  int get_max() const { return max; };
-  int get_min() const { return min; };
+  double get_max() const { return max; };
+  double get_min() const { return min; };
   unsigned int get_size() const { return size; };
   unsigned int get_offset() const { return offset; };
   int load(const char *filename) throw(Exc) { return load(string(filename)); };

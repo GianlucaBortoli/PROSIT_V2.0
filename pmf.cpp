@@ -57,7 +57,7 @@ int distr::load(const string &filename) throw(Exc) {
 }
 
 void distr::print() const {
-  for (int i = get_min(); i <= get_max(); i++) {
+  for (double i = get_min(); i <= get_max(); i++) {
     cout << i << ": " << get(i) << endl;
   }
 }
@@ -67,7 +67,7 @@ void distr::dump(const char * filename){
   dumpFile.open(filename);
 
   if(dumpFile.is_open()){
-    for (int i = get_min(); i <= get_max(); i++) {
+    for (double i = get_min(); i <= get_max(); i++) {
       dumpFile << i << " " << get(i) << '\n';
     }
     dumpFile.close();
@@ -204,6 +204,7 @@ pmf *pmf::resample(int q) const {
   if (q != 1) {
     sum = 0;
 
+    cout << "q = " << q << endl;
     cout << "size = " << size << endl;
     cout << "resample ok? " << (unsigned((get_max() / q) * q + q) < size-1) << endl; 
     cout << "lower bound = " << get_min() << endl;

@@ -48,7 +48,7 @@ void solve_core(vector<GenericTaskDescriptor*> &v,
 
       CompanionResourceReservationProbabilitySolver *tmp = 
         new CompanionResourceReservationProbabilitySolver(
-          (*it)->get_delta(), eps);
+          (*it)->get_step(), eps);
       std::unique_ptr<ResourceReservationProbabilitySolver> ps(tmp);
       (*it)->set_solver(ps.get());
       probability[i] = (*it)->get_probability(1); 
@@ -58,7 +58,7 @@ void solve_core(vector<GenericTaskDescriptor*> &v,
 
       QBDResourceReservationProbabilitySolver *tmp = 
         new CRResourceReservationProbabilitySolver(
-          (*it)->get_delta(), false, max_iteration);
+          (*it)->get_step(), false, max_iteration);
       std::unique_ptr<QBDResourceReservationProbabilitySolver> ps(tmp);
       (*it)->set_solver(ps.get());
       probability[i] = (*it)->get_probability(1);

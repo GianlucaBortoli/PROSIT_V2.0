@@ -127,13 +127,12 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
       internal->QueryUnsignedText(&max_deadline); //set max deadline
       taskElement->FirstChildElement("pmfComputation")->FirstChildElement("step")->QueryIntText(&step);
 
-      if(max_deadline <= 0){
+      if(step == 0)
+        EXC_PRINT("Step value for pfm missing");
+      if(max_deadline <= 0)
         EXC_PRINT("Maximum deadline not properly set");
-      }
 
-      // TODO: tag to get pmf (both interarrival and computation) from file
-      // something like: <file>filename.txt</file> and call the load function from file
-      // (the one used in the command line solver)
+      // Pmf creation (loaded directly from file or from given parameters)
       XMLElement *fileComputation, *fileInterarrival;
       std::unique_ptr<PrositAux::beta> comp_time, interr_time;
       const char * fromFile;
@@ -142,7 +141,6 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
         //if pmf loaded from file
         comp_time = std::unique_ptr<PrositAux::beta>(new PrositAux::beta());
         fromFile = fileComputation->GetText();
-        cout << fromFile << endl;
         comp_time->load(fromFile);
 
         if(verbose_flag)  
@@ -197,6 +195,7 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
       td->set_deadline_step(period);
       td->set_verbose_flag(verbose_flag ? true : false);
       td->set_delta(delta);
+      td->set_step(step);
       for (unsigned int i = 0; i <= max_deadline; i++) {
         td->insert_deadline(i);
       }
