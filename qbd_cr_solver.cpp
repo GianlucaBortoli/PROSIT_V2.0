@@ -66,8 +66,7 @@ void CRResourceReservationProbabilitySolver::apply_algorithm() {
                 PrositAux::InfinityNorm<MatrixXd>(C));
 
     if (task_descriptor->get_verbose())
-      cerr << "After " << numit << " iterations " << check << " reached"
-           << endl;
+      cerr << "After " << numit << " iterations " << check << " reached" << endl;
   }
 
   G = ((Id - Ahat).inverse()) * A2c;
@@ -83,18 +82,19 @@ void CRResourceReservationProbabilitySolver::apply_algorithm() {
       A2c = A0;
     }
   }
-
   if (task_descriptor->get_verbose()) {
     cerr << "Final Residual Error for G: "
          << PrositAux::InfinityNorm<MatrixXd>(G - A2c - (A1c + A0c * G) * G)
          << endl;
   }
+
   R = A0c * (Id - (A1c + A0c * G)).inverse();
   if (task_descriptor->get_verbose()) {
     cerr << "Final Residual Error for R: "
          << PrositAux::InfinityNorm<MatrixXd>(R - A0c - R * (A1c + R * A2c))
          << endl;
   }
+  
   U = A1c + R * A2c;
   if (task_descriptor->get_verbose()) {
     cerr << "Final Residual Error for U: "

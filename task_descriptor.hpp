@@ -123,15 +123,13 @@ public:
 
   ///@brief Sets delta parameter as granularity
   void set_delta(unsigned int d);
-  ///@brief Get delta parameter from task
-  unsigned int get_delta(){ return delta; }
-  ///@brief Verify if the task is periodic
-
-
+  ///@brief Gets delta parameter from task
+  unsigned int get_delta() const { return delta; }
+  //@brief Sets the step for the pmf
   void set_step(unsigned int s);
-  unsigned int get_step(){ return step; }
-
-
+  //@brief Gets the step from pmf
+  unsigned int get_step() const { return step; }
+  ///@brief Verify if the task is periodic
   bool is_periodic() const { return periodic; };
   ///@brief Returns the verbose_flag flag
   bool get_verbose() const { return verbose_flag; };
