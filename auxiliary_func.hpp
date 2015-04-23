@@ -21,7 +21,7 @@
 using namespace Eigen;
 
 namespace PrositAux {
-//! Gets absolute time
+//! Gets absolute time in microseconds
 /*! This function is used to read the system clock in
  * order to take perfromance metrics
  */
@@ -29,7 +29,7 @@ inline long long my_get_time(void) {
 	struct timeval tv;
 	gettimeofday(&tv, NULL);
 	return tv.tv_usec + 1000000LL * tv.tv_sec;
-};
+}
 
 //! Infinity norm of a matrix
 /*! This function is used to compute the infinity norm of a matrix
@@ -37,7 +37,7 @@ inline long long my_get_time(void) {
  */
 template <typename _Matrix_Type_> double InfinityNorm(const _Matrix_Type_ &a) {
 	return a.cwiseAbs().rowwise().sum().maxCoeff();
-};
+}
 
 //!Moore--Penrose Psuedoinverse
 /*! This function computes the Moore-Penrose Pseudo inverse of a
@@ -72,7 +72,7 @@ void pseudoInverse(const _Matrix_Type_ &a, _Matrix_Type_ &result,
 	// H.block (0, 0, lav.rows (), lav.cols ()) = _Matrix_Type_(lav);
 	result = svd.matrixV() * H * (svd.matrixU().adjoint());
 	return;
-};
+}
 
 //! Checks equality in size of two matrices
 /*! This function checkes that two matrices have equal size.

@@ -1,7 +1,8 @@
 #include "qbd_companion_solver.hpp"
 
 namespace PrositCore {
-static complex<double> GammaFunctionsTotal(const complex<double> &b, int dim,
+static complex<double> GammaFunctionsTotal(const complex<double> &b, 
+                                           int dim,
                                            const RowVectorXd &Alpha) {
   int i;
   complex<double> gamma = pow<double>(b, dim);
@@ -9,7 +10,20 @@ static complex<double> GammaFunctionsTotal(const complex<double> &b, int dim,
     gamma += pow<double>(b, int(dim) - i) * Alpha(i + 2);
   }
   return gamma;
-};
+}
+
+void CompanionResourceReservationProbabilitySolver::set_epsilon(double epsilon_d) {
+  if (epsilon_d < 0)
+    EXC_PRINT(
+        "Epsilon parameter has to be non negative for Companion solver");
+  epsilon = epsilon_d;
+  reset();
+}
+
+void CompanionResourceReservationProbabilitySolver::set_granularity(unsigned int grand) {
+  granularity = grand;
+  reset();
+}
 
 bool CompanionResourceReservationProbabilitySolver::check_list() {
   bool ok = ResourceReservationProbabilitySolver::check_list();

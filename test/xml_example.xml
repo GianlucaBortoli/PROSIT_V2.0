@@ -2,7 +2,7 @@
 
 <solve> <!-- this can be "solve" or "optimisation" -->
   <task type="periodic" schedule="RR" name="0.3" algorithm="analytic"> <!-- RR stands for Resource Reservation -->
-    <period>100000</period> <!-- This one makes sense IIF the task type is set to periodic -->
+    <period>100000</period> <!-- This one makes sense iif the task type is set to periodic; It's the task period -->
     <serverPeriod>50000</serverPeriod>
     <serverBudget>15000</serverBudget>
      <!-- 
@@ -14,8 +14,9 @@
       <cmax>99500</cmax>
       <a>2</a>
       <b>7</b>
-      <step>500</step>
+      <step>500</step> <!-- this parameters is mandatory even if the pmf is loaded from file -->
       <size>100000</size>
+      <file>normal-100.txt</file>
       <dump>beta_computation.txt</dump>
     </pmfComputation>
     <pmfInterarrival type="beta">

@@ -58,21 +58,12 @@ public:
   /// parameter
   /// to reduce the size of the system maintaining a conservative compuation.
   ///@param grand desired value
-  void set_granularity(unsigned int grand) {
-    granularity = grand;
-    reset();
-  };
+  void set_granularity(unsigned int grand);
 
   ///@brief resets epsilon to a desired value
   ///
   ///@param epsilon value of epsilon
-  void set_epsilon(double epsilon_d) {
-    if (epsilon_d < 0)
-      EXC_PRINT(
-          "Epsilon parameter has to be non negative for Companion solver");
-    epsilon = epsilon_d;
-    reset();
-  };
+  void set_epsilon(double epsilon_d);
 };
 }
 #endif

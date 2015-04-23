@@ -138,7 +138,7 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
       const char * fromFile;
 
       if((fileComputation = taskElement->FirstChildElement("pmfComputation")->FirstChildElement("file"))) {
-        //if pmf loaded from file
+        //if pmf for computation times is loaded from file
         comp_time = std::unique_ptr<PrositAux::beta>(new PrositAux::beta());
         fromFile = fileComputation->GetText();
         comp_time->load(fromFile);
@@ -155,7 +155,7 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
       } 
 
       if((fileInterarrival = taskElement->FirstChildElement("pmfInterarrival")->FirstChildElement("file"))) {
-        //if pmf loaded from file
+        //if pmf loaded for interarrival times is loaded from file
         interr_time = std::unique_ptr<PrositAux::beta>(new PrositAux::beta());
         fromFile = fileInterarrival->GetText();
         interr_time->load(fromFile);

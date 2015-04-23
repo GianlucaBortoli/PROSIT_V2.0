@@ -63,6 +63,5 @@ class Parser {
     double get_total_bandwidth() const {return total_bandwidth;}
     vector<GenericTaskDescriptor*> get_vector(){return vect;}
 };
-
 }
 #endif

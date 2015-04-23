@@ -323,7 +323,7 @@ unique_ptr<PrositAux::beta> beta::create_beta_interarrival(XMLElement *e) throw 
   const char * type;
 
   if(!(type = betaElement->Attribute("type")))
-    EXC_PRINT("Type for pmf computation not specified");
+    EXC_PRINT("Type for pmf interarrival not specified");
   if(strcmp(type, "beta") != 0) //if the type specified is not "beta", then die
     EXC_PRINT("Specified type is different from beta");
   
@@ -371,17 +371,5 @@ unique_ptr<PrositAux::beta> beta::create_beta_interarrival(XMLElement *e) throw 
 
   return std::move(x);
 }
-
-/*
-double beta::get(int el) const throw(Exc){
-  printf("\t\tbeta get called\n");
-  return 0.0;
-}
-
-int beta::set(int val, double p) throw(Exc){
-  printf("\t\tbeta set called\n");
-  return 0;
-}
-*/
 
 }
