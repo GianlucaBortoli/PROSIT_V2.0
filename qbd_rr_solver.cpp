@@ -333,10 +333,11 @@ bool QBDResourceReservationProbabilitySolver::compute_pi0() {
 }
 
 void QBDResourceReservationProbabilitySolver::fill_in_probability_map() {
-#ifdef DEBUG
-  cerr << "pi0 :" << pi0 << endl;
-  cerr << "Probability: " << pi0.sum() << endl;
-#endif
+  #ifdef DEBUG
+    cerr << "pi0 :" << pi0 << endl;
+    cerr << "Probability: " << pi0.sum() << endl;
+  #endif
+
   PrositAux::pmf *tmp;
   tmp = (task_descriptor->get_interarrival_time())
             ->resample(task_descriptor->get_server_period());
@@ -357,15 +358,16 @@ void QBDResourceReservationProbabilitySolver::fill_in_probability_map() {
       max_deadline = (*pmi).first;
   }
 
-  cout << "max_deadline = " << max_deadline << endl;
-  cout << "Q = " << Q << endl;
-  cout << "size = " << pi0.size() << endl;
-  cout << "gran = " << granularity << endl;
-  
+  #ifdef DEBUG
+    cout << "max_deadline = " << max_deadline << endl;
+    cout << "Q = " << Q << endl;
+    cout << "size = " << pi0.size() << endl;
+    cout << "gran = " << granularity << endl;
+  #endif
+    
   /// The probability of state pi_h is found as pi_0 R^h
   /// Thus he have to didentify the maximum H
   int H = ceil((max_deadline * Q) / (pi0.size()));
-  cout << "H = " << H << endl;
 
   Q = Q / granularity;
 
