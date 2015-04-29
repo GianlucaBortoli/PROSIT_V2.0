@@ -1,6 +1,10 @@
 #!/usr/bin/python
 import numpy as np
 
+def normalize(li):
+    _sum = sum(li)
+    return np.where((li>0),li/_sum,li)
+
 def generate_distributions():
     # PARAMETERS
     cmin = 22330 # min value for uniform dist
@@ -16,7 +20,8 @@ def generate_distributions():
     # UNIFORM #
     ###########
     outFile = open("my_uniform.txt", "w")
-    for i,item in enumerate(np.random.uniform(cmin,cmax,size)):                          
+    li = normalize(np.random.uniform(cmin,cmax,size))
+    for i,item in enumerate(li):                          
         outFile.write("%s  %s\n" % (i+1,item))                                  
     outFile.close()
     
@@ -24,7 +29,8 @@ def generate_distributions():
     # NORMAL #
     ##########
     outFile = open("my_normal.txt", "w")
-    for i,item in enumerate(np.random.normal(cavg,cstd,size)):
+    li = normalize(np.random.normal(cavg,cstd,size))
+    for i,item in enumerate(li):
         outFile.write("%s  %s\n" % (i+1,item))
     outFile.close()
     
@@ -32,7 +38,8 @@ def generate_distributions():
     # BETA #
     ########
     outFile = open("my_beta.txt", "w")
-    for i,item in enumerate(np.random.beta(calp,cbet,size)):
+    li = normalize(np.random.beta(calp,cbet,size))
+    for i,item in enumerate(li):
         outFile.write("%s  %s\n" % (i+1,item))
     outFile.close()
 
@@ -40,7 +47,8 @@ def generate_distributions():
     # EXPONENTIAL #
     ###############
     outFile = open("my_exponential.txt", "w")
-    for i,item in enumerate(np.random.exponential(lam,size)):
+    li = normalize(np.random.exponential(lam,size))
+    for i,item in enumerate(li):
         outFile.write("%s  %s\n" % (i+1,item))
     outFile.close()
 
