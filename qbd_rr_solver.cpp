@@ -19,20 +19,21 @@ namespace PrositCore {
 ///@param p cdf of the computation time
 ///@param u pmf of the interarrival time
 double QBDResourceReservationProbabilitySolver::matrix_prob_ts(
-    int i, int j, int q, const PrositAux::cdf &p, const PrositAux::pmf &u) {
-
+  int i, int j, int q, const PrositAux::cdf &p, const PrositAux::pmf &u) {
   int z = 0;
-#ifdef DEBUG
-  cerr << "matrix_prob_ts called" << endl;
-  cerr << "i = " << i << endl;
-  cerr << "j = " << j << endl;
-  cerr << "u.get_min() " << u.get_min() << endl;
-  cerr << "u.get_max() " << u.get_max() << endl;
-  cerr << "u: " << endl;
-  u.print();
-  cerr << "p: " << endl;
-  p.print();
-#endif
+
+  #ifdef DEBUG
+    cerr << "matrix_prob_ts called" << endl;
+    cerr << "i = " << i << endl;
+    cerr << "j = " << j << endl;
+    cerr << "u.get_min() " << u.get_min() << endl;
+    cerr << "u.get_max() " << u.get_max() << endl;
+    cerr << "u: " << endl;
+    u.print();
+    cerr << "p: " << endl;
+    p.print();
+  #endif
+
   double prob = 0;
   int l = u.get_max();
   if (i < u.get_min() * q)
@@ -47,9 +48,11 @@ double QBDResourceReservationProbabilitySolver::matrix_prob_ts(
       else
         prob =
             prob + u.get(z) * (p.get(j - i + z * q) - p.get(j - i + z * q - 1));
-#ifdef DEBUG
-  cerr << "Probability Returned = " << prob << endl;
-#endif
+
+  #ifdef DEBUG
+    cerr << "Probability Returned = " << prob << endl;
+  #endif
+    
   return prob;
 }
 

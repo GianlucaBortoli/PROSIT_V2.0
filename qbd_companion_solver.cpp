@@ -41,7 +41,7 @@ bool CompanionResourceReservationProbabilitySolver::check_list() {
 
   if (!ok_periodic) {
     if (verbose_flag)
-      cerr << "CompanioniResourceReservationProbabilitySolver curretnly "
+      cerr << "CompanioniResourceReservationProbabilitySolver currently "
               "applies to periodic tasks" << endl;
     return false;
   }
