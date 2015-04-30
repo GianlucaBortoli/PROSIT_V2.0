@@ -86,10 +86,48 @@ for ((q=7500; q<=10000; q+=$increment)); do
             <Delta>7500</Delta>
             <maxDeadline>4</maxDeadline>
           </task>
-        </solve>" > xml_test_${q}_uniform.xml
+        </solve>" > xml_test_${q}_normal.xml
 done
 #Run PROSIT from xml
 for f in $(find . -regex ".*/xml_test_[0-9]*_uniform.xml"); do
-  .././xml_solver $f --verbose | grep "P {" &> results_${budget}_uniform_xml.txt
+  .././xml_solver $f --verbose | grep "P {" &> results_${budget}_normal_xml.txt
   budget=$((budget+$increment))
-done"
+done
+
+#Test Case 2
+T=40000
+Ts=20000
+step=100
+increment=200
+budget=7500
+#XML file creation
+for ((q=7500; q<=10000; q+=$increment)); do
+  echo "<solve>
+          <task type=\"periodic\" schedule=\"RR\" name=\"0.3\" algorithm=\"cyclic\">
+            <period>${T}</period>
+            <serverPeriod>${Ts}</serverPeriod>
+            <serverBudget>${q}</serverBudget>
+            <pmfComputation type=\"beta\">
+              <step>${step}</step>
+              <file>test_case_2.txt</file>
+            </pmfComputation>
+            <pmfInterarrival type=\"beta\">
+              <step>${step}</step>
+              <file>z_2.txt</file>
+            </pmfInterarrival>
+            <qosfun type=\"linear\">
+              <pmin>0.01</pmin>
+              <pmax>0.95</pmax>
+              <scale>0.5</scale>
+              <offset>0.95</offset>
+            </qosfun>
+            <Delta>7500</Delta>
+            <maxDeadline>4</maxDeadline>
+          </task>
+        </solve>" > xml_test_${q}_beta.xml
+done
+#Run PROSIT from xml
+for f in $(find . -regex ".*/xml_test_[0-9]*_uniform.xml"); do
+  .././xml_solver $f --verbose | grep "P {" &> results_${budget}_beta_xml.txt
+  budget=$((budget+$increment))
+done
