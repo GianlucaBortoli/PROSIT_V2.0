@@ -38,7 +38,7 @@ clean: rmtest
 	find . -name \beta_interarrival.txt -exec rm -f {} +
 
 rmtest:
-	rm -f test/my_*.txt
+	rm -f test/my_*.txt test/results_*.txt
 
 %.d: %.cpp
 	@$(CC) $(CPPFLAGS) -MM -MF $@ $<
