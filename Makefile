@@ -39,7 +39,8 @@ clean: rmtest
 
 rmtest:
 	rm -f test/my_*.txt test/results_*.txt
-	find ./test -name 'xml_test_[0-9]*_uniform.xml' -exec rm -f {} +
+	find ./test -name 'xml_test_[0-9]*_normal.xml' -exec rm -f {} +
+	find ./test -name 'xml_test_[0-9]*_beta.xml' -exec rm -f {} +
 
 %.d: %.cpp
 	@$(CC) $(CPPFLAGS) -MM -MF $@ $<
