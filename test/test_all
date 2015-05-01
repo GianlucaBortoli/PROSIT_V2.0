@@ -4,6 +4,7 @@
 # COMMAND LINE TOOL TEST #
 ##########################
 
+#############################################################################
 #Test Case 1:
 #File:                test_case_1.txt
 #Distribution:        Normal
@@ -12,12 +13,13 @@
 #Prosit parameters:
 #  Period (T):               100000 us
 #  Reservation period (Ts):  25000 us
-#  Budget (q):               [7500 - 10000] us, with an increment of 250 us 
+#  Budget (q):               [7500 - 10000] us, with an increment of 250 us
+############################################################################# 
 T=100000
 Ts=25000
 step=100
 increment=250
-for ((q=7500; q<=7500; q+=$increment)); do
+for ((q=7500; q<=10000; q+=$increment)); do
   echo "Q="${q} " T="$T " Ts="$Ts " step="$step
   ../solver --cyclic \
             --budget ${q} \
@@ -30,6 +32,7 @@ for ((q=7500; q<=7500; q+=$increment)); do
             -M 4 | grep "P { d <" &> results_${q}_normal_command_line.txt
 done
 
+#############################################################################
 #Test Case 2:
 #File:           test_case_2.txt
 #Distribution:   Beta
@@ -39,11 +42,12 @@ done
 #  Period (T):               40000 us
 #  Reservation period (Ts):  20000 us
 #  Budget (q):               [7600 - 16000] us, with an increment of 200 us
+#############################################################################
 T=40000
 Ts=20000
 step=100
 increment=200
-for ((q=7500; q<=7500; q+=$increment)); do
+for ((q=7600; q<=16000; q+=$increment)); do
   echo "Q="${q} " T="$T " Ts="$Ts " step="$step
   ../solver --cyclic \
             --budget ${q} \
@@ -68,7 +72,7 @@ step=100
 increment=250
 budget=7500
 #XML file creation
-for ((q=7500; q<=7500; q+=$increment)); do
+for ((q=7500; q<=10000; q+=$increment)); do
   echo "<solve>
           <task type=\"periodic\" schedule=\"RR\" name=\"0.3\" algorithm=\"cyclic\">
             <period>${T}</period>
@@ -109,7 +113,7 @@ step=100
 increment=200
 budget=7500
 #XML file creation
-for ((q=7500; q<=7500; q+=$increment)); do
+for ((q=7600; q<=16000; q+=$increment)); do
   echo "<solve>
           <task type=\"periodic\" schedule=\"RR\" name=\"0.3\" algorithm=\"cyclic\">
             <period>${T}</period>
@@ -140,4 +144,4 @@ for f in $(find . -regex ".*/xml_test_[0-9]*_beta.xml"); do
   .././xml_solver $f --verbose | grep "P {" &> results_${budget}_beta_xml.txt
   budget=$((budget+$increment))
 done
-echo -e "\033[1m\nTESTS COMPLETED!!"
+echo -e "\nTESTS COMPLETED!!\n"

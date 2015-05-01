@@ -26,4 +26,4 @@ while [ $i -lt ${#resultsNormal[*]} ]; do
   echo "${i} checked"
   i=$((i+1))
 done 
-echo -e "\033[1m\nCHECK COMPLETED!!"
+echo -e "\nCHECK COMPLETED!!\n"
