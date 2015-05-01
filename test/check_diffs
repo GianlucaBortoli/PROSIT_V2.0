@@ -1,0 +1,19 @@
+#!/bin/bash
+
+##############################################
+#Checks if the results of the tests are okay #
+##############################################
+
+#Command line solver results
+resultsNormalCL=$(find . -regex ".*/results_[0-9]*_normal_command_line.txt")
+resultsBetaCL=$(find . -regex ".*/results_[0-9]*_beta_command_line.txt") 
+#XML solver results
+resultsNormalXML=$(find . -regex ".*/results_[0-9]*_normal_xml.txt")
+resultsBetaXML=$(find . -regex ".*/results_[0-9]*_beta_xml.txt") 
+
+#Loop through files in order to chech them pairwise
+i=0
+while [ $i -lt ${#resultsNormal[*]} ]; do
+  diff -q ${resultsNormalCL[$i]} ${resultsNormalXML[$i]}
+  i=$((i+1))
+done 
