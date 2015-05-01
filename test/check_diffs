@@ -11,7 +11,7 @@ resultsBetaCL=$(find . -regex ".*/results_[0-9]*_beta_command_line.txt")
 resultsNormalXML=$(find . -regex ".*/results_[0-9]*_normal_xml.txt")
 resultsBetaXML=$(find . -regex ".*/results_[0-9]*_beta_xml.txt") 
 
-#Loop through files in order to chech them pairwise
+#Loop through files in order to check them pairwise
 #Check normal distribution results
 i=0
 while [ ${i} -lt ${#resultsNormalCL[@]} ]; do

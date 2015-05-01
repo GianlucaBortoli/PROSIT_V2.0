@@ -33,7 +33,7 @@ libprosit.a: $(PROSIT_OBJS)
 
 clean: rmtest
 	rm -f *.o *.d *.a solver xml_solver
-	@#Removes all beta_computation/interarrival.txt files from repo 
+	@#Removes all beta_computation/interarrival.txt dumped my xml solver 
 	find . -name \beta_computation.txt -exec rm -f {} +
 	find . -name \beta_interarrival.txt -exec rm -f {} +
 
