@@ -38,7 +38,7 @@ clean: rmtest
 	find . -name \beta_interarrival.txt -exec rm -f {} +
 
 rmtest:
-	rm -f test/my_*.txt test/results_*.txt
+	rm -f test/my_*.txt test/results_*.txt test/check_diffs_*.log
 	find ./test -name 'xml_test_[0-9]*_normal.xml' -exec rm -f {} +
 	find ./test -name 'xml_test_[0-9]*_beta.xml' -exec rm -f {} +
 
