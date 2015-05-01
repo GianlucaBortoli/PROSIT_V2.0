@@ -16,16 +16,17 @@ T=100000
 Ts=25000
 step=100
 increment=250
-for q in {7500..10000..$increment}; do
+for ((q=7500; q<=10000; q+=$increment)); do
+  echo "Q="${q} " T="$T " Ts="$Ts " step="$step
   ../solver --cyclic \
-            --budget $q \
-            --task_period $T \
-            --period $Ts \
+            --budget ${q} \
+            --task_period ${T} \
+            --period ${Ts} \
             test_case_1.txt \
             z_2.txt \
             --verbose \
-            --step $step \
-            -M 4 | grep "P { d <" &> results_$q_normal_command_line.txt
+            --step ${step} \
+            -M 4 | grep "P { d <" &> results_${q}_normal_command_line.txt
 done
 
 #Test Case 2:
@@ -41,22 +42,24 @@ T=40000
 Ts=20000
 step=100
 increment=200
-for q in {7500..10000..$increment}; do
+for ((q=7500; q<=10000; q+=$increment)); do
   ../solver --cyclic \
-            --budget $q \
-            --task_period $T \
-            --period $Ts \
+            --budget ${q} \
+            --task_period ${T} \
+            --period ${Ts} \
             test_case_2.txt \
             z_2.txt \
             --verbose \
-            --step $step \
-            -M 4 | grep "P { d <" &> results_$q_beta_command_line.txt
+            --step ${step} \
+            -M 4 | grep "P { d <" &> results_${q}_beta_command_line.txt
 done
 
 #################
 # XML TOOL TEST #
 #################
-#Test Case 1
+##############
+#Test Case 1 #
+##############
 T=100000
 Ts=25000
 step=100
@@ -94,7 +97,9 @@ for f in $(find . -regex ".*/xml_test_[0-9]*_uniform.xml"); do
   budget=$((budget+$increment))
 done
 
-#Test Case 2
+##############
+#Test Case 2 #
+##############
 T=40000
 Ts=20000
 step=100
@@ -127,7 +132,7 @@ for ((q=7500; q<=10000; q+=$increment)); do
         </solve>" > xml_test_${q}_beta.xml
 done
 #Run PROSIT from xml
-for f in $(find . -regex ".*/xml_test_[0-9]*_uniform.xml"); do
+for f in $(find . -regex ".*/xml_test_[0-9]*_beta.xml"); do
   .././xml_solver $f --verbose | grep "P {" &> results_${budget}_beta_xml.txt
   budget=$((budget+$increment))
 done
