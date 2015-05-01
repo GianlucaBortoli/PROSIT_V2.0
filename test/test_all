@@ -94,9 +94,9 @@ for ((q=7500; q<=10000; q+=$increment)); do
         </solve>" > xml_test_${q}_normal.xml
 done
 #Run PROSIT from xml
-for f in $(find . -regex ".*/xml_test_[0-9]*_uniform.xml"); do
+for f in $(find . -regex ".*/xml_test_[0-9]*_normal.xml"); do
   echo "Q="${budget} " T="$T " Ts="$Ts " step="$step
-  .././xml_solver $f --verbose | grep "P {" &> results_${budget}_normal_xml.txt
+  .././xml_solver ${f} --verbose | grep "P {" &> results_${budget}_normal_xml.txt
   budget=$((budget+$increment))
 done
 

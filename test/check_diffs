@@ -12,9 +12,18 @@ resultsNormalXML=$(find . -regex ".*/results_[0-9]*_normal_xml.txt")
 resultsBetaXML=$(find . -regex ".*/results_[0-9]*_beta_xml.txt") 
 
 #Loop through files in order to chech them pairwise
+#Check normal distribution results
 i=0
 while [ $i -lt ${#resultsNormal[*]} ]; do
-  diff -q ${resultsNormalCL[$i]} ${resultsNormalXML[$i]}
+  diff -q ${resultsNormalCL[$i]} ${resultsNormalXML[$i]} >> check_diffs.log
   echo "${i} checked"
   i=$((i+1))
 done 
+#Check beta distribution results
+i=0
+while [ $i -lt ${#resultsNormal[*]} ]; do
+  diff -q ${resultsNormalCL[$i]} ${resultsNormalXML[$i]} >> check_diffs.log
+  echo "${i} checked"
+  i=$((i+1))
+done 
+echo -e "\033[1m\nCHECK COMPLETED!!"
