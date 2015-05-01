@@ -15,5 +15,6 @@ resultsBetaXML=$(find . -regex ".*/results_[0-9]*_beta_xml.txt")
 i=0
 while [ $i -lt ${#resultsNormal[*]} ]; do
   diff -q ${resultsNormalCL[$i]} ${resultsNormalXML[$i]}
+  echo "${i} checked"
   i=$((i+1))
 done 
