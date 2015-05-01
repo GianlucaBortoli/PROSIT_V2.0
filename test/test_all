@@ -3,6 +3,7 @@
 ##########################
 # COMMAND LINE TOOL TEST #
 ##########################
+
 #Test Case 1:
 #File:                test_case_1.txt
 #Distribution:        Normal
@@ -43,6 +44,7 @@ Ts=20000
 step=100
 increment=200
 for ((q=7500; q<=10000; q+=$increment)); do
+  echo "Q="${q} " T="$T " Ts="$Ts " step="$step
   ../solver --cyclic \
             --budget ${q} \
             --task_period ${T} \
@@ -93,6 +95,7 @@ for ((q=7500; q<=10000; q+=$increment)); do
 done
 #Run PROSIT from xml
 for f in $(find . -regex ".*/xml_test_[0-9]*_uniform.xml"); do
+  echo "Q="${budget} " T="$T " Ts="$Ts " step="$step
   .././xml_solver $f --verbose | grep "P {" &> results_${budget}_normal_xml.txt
   budget=$((budget+$increment))
 done
@@ -133,6 +136,8 @@ for ((q=7500; q<=10000; q+=$increment)); do
 done
 #Run PROSIT from xml
 for f in $(find . -regex ".*/xml_test_[0-9]*_beta.xml"); do
+  echo "Q="${budget} " T="$T " Ts="$Ts " step="$step
   .././xml_solver $f --verbose | grep "P {" &> results_${budget}_beta_xml.txt
   budget=$((budget+$increment))
 done
+echo -e "\033[1m\nTESTS COMPLETED!!"
