@@ -15,14 +15,14 @@ resultsBetaXML=$(find . -regex ".*/results_[0-9]*_beta_xml.txt")
 #Check normal distribution results
 i=0
 while [ $i -lt ${#resultsNormal[*]} ]; do
-  diff -q ${resultsNormalCL[$i]} ${resultsNormalXML[$i]} >> check_diffs.log
+  diff -q ${resultsNormalCL[$i]} ${resultsNormalXML[$i]} >> check_diffs_normal.log
   echo "${i} checked"
   i=$((i+1))
 done 
 #Check beta distribution results
 i=0
 while [ $i -lt ${#resultsNormal[*]} ]; do
-  diff -q ${resultsNormalCL[$i]} ${resultsNormalXML[$i]} >> check_diffs.log
+  diff -q ${resultsNormalCL[$i]} ${resultsNormalXML[$i]} >> check_diffs_beta.log
   echo "${i} checked"
   i=$((i+1))
 done 
