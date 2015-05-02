@@ -29,7 +29,7 @@ libprosit.a: $(PROSIT_OBJS)
 	ar rc $@ $(PROSIT_OBJS)
 	ar -s $@
 
-.PHONY: clean
+.PHONY: clean rmtest
 
 clean: rmtest
 	rm -f *.o *.d *.a solver xml_solver

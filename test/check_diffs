@@ -11,19 +11,45 @@ resultsBetaCL=$(find . -regex ".*/results_[0-9]*_beta_command_line.txt")
 resultsNormalXML=$(find . -regex ".*/results_[0-9]*_normal_xml.txt")
 resultsBetaXML=$(find . -regex ".*/results_[0-9]*_beta_xml.txt") 
 
+#some checks on list's length
+if [ ${#resultsNormalCL[@]} -ne ${#resultsNormalXML[@]} ]; then
+  echo "Wrong number of test case #1"
+  exit 0
+fi
+
+if [ ${#resultsBetaCL[@]} -ne ${#resultsBetaXML[@]} ]; then
+  echo "Wrong number of test case #2"
+  exit 0
+fi
+
 #Loop through files in order to check them pairwise
 #Check normal distribution results
-i=0
+i=1
 while [ ${i} -lt ${#resultsNormalCL[@]} ]; do
   diff ${resultsNormalCL[${i}]} ${resultsNormalXML[${i}]} >> check_diffs_normal.log
   echo "${i} checked"
   i=$((i+1))
 done 
 #Check beta distribution results
-i=0
+i=1
 while [ ${i} -lt ${#resultsBetaCL[@]} ]; do
   diff ${resultsBetaCL[${i}]} ${resultsBetaXML[${i}]} >> check_diffs_beta.log
   echo "${i} checked"
   i=$((i+1))
 done 
 echo -e "\nCHECK COMPLETED!!\n"
+
+#if log files are empty, no differences are found
+if [ $(wc -c check_diffs_normal.log | cut -f 1 -d ' ') -eq 0 ]; then 
+  echo -e "Normal distribution results are fine\n"
+  rm check_diffs_normal.log
+else 
+  echo -e "Normal distribution results are different\n"
+fi
+
+if [ $(wc -c check_diffs_beta.log | cut -f 1 -d ' ') -eq 0 ]; then 
+  echo -e "Beta distribution results are fine\n"
+  rm check_diffs_beta.log
+else 
+  echo -e "Beta distribution results are different\n"
+fi

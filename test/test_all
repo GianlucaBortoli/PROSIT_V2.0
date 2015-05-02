@@ -19,7 +19,7 @@ T=100000
 Ts=25000
 step=100
 increment=250
-for ((q=7500; q<=10000; q+=$increment)); do
+for ((q=7500; q<=7750; q+=$increment)); do
   echo "Q="${q} " T="$T " Ts="$Ts " step="$step
   ../solver --cyclic \
             --budget ${q} \
@@ -47,7 +47,7 @@ T=40000
 Ts=20000
 step=100
 increment=200
-for ((q=7600; q<=16000; q+=$increment)); do
+for ((q=7600; q<=7800; q+=$increment)); do
   echo "Q="${q} " T="$T " Ts="$Ts " step="$step
   ../solver --cyclic \
             --budget ${q} \
@@ -72,7 +72,7 @@ step=100
 increment=250
 budget=7500
 #XML file creation
-for ((q=7500; q<=10000; q+=$increment)); do
+for ((q=7500; q<=7750; q+=$increment)); do
   echo "<solve>
           <task type=\"periodic\" schedule=\"RR\" name=\"0.3\" algorithm=\"cyclic\">
             <period>${T}</period>
@@ -111,9 +111,9 @@ T=40000
 Ts=20000
 step=100
 increment=200
-budget=7500
+budget=7600
 #XML file creation
-for ((q=7600; q<=16000; q+=$increment)); do
+for ((q=7600; q<=7800; q+=$increment)); do
   echo "<solve>
           <task type=\"periodic\" schedule=\"RR\" name=\"0.3\" algorithm=\"cyclic\">
             <period>${T}</period>
