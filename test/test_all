@@ -19,7 +19,8 @@ T=100000
 Ts=25000
 step=100
 increment=250
-for ((q=7500; q<=7750; q+=$increment)); do
+echo -e "\tTEST CASE #1 COMMAND LINE"
+for ((q=7500; q<=8000; q+=$increment)); do
   echo "Q="${q} " T="$T " Ts="$Ts " step="$step
   ../solver --cyclic \
             --budget ${q} \
@@ -30,6 +31,7 @@ for ((q=7500; q<=7750; q+=$increment)); do
             --verbose \
             --step ${step} \
             -M 4 | grep "P { d <" &> results_${q}_normal_command_line.txt
+  echo -e "\n"
 done
 
 #############################################################################
@@ -47,7 +49,8 @@ T=40000
 Ts=20000
 step=100
 increment=200
-for ((q=7600; q<=7800; q+=$increment)); do
+echo -e "\tTEST CASE #2 COMMAND LINE"
+for ((q=7600; q<=8000; q+=$increment)); do
   echo "Q="${q} " T="$T " Ts="$Ts " step="$step
   ../solver --cyclic \
             --budget ${q} \
@@ -58,6 +61,7 @@ for ((q=7600; q<=7800; q+=$increment)); do
             --verbose \
             --step ${step} \
             -M 4 | grep "P { d <" &> results_${q}_beta_command_line.txt
+  echo -e "\n"
 done
 
 #################
@@ -72,7 +76,8 @@ step=100
 increment=250
 budget=7500
 #XML file creation
-for ((q=7500; q<=7750; q+=$increment)); do
+echo -e "\tTEST CASE #1 XML"
+for ((q=7500; q<=8000; q+=$increment)); do
   echo "<solve>
           <task type=\"periodic\" schedule=\"RR\" name=\"0.3\" algorithm=\"cyclic\">
             <period>${T}</period>
@@ -98,10 +103,13 @@ for ((q=7500; q<=7750; q+=$increment)); do
         </solve>" > xml_test_${q}_normal.xml
 done
 #Run PROSIT from xml
-for f in $(find . -regex ".*/xml_test_[0-9]*_normal.xml"); do
+xml=( $(find . -regex ".*/xml_test_[0-9]*_normal.xml" -type f) )
+sortedXml=( $(for e in "${xml[@]}"; do echo "$e"; done | sort) )
+for ((i=0; i<${#sortedXml[@]}; i++)); do
   echo "Q="${budget} " T="$T " Ts="$Ts " step="$step
-  .././xml_solver ${f} --verbose | grep "P {" &> results_${budget}_normal_xml.txt
+  .././xml_solver ${sortedXml[${i}]} --verbose | grep "P {" &> results_${budget}_normal_xml.txt
   budget=$((budget+$increment))
+  echo -e "\n"
 done
 
 ##############
@@ -113,7 +121,8 @@ step=100
 increment=200
 budget=7600
 #XML file creation
-for ((q=7600; q<=7800; q+=$increment)); do
+echo -e "\tTEST CASE #2 XML"
+for ((q=7600; q<=8000; q+=$increment)); do
   echo "<solve>
           <task type=\"periodic\" schedule=\"RR\" name=\"0.3\" algorithm=\"cyclic\">
             <period>${T}</period>
@@ -139,9 +148,12 @@ for ((q=7600; q<=7800; q+=$increment)); do
         </solve>" > xml_test_${q}_beta.xml
 done
 #Run PROSIT from xml
-for f in $(find . -regex ".*/xml_test_[0-9]*_beta.xml"); do
+xml=( $(find . -regex ".*/xml_test_[0-9]*_beta.xml" -type f) )
+sortedXml=( $(for e in "${xml[@]}"; do echo "$e"; done | sort) )
+for ((i=0; i<${#sortedXml[@]}; i++)); do
   echo "Q="${budget} " T="$T " Ts="$Ts " step="$step
-  .././xml_solver $f --verbose | grep "P {" &> results_${budget}_beta_xml.txt
+  .././xml_solver ${sortedXml[${i}]} --verbose | grep "P {" &> results_${budget}_beta_xml.txt
   budget=$((budget+$increment))
+  echo -e "\n"
 done
 echo -e "\nTESTS COMPLETED!!\n"

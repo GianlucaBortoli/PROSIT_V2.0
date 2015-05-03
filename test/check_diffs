@@ -7,45 +7,51 @@
 #Command line solver results
 resultsNormalCL=( $(find . -regex ".*/results_[0-9]*_normal_command_line.txt" -type f) )
 resultsBetaCL=( $(find . -regex ".*/results_[0-9]*_beta_command_line.txt" -type f) ) 
+sortedResultsNormalCL=( $(for e in "${resultsNormalCL[@]}"; do echo "$e"; done | sort) )
+sortedResultsBetaCL=( $(for e in "${resultsBetaCL[@]}"; do echo "$e"; done | sort) )
 #XML solver results
 resultsNormalXML=( $(find . -regex ".*/results_[0-9]*_normal_xml.txt" -type f) )
 resultsBetaXML=( $(find . -regex ".*/results_[0-9]*_beta_xml.txt" -type f) ) 
+sortedResultsNormalXML=( $(for e in "${resultsNormalXML[@]}"; do echo "$e"; done | sort) )
+sortedResultsBetaXML=( $(for e in "${resultsBetaXML[@]}"; do echo "$e"; done | sort) )
 
 #some checks on list's length
-if [ ${#resultsNormalCL[@]} -ne ${#resultsNormalXML[@]} ]; then
+if [ ${#sortedResultsNormalCL[@]} -ne ${#sortedResultsNormalXML[@]} ]; then
   echo "[ERROR] Wrong results number in test case #1"
   exit 0
 fi
 
-if [ ${#resultsBetaCL[@]} -ne ${#resultsBetaXML[@]} ]; then
+if [ ${#sortedResultsBetaCL[@]} -ne ${#sortedResultsBetaXML[@]} ]; then
   echo "[ERROR] Wrong results number in test case #2"
   exit 0
 fi
 
 #Loop through files in order to check them pairwise
 #Check normal distribution results
-for ((i=0; i<${#resultsNormalCL[@]}; i++)); do
-  diff ${resultsNormalCL[${i}]} ${resultsNormalXML[${i}]} >> check_diffs_normal.log
+for ((i=0; i<${#sortedResultsNormalCL[@]}; i++)); do
+  diff ${sortedResultsNormalCL[${i}]} ${sortedResultsNormalXML[${i}]} >> check_diffs_normal.log
   echo "[OK] ${i} checked normal"
 done
 #Check beta distribution results
-for ((i=0; i<${#resultsBetaCL[@]}; i++)); do
-  diff ${resultsBetaCL[${i}]} ${resultsBetaXML[${i}]} >> check_diffs_beta.log
+for ((i=0; i<${#sortedResultsBetaCL[@]}; i++)); do
+  diff ${sortedResultsBetaCL[${i}]} ${sortedResultsBetaXML[${i}]} >> check_diffs_beta.log
   echo "[OK] ${i} checked beta"
 done
 echo -e "\nCHECK COMPLETED!!\n"
 
 #if log files are empty, no differences are found
-if [ $(wc -c check_diffs_normal.log | cut -f 1 -d ' ') -eq 0 ]; then 
-  echo -e "[OK] Normal distribution results are fine\n"
+logSize=$(wc -c check_diffs_normal.log | cut -f 1 -d ' ')
+if [ $logSize -eq 0 ]; then 
+  echo "[OK] Normal distribution results are fine"
   rm check_diffs_normal.log
 else 
-  echo -e "[ERROR] Normal distribution results are different\n"
+  echo "[ERROR] Normal distribution results are different"
 fi
 
-if [ $(wc -c check_diffs_beta.log | cut -f 1 -d ' ') -eq 0 ]; then 
-  echo -e "[OK] Beta distribution results are fine\n"
+logSize=$(wc -c check_diffs_beta.log | cut -f 1 -d ' ')
+if [ $logSize -eq 0 ]; then 
+  echo "[OK] Beta distribution results are fine"
   rm check_diffs_beta.log
 else 
-  echo -e "[ERROR] Beta distribution results are different\n"
+  echo "[ERROR] Beta distribution results are different"
 fi
