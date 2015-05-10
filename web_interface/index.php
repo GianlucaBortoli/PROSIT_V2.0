@@ -119,11 +119,12 @@ if(!isset($_POST["select_file"])){
   }
 } else {
   if(isset($_POST["file_list"])){
-    echo '============================================<br><br>';
+    echo '<div id="all">============================================<br><br>';
     $old_path = getcwd();
     chdir('/var/www/uploads/'); //change dir to correct one
     // streaming command output
-    $pid = popen('./xml_solver '.$_POST["file_list"].' --verbose 2>&1', "r");
+    $pid = popen('./bin/xml_solver '.$_POST["file_list"].' --verbose 2>&1', "r");
+
     while(!feof($pid)){
       echo fgets($pid, 256).'<br>';
       flush();
@@ -133,7 +134,7 @@ if(!isset($_POST["select_file"])){
     }
     pclose($pid);
     echo "<script>window.scrollTo(0,99999);</script>";
-    echo '<h4>COMPUTATION COMPLETED !</h4><a href="index.php"><button>Back</button></a>';
+    echo '<h4>COMPUTATION COMPLETED !</h4><a href="index.php"><button>Back</button></a></div>';
     chdir($old_path);
   } else {
     header('Refresh: 2;url=index.php');
