@@ -26,8 +26,6 @@ $A2 = md5($_SERVER['REQUEST_METHOD'].':'.$data['uri']);
 $valid_response = md5($A1.':'.$data['nonce'].':'.$data['nc'].':'.$data['cnonce'].':'.$data['qop'].':'.$A2);
 if ($data['response'] != $valid_response)
     die('Wrong Credentials!');
-// ok, valid username & password
-echo 'You are logged in as: ' . $data['username'];
 // function to parse the http auth header
 function http_digest_parse($txt)
 {
@@ -51,18 +49,33 @@ function http_digest_parse($txt)
 /////////////////////////////
 echo "<style type='text/css'>
       body{
-      color: #ffff;
-      font-family:'Lucida Console',sans-serif !important;
-      font-size: 13px;
-      }</style>";
-// upload file form
+        color: #ffff;
+        font-family:'Lucida Console',sans-serif !important;
+        font-size: 13px;
+      }
+      #all{
+        padding-top: 20px;
+        width: 60%;
+        margin: 0 auto;
+      }
+      </style>";
+// file uploader
 error_reporting(2047);
 if(isset($_POST["send"])) {
   $complete_path = "../uploads/" . $_FILES['fileToUpload']['name'];
+
+  $extension = pathinfo($complete_path);
+  if($extension['extension'] !== 'xml'){ // check file extension
+    header('Refresh: 2;url=index.php'); //auto redirect
+    exit("The file is not an XML");
+  }
+
   if (is_uploaded_file($_FILES['fileToUpload']['tmp_name'])) {
     if (move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $complete_path)) {
-      header('Refresh: 2;url=index.php'); //auto redirect
-      echo $_FILES['fileToUpload']['name'].' uploaded successfully!';
+      header('Refresh: 2;url=index.php'); 
+      exec('chmod 777 '.$complete_path);
+      echo '<div id="all">Permission for uploaded file changed<br>';
+      echo $_FILES['fileToUpload']['name'].' uploaded successfully!</div>';
     } else {
       echo "Error while uploading ".$_FILES["fileToUpload"]["error"];
     }
@@ -70,11 +83,11 @@ if(isset($_POST["send"])) {
     echo "Error while uploading ".$_FILES["fileToUpload"]["error"];
   }
 } else {
-  echo '<form enctype="multipart/form-data" method="post" action="">
+  echo '<div id="all"><form enctype="multipart/form-data" method="post" action="">
           <h2>Select a file to upload on server:</h2>
           <input type="file" name="fileToUpload"><br><br>
           <input type="submit" value="Upload" name="send"><br><br>
-        </form>';
+        </form></div>';
 }
 
 // file selector
@@ -83,7 +96,8 @@ $file_list = array();
 if(!isset($_POST["select_file"])){
   if($d = opendir($dir)){
     while(($file = readdir($d)) !== false){
-      if(!is_dir($dir . $file)){
+      $ext = pathinfo($file);
+      if((!is_dir($dir . $file)) && ($ext['extension']) === 'xml'){
         $file_list[] = $file;
       }
     }
@@ -93,24 +107,33 @@ if(!isset($_POST["select_file"])){
   }
 
   if(!empty($file_list)){
-    echo '<form action="" method="post">';
+    echo '<div id="all"><form action="" method="post">';
     echo '============================================';
     echo '<h2>Select input file:</h2>';
     foreach ($file_list as $f) {
       echo '<input type="radio" name="file_list" value="'.$f.'">'.$f.'<br>';
     }
-    echo '<br><button type="submit" name="select_file">Select & Run</button></form>';
+    echo '<br><button type="submit" name="select_file">Select & Run</button></form></div>';
   } else {
     echo "The upload folder is empty";
   }
 } else {
   if(isset($_POST["file_list"])){
+    echo '============================================<br><br>';
     $old_path = getcwd();
-    chdir('/var/www/PROSIT_V2.0/test/'); //change dir to correct one
-    $out = shell_exec('./test_command_line');
-    
-    print_r($out);
-    echo "<h4>COMPUTATION COMPLETED</h4>";
+    chdir('/var/www/uploads/'); //change dir to correct one
+    // streaming command output
+    $pid = popen('./xml_solver '.$_POST["file_list"].' --verbose 2>&1', "r");
+    while(!feof($pid)){
+      echo fgets($pid, 256).'<br>';
+      flush();
+      ob_flush();
+      echo "<script>window.scrollTo(0,99999);</script>";
+      usleep(10);
+    }
+    pclose($pid);
+    echo "<script>window.scrollTo(0,99999);</script>";
+    echo '<h4>COMPUTATION COMPLETED !</h4><a href="index.php"><button>Back</button></a>';
     chdir($old_path);
   } else {
     header('Refresh: 2;url=index.php');
