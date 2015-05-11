@@ -1,8 +1,16 @@
-<head>
-<title>PROSIT v2.0 WEB INTERFACE</title>
-</head>
-<body>
 <?php
+$xmlString;
+$xmlFilename;
+$target;
+$xml;
+$got_file = false;
+if (isset($_FILES['xmlfile'])){
+	$xmlFilename = basename($_FILES['xmlfile']['name']);
+	$target = "_data/" . $xmlFilename;	
+	if (move_uploaded_file($_FILES['xmlfile']['tmp_name'], $target)){
+		$got_file = true;
+	}
+}
 /////////////////////////
 // HTTP AUTHENTICATION //
 /////////////////////////
@@ -43,105 +51,121 @@ function http_digest_parse($txt)
 
     return $needed_parts ? false : $data;
 }
-
-/////////////////////////////
-// HERE STARTS THE WEB GUI //
-/////////////////////////////
-echo "<style type='text/css'>
-      body{
-        color: #ffff;
-        font-family:'Lucida Console',sans-serif !important;
-        font-size: 13px;
-      }
-      #all{
-        padding-top: 20px;
-        width: 60%;
-        margin: 0 auto;
-      }
-      </style>";
-// file uploader
-error_reporting(2047);
-if(isset($_POST["send"])) {
-  $complete_path = "../uploads/" . $_FILES['fileToUpload']['name'];
-
-  $extension = pathinfo($complete_path);
-  if($extension['extension'] !== 'xml'){ // check file extension
-    header('Refresh: 2;url=index.php'); //auto redirect
-    exit("The file is not an XML");
-  }
-
-  if (is_uploaded_file($_FILES['fileToUpload']['tmp_name'])) {
-    if (move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $complete_path)) {
-      header('Refresh: 2;url=index.php'); 
-      exec('chmod 777 '.$complete_path);
-      echo '<div id="all">Permission for uploaded file changed<br>';
-      echo $_FILES['fileToUpload']['name'].' uploaded successfully!</div>';
-    } else {
-      echo "Error while uploading ".$_FILES["fileToUpload"]["error"];
-    }
-  } else {
-    echo "Error while uploading ".$_FILES["fileToUpload"]["error"];
-  }
-} else {
-  echo '<div id="all"><form enctype="multipart/form-data" method="post" action="">
-          <h2>Select a file to upload on server:</h2>
-          <input type="file" name="fileToUpload"><br><br>
-          <input type="submit" value="Upload" name="send"><br><br>
-        </form></div>';
-}
-
-// file selector
-$dir = "../uploads/";
-$file_list = array();
-if(!isset($_POST["select_file"])){
-  if($d = opendir($dir)){
-    while(($file = readdir($d)) !== false){
-      $ext = pathinfo($file);
-      if((!is_dir($dir . $file)) && ($ext['extension']) === 'xml'){
-        $file_list[] = $file;
-      }
-    }
-    closedir($d);
-  } else {
-    echo "Directory can't be opened";
-  }
-
-  if(!empty($file_list)){
-    echo '<div id="all"><form action="" method="post">';
-    echo '============================================';
-    echo '<h2>Select input file:</h2>';
-    foreach ($file_list as $f) {
-      echo '<input type="radio" name="file_list" value="'.$f.'">'.$f.'<br>';
-    }
-    echo '<br><button type="submit" name="select_file">Select & Run</button></form></div>';
-  } else {
-    echo "The upload folder is empty";
-  }
-} else {
-  if(isset($_POST["file_list"])){
-    echo '<div id="all">============================================<br><br>';
-    $old_path = getcwd();
-    chdir('/var/www/uploads/'); //change dir to correct one
-    // streaming command output
-    $pid = popen('./bin/xml_solver '.$_POST["file_list"].' --verbose 2>&1', "r");
-
-    while(!feof($pid)){
-      echo fgets($pid, 256).'<br>';
-      flush();
-      ob_flush();
-      echo "<script>window.scrollTo(0,99999);</script>";
-      usleep(10);
-    }
-    pclose($pid);
-    echo "<script>window.scrollTo(0,99999);</script>";
-    echo '<h4>COMPUTATION COMPLETED !</h4><a href="index.php"><button>Back</button></a></div>';
-    chdir($old_path);
-  } else {
-    header('Refresh: 2;url=index.php');
-    exit("No file selected");
-  }
-}
-
 ?>
+
+<!DOCTYPE html>
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>PROSIT V2.0 WEB INTERFACE</title>
+<script type="text/javascript" src="js/ext/jquery-1.4.js"></script>
+<script type="text/javascript" src="js/ext/jquery-color.js"></script>
+<script type="text/javascript" src="js/ext/GLR/GLR.js"></script>
+<script type="text/javascript" src="js/ext/GLR/GLR.messenger.js"></script>
+<script type="text/javascript" src="js/loc/xmlEditor.js"></script>
+<link href="css/main.css" type="text/css" rel="stylesheet"/>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+	<?php if ($got_file){ ?>
+		GLR.messenger.show({msg:"Loading XML..."});
+		console.time("loadingXML");
+		
+		xmlEditor.loadXmlFromFile("<?=$target?>", "#xml", function(){
+			console.timeEnd("loadingXML");
+			$("#xml").show();
+			$("#actionButtons").show();																																				
+			xmlEditor.renderTree();
+			$("button#saveFile").show().click(function(){
+				GLR.messenger.show({msg:"Generating file...", mode:"loading"});
+				$.post("saveXml.php", {xmlString:xmlEditor.getXmlAsString(), xmlFilename:"<?=$xmlFilename?>"}, function(data){
+					if (data.error){
+						GLR.messenger.show({msg:data.error,mode:"error"});
+					}
+					else {
+						GLR.messenger.inform({msg:"Done.", mode:"success"});
+						if (!$("button#viewFile").length){
+							$("<button id='viewFile'>View Updated File</button>")
+								.appendTo("#actionButtons div")
+								.click(function(){ window.open(data.filename); });
+						}
+					}
+				}, "json");
+			});
+		});
+	<?php } else { ?>
+		$("#xml").html("<span style='font:italic 14px georgia,serif; color:#f30;'>Please upload a valid XML file.</span>").show();
+		<?php if ($target && !$xml){ ?>
+			GLR.messenger.showAndHide({msg:"Uploaded file is not valid XML and cannot be edited.", mode:"error", speed:3000});
+		<?php } ?>
+	<?php } ?>
+	});
+</script>
+
+</head>
+<body> 
+	<form id="uploadForm" action="index.php" method="post" enctype="multipart/form-data">
+		<label for="xmlfile">Specify XML file to edit:</label>
+		<input type="file" name="xmlfile" id="xmlfile"/>
+		<input type="submit" value="Upload"/>
+	</form>
+	<div id="xml" style="display:none;"></div>
+	<div id="actionButtons" style="display:none;">
+		<div></div>
+		<button id="saveFile">Save XML</button>
+	</div>
+	<div id="nodePath"></div>
+	</div>
+
+	<?php
+	$dir = "_data/";
+	$file_list = array();
+	if(!isset($_POST["select_file"])){
+	  if($d = opendir($dir)){
+	    while(($file = readdir($d)) !== false){
+	      $ext = pathinfo($file);
+	      if((!is_dir($dir . $file)) && ($ext['extension']) === 'xml'){
+	        $file_list[] = $file;
+	      }
+	    }
+	    closedir($d);
+	  } else {
+	    echo "Directory can't be opened";
+	  }
+
+	  if(!empty($file_list)){
+	    echo '<div id="actionButtons"><form id="uploadForm" method="post">';
+	    echo '<label>Select input file:</label><br>';
+	    sort($file_list);
+	    foreach ($file_list as $f) {
+	      echo '<input type="radio" name="file_list" value="'.$f.'">'.$f.'<br>';
+	    }
+	    echo '<br><button type="submit" name="select_file">Select & Run</button></form></div>';
+	  } else {
+	    echo "The upload folder is empty";
+	  }
+	} else {
+	  if(isset($_POST["file_list"])){
+	    echo '<div id="actionButtons">';
+	    $old_path = getcwd();
+	    chdir('/var/www/html/_data/'); //change dir to correct one
+	    // streaming command output
+	    $pid = popen('./bin/xml_solver '.$_POST["file_list"].' --verbose 2>&1', "r");
+	    ini_set("auto_detect_line_endings", true);
+	    while(!feof($pid)){
+	      echo fgets($pid, 256).'<br>';
+	      flush();
+	      ob_flush();
+	      usleep(10);
+	      echo "<script type='text/javascript'>window.scrollTo(0,document.body.scrollHeight);</script>"; //autoscroll to bottom of page
+	    }
+	    pclose($pid);
+	    echo '<h4>COMPUTATION COMPLETED !</h4><a href="index.php"><button>Back</button></a></div>';
+	    chdir($old_path);
+	  } else {
+	    header('Refresh: 2;url=index.php');
+	    exit("No file selected");
+	  }
+	}
+	?>
 </body>
 </html>
