@@ -1,4 +1,4 @@
-<?php
+<?php //file uploader
 $xmlString;
 $xmlFilename;
 $target;
@@ -76,12 +76,34 @@ function http_digest_parse($txt)
 			$("#actionButtons").show();																																				
 			xmlEditor.renderTree();
 			$("button#saveFile").show().click(function(){
-				GLR.messenger.show({msg:"Generating file...", mode:"loading"});
-				$.post("saveXml.php", {xmlString:xmlEditor.getXmlAsString(), xmlFilename:"<?=$xmlFilename?>"}, function(data){
+				GLR.messenger.show({msg:"Generating file...", mode:"loading"});	
+				var req = new XMLHttpRequest();
+				req.onreadystatechange = function(data){
 					if (data.error){
 						GLR.messenger.show({msg:data.error,mode:"error"});
+					} else {
+						GLR.messenger.inform({msg:"Done", mode:"success"});
 					}
-					else {
+				}
+				req.open("POST", "saveXml.php", true);
+				req.setRequestHeader("Content-Type", "json");
+				req.send("xmlString=xmlEditor.getXmlAsString()&xmlFilename='<?=$xmlFilename?>'");
+				/*
+				$.ajax({
+					type: "POST",
+					data: {xmlString:xmlEditor.getXmlAsString(), xmlFilename:"<?=$xmlFilename?>"},
+					dataType: "json",
+					url: "saveXml.php",
+					cache: false,
+					success: function(){alert("ok");},
+					error: function(error){alert("error" + eval(error));}
+				});*/
+				/*
+				$.post("saveXml.php", {xmlString:xmlEditor.getXmlAsString(), xmlFilename:"<?=$xmlFilename?>"}, function(data){
+					GLR.messenger.inform({msg:"Done.", mode:"success"});
+					if (data.error){
+						GLR.messenger.show({msg:data.error,mode:"error"});
+					} else {
 						GLR.messenger.inform({msg:"Done.", mode:"success"});
 						if (!$("button#viewFile").length){
 							$("<button id='viewFile'>View Updated File</button>")
@@ -89,7 +111,7 @@ function http_digest_parse($txt)
 								.click(function(){ window.open(data.filename); });
 						}
 					}
-				}, "json");
+				}, "json");*/
 			});
 		});
 	<?php } else { ?>
@@ -140,9 +162,7 @@ function http_digest_parse($txt)
 	      echo '<input type="radio" name="file_list" value="'.$f.'">'.$f.'<br>';
 	    }
 	    echo '<br><button type="submit" name="select_file">Select & Run</button></form></div>';
-	  } else {
-	    echo "The upload folder is empty";
-	  }
+	  } 
 	} else {
 	  if(isset($_POST["file_list"])){
 	    echo '<div id="actionButtons">';

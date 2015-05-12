@@ -12,9 +12,6 @@ button.icon   {width:14px; height:14px; border:none; padding:0; margin:0; backgr
 .msg          {font-weight:normal; font-style:italic;}
 
 /* page structure */
-div#header        {background:#000 url(/sublog/wp-content/themes/Fire_Wind_1_0_1945/images/backgroundImg.jpg) no-repeat; padding:10px;}
-div#header a#home {display:block; background-image:url(../img/liveXmlEdit.png); height:53px; width:300px;}
-
 form#uploadForm       {
 	padding:10px; margin:10px; 
 	background-color:#424c53;
