@@ -77,6 +77,9 @@ function http_digest_parse($txt)
 			xmlEditor.renderTree();
 			$("button#saveFile").show().click(function(){
 				GLR.messenger.show({msg:"Generating file...", mode:"loading"});	
+				var fn = "<?=$xmlFilename?>"; //filename
+				var newXml = xmlEditor.getXmlAsString(); //new xml content
+				var h = "xmlString="+newXml+"&xmlFilename="+fn; //request header
 				var req = new XMLHttpRequest();
 				req.onreadystatechange = function(data){
 					if (data.error){
@@ -86,32 +89,8 @@ function http_digest_parse($txt)
 					}
 				}
 				req.open("POST", "saveXml.php", true);
-				req.setRequestHeader("Content-Type", "json");
-				req.send("xmlString=xmlEditor.getXmlAsString()&xmlFilename='<?=$xmlFilename?>'");
-				/*
-				$.ajax({
-					type: "POST",
-					data: {xmlString:xmlEditor.getXmlAsString(), xmlFilename:"<?=$xmlFilename?>"},
-					dataType: "json",
-					url: "saveXml.php",
-					cache: false,
-					success: function(){alert("ok");},
-					error: function(error){alert("error" + eval(error));}
-				});*/
-				/*
-				$.post("saveXml.php", {xmlString:xmlEditor.getXmlAsString(), xmlFilename:"<?=$xmlFilename?>"}, function(data){
-					GLR.messenger.inform({msg:"Done.", mode:"success"});
-					if (data.error){
-						GLR.messenger.show({msg:data.error,mode:"error"});
-					} else {
-						GLR.messenger.inform({msg:"Done.", mode:"success"});
-						if (!$("button#viewFile").length){
-							$("<button id='viewFile'>View Updated File</button>")
-								.appendTo("#actionButtons div")
-								.click(function(){ window.open(data.filename); });
-						}
-					}
-				}, "json");*/
+				req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+				req.send(h);
 			});
 		});
 	<?php } else { ?>
@@ -133,7 +112,8 @@ function http_digest_parse($txt)
 	<div id="xml" style="display:none;"></div>
 	<div id="actionButtons" style="display:none;">
 		<div></div>
-		<button id="saveFile">Save XML</button>
+		<button id="saveFile" name="saveFile">Save XML</button>
+		<a href="index.php"><button>Back</button></a>
 	</div>
 	<div id="nodePath"></div>
 	</div>
