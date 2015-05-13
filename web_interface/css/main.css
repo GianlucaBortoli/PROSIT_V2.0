@@ -13,17 +13,36 @@ button.icon   {width:14px; height:14px; border:none; padding:0; margin:0; backgr
 
 /* page structure */
 form#uploadForm       {
-	padding:10px; margin:10px; 
+	padding:10px; 
+	margin:10px; 
+	margin-bottom: 0;
 	background-color:#424c53;
 	background-image:-moz-linear-gradient(top, #5e676d, #424c53); /* FF3.6 */
 	background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0, #5e676d),color-stop(1, #424c53)); /* Saf4+, Chrome */
-						filter:progid:DXImageTransform.Microsoft.gradient(startColorStr='#5e676d', EndColorStr='#424c53'); /* IE6,IE7 */
-				-ms-filter:"progid:DXImageTransform.Microsoft.gradient(startColorStr='#5e676d', EndColorStr='#424c53')"; /* IE8 */	
 	border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;
 }
 form#uploadForm label {font:bold 14px helvetica neue,microsoft sans serif; color:#fff;}
+#xmlfile::-webkit-file-upload-button {
+	padding:4px 8px; 
+	font:bold 12px tahoma,helvetica neue,arial; 
+	color: #fff;
+	background-image:-moz-linear-gradient(top, #ff8161, #ff3300); /* FF3.6 */
+	background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0, #ff8161),color-stop(1, #ff3300)); /* Saf4+, Chrome */
+	border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; border:1px outset #ccc;
+}
 
-div#xml  {padding:14px 10px 10px 10px; margin:10px 10px 0 10px; background-color:#fff; -moz-border-radius-topleft:5px; -moz-border-radius-topright:5px; -webkit-border-top-left-radius:5px; -webkit-border-top-right-radius:5px;}
+#upload {
+	padding:4px 8px; 
+	font:bold 12px tahoma,helvetica neue,arial; 
+	color: #fff;
+	background-image:-moz-linear-gradient(top, #ff8161, #ff3300); /* FF3.6 */
+	background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0, #ff8161),color-stop(1, #ff3300)); /* Saf4+, Chrome */
+	border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; border:1px outset #ccc;
+}
+
+form#selectForm label {font:bold 20px helvetica neue,microsoft sans serif; color:#fff;}
+
+div#xml  {padding:14px 10px 10px 10px; margin:0 10px 0 10px; background-color:#fff; -moz-border-radius-topleft:5px; -moz-border-radius-topright:5px; -webkit-border-top-left-radius:5px; -webkit-border-top-right-radius:5px;}
 
 div#actionButtons        {
 	padding:10px; margin:0 10px; 
@@ -32,9 +51,7 @@ div#actionButtons        {
 	background-color:#424c53;
 	background-image:-moz-linear-gradient(top, #5e676d, #424c53); /* FF3.6 */
 	background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0, #5e676d),color-stop(1, #424c53)); /* Saf4+, Chrome */
-						filter:progid:DXImageTransform.Microsoft.gradient(startColorStr='#5e676d', EndColorStr='#424c53'); /* IE6,IE7 */
-				-ms-filter:"progid:DXImageTransform.Microsoft.gradient(startColorStr='#5e676d', EndColorStr='#424c53')"; /* IE8 */	
-	-moz-border-radius-bottomleft:5px; -moz-border-radius-bottomright:5px; -webkit-border-bottom-left-radius:5px; -webkit-border-bottom-right-radius:5px;
+	border-bottom: 2px solid #c66;
 }
 div#actionButtons div    {float:left; font:italic 11px helvetica neue,arial; color:#999;}
 div#actionButtons div a  {color:#f30; font:bold 10px tahoma,helvetica neue,arial;}
@@ -43,12 +60,38 @@ div#actionButtons button {
 	font:bold 12px tahoma,helvetica neue,arial; 
 	background-image:-moz-linear-gradient(top, #ff8161, #ff3300); /* FF3.6 */
 	background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0, #ff8161),color-stop(1, #ff3300)); /* Saf4+, Chrome */
-						filter:progid:DXImageTransform.Microsoft.gradient(startColorStr='#ff8161', EndColorStr='#ff3300'); /* IE6,IE7 */
-				-ms-filter:"progid:DXImageTransform.Microsoft.gradient(startColorStr='#ff8161', EndColorStr='#ff3300')"; /* IE8 */	
 	border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; border:1px outset #ccc;
 }
 div#actionButtons button#saveFile {display:none; float:right;}
 div#actionButtons pre {float:left; color:#000000; line-height: 12px;}
+div#actionButtons button#back {float:right; margin-right: 10px;}
+
+div#myActionButtons {
+	padding:10px; 
+	margin:0 10px; 
+	width:auto; 
+	overflow:hidden; 
+	background-color:#424c53;
+	background-image:-moz-linear-gradient(top, #5e676d, #424c53); /* FF3.6 */
+	background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0, #5e676d),color-stop(1, #424c53)); /* Saf4+, Chrome */
+	-moz-border-radius-bottomleft:5px; -moz-border-radius-bottomright:5px; -webkit-border-bottom-left-radius:5px; -webkit-bo
+}
+div#myActionButtons form#uploadForm {padding: 0px;}
+div#myActionButtons button {
+	padding:4px 8px; 
+	font:bold 12px tahoma,helvetica neue,arial; 
+	background-image:-moz-linear-gradient(top, #ff8161, #ff3300); /* FF3.6 */
+	background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0, #ff8161),color-stop(1, #ff3300)); /* Saf4+, Chrome */
+	border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; border:1px outset #ccc;
+}
+
+#outputResult {
+	padding:10px; 
+	margin:0 10px; 
+	width:auto; 
+	overflow:hidden; 
+	background-color:#B2B2B2;
+}
 
 div#nodePath {position:absolute; top:98px; right:30px; font:11px consolas, courier new; color:#999;}
 

@@ -80,7 +80,7 @@ function http_digest_parse($txt)
 				var fn = "<?=$xmlFilename?>"; //filename
 				var newXml = xmlEditor.getXmlAsString(); //new xml content
 				var h = "xmlString="+newXml+"&xmlFilename="+fn; //request header
-				var req = new XMLHttpRequest();
+				var req = new XMLHttpRequest(); //create&send request to saveXml.php
 				req.onreadystatechange = function(data){
 					if (data.error){
 						GLR.messenger.show({msg:data.error,mode:"error"});
@@ -94,7 +94,7 @@ function http_digest_parse($txt)
 			});
 		});
 	<?php } else { ?>
-		$("#xml").html("<span style='font:italic 14px georgia,serif; color:#f30;'>Please upload a valid XML file.</span>").show();
+		$("#xml").html("<span style='font:italic 14px georgia,serif; color:#f30;'>Please upload a valid XML file</span>").show();
 		<?php if ($target && !$xml){ ?>
 			GLR.messenger.showAndHide({msg:"Uploaded file is not valid XML and cannot be edited.", mode:"error", speed:3000});
 		<?php } ?>
@@ -107,13 +107,12 @@ function http_digest_parse($txt)
 	<form id="uploadForm" action="index.php" method="post" enctype="multipart/form-data">
 		<label for="xmlfile">Specify XML file to edit:</label>
 		<input type="file" name="xmlfile" id="xmlfile"/>
-		<input type="submit" value="Upload"/>
+		<input type="submit" value="Upload" id="upload"/>
 	</form>
 	<div id="xml" style="display:none;"></div>
 	<div id="actionButtons" style="display:none;">
-		<div></div>
 		<button id="saveFile" name="saveFile">Save XML</button>
-		<a href="index.php"><button>Back</button></a>
+		<a href="index.php"><button id="back">Back</button></a>
 	</div>
 	<div id="nodePath"></div>
 	</div>
@@ -135,17 +134,17 @@ function http_digest_parse($txt)
 	  }
 
 	  if(!empty($file_list)){
-	    echo '<div id="actionButtons"><form id="uploadForm" method="post">';
-	    echo '<label>Select input file:</label><br>';
+	    echo '<div id="myActionButtons"><form style="color: #fff" id="uploadForm" method="post" id="selectForm">';
+	    echo '<label>Select input file:</label><br><br>';
 	    sort($file_list);
 	    foreach ($file_list as $f) {
-	      echo '<input type="radio" name="file_list" value="'.$f.'">'.$f.'<br>';
+	      echo '<input style="vertical-align: bottom" type="radio" name="file_list" value="'.$f.'">'.$f.'<br>';
 	    }
 	    echo '<br><button type="submit" name="select_file">Select & Run</button></form></div>';
 	  } 
 	} else {
 	  if(isset($_POST["file_list"])){
-	    echo '<div id="actionButtons">';
+	    echo '<div id="outputResult">';
 	    $old_path = getcwd();
 	    chdir('/var/www/html/_data/'); //change dir to correct one
 	    // streaming command output
