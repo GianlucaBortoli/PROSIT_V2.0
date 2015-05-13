@@ -22,16 +22,8 @@ form#uploadForm       {
 	border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;
 }
 form#uploadForm label {font:bold 14px helvetica neue,microsoft sans serif; color:#fff;}
+#upload,
 #xmlfile::-webkit-file-upload-button {
-	padding:4px 8px; 
-	font:bold 12px tahoma,helvetica neue,arial; 
-	color: #fff;
-	background-image:-moz-linear-gradient(top, #ff8161, #ff3300); /* FF3.6 */
-	background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0, #ff8161),color-stop(1, #ff3300)); /* Saf4+, Chrome */
-	border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; border:1px outset #ccc;
-}
-
-#upload {
 	padding:4px 8px; 
 	font:bold 12px tahoma,helvetica neue,arial; 
 	color: #fff;
@@ -55,13 +47,6 @@ div#actionButtons        {
 }
 div#actionButtons div    {float:left; font:italic 11px helvetica neue,arial; color:#999;}
 div#actionButtons div a  {color:#f30; font:bold 10px tahoma,helvetica neue,arial;}
-div#actionButtons button {
-	padding:4px 8px; 
-	font:bold 12px tahoma,helvetica neue,arial; 
-	background-image:-moz-linear-gradient(top, #ff8161, #ff3300); /* FF3.6 */
-	background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0, #ff8161),color-stop(1, #ff3300)); /* Saf4+, Chrome */
-	border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; border:1px outset #ccc;
-}
 div#actionButtons button#saveFile {display:none; float:right;}
 div#actionButtons pre {float:left; color:#000000; line-height: 12px;}
 div#actionButtons button#back {float:right; margin-right: 10px;}
@@ -77,13 +62,6 @@ div#myActionButtons {
 	-moz-border-radius-bottomleft:5px; -moz-border-radius-bottomright:5px; -webkit-border-bottom-left-radius:5px; -webkit-bo
 }
 div#myActionButtons form#uploadForm {padding: 0px;}
-div#myActionButtons button {
-	padding:4px 8px; 
-	font:bold 12px tahoma,helvetica neue,arial; 
-	background-image:-moz-linear-gradient(top, #ff8161, #ff3300); /* FF3.6 */
-	background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0, #ff8161),color-stop(1, #ff3300)); /* Saf4+, Chrome */
-	border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; border:1px outset #ccc;
-}
 
 #outputResult {
 	padding:10px; 
@@ -91,6 +69,16 @@ div#myActionButtons button {
 	width:auto; 
 	overflow:hidden; 
 	background-color:#B2B2B2;
+}
+
+div#actionButtons button,
+div#myActionButtons button,
+div#outputResult button {
+	padding:4px 8px; 
+	font:bold 12px tahoma,helvetica neue,arial; 
+	background-image:-moz-linear-gradient(top, #ff8161, #ff3300); /* FF3.6 */
+	background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0, #ff8161),color-stop(1, #ff3300)); /* Saf4+, Chrome */
+	border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; border:1px outset #ccc;
 }
 
 div#nodePath {position:absolute; top:98px; right:30px; font:11px consolas, courier new; color:#999;}
