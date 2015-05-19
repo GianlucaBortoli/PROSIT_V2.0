@@ -63,6 +63,11 @@ div#myActionButtons {
 }
 div#myActionButtons form#uploadForm {padding: 0px;}
 
+#create_task {
+	margin-top: 5px; 
+	margin-left: 10px;
+}
+
 #outputResult {
 	padding:10px; 
 	margin:0 10px; 

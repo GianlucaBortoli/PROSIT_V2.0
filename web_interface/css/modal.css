@@ -1,0 +1,109 @@
+/* MODAL WINDOW */
+section[name="parameters"] > section  {
+  border-right: 2px #ccc dotted;
+  font-family: Raleway, Helvetica;
+  font-size: 18px;
+  display: inline-block;
+  vertical-align: top;
+  width: 33%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+section[name="parameters"] > section:last-child {
+  border-right: none;
+  width: 34%;
+  padding-left: 1%;
+}
+
+h3.boh{
+  font-family: Lato;
+  font-style: bold;
+  font-size: 24px;
+}
+
+p{ margin-bottom: 0px; }
+p.txt{ margin-left: 15px; }
+
+body {
+  min-width: 600px;
+  min-height: 400px;
+  overflow: auto;
+}
+
+/* reset */
+.modal, .modal * {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  height: auto;
+  width: auto;
+  position: relative;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+.modal {
+  display: none; /* default closed */
+  /* display: block; when opened */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  min-width: 650px;
+  min-height: 500px;
+  overflow: auto;
+  z-index: 1100;
+  background-color: rgba(238, 238, 238, 0.7);
+}
+
+.modal, .modal * { border-size: border-box; }
+
+.modal > section {
+  /* modal body */
+  z-index: 1110;
+  max-width: 900px;
+  min-width: 600px;
+  width: 50%;
+  max-height: 600px;
+  min-height: 400px;
+  height: 50%;
+  background-color: #fff;
+  border: 1px solid #333;
+  border-radius: 3px;
+  margin: auto;
+  vertical-align: middle;
+  margin-top: auto;
+  margin-top: 50px;
+  padding-left: 20px;
+  padding-top: 15px;
+}
+
+/* MODAL CLOSE BUTTON */
+a.boxclose{
+    float: right;
+    margin-top: -25px;
+    margin-right: -25px;
+    cursor: pointer;
+    color: #fff;
+    border-radius: 30px;
+    background: #605F61;
+    font-size: 25px;
+    font-weight: bold;
+    display: inline-block;
+    line-height: 0px;
+    padding: 13px 3px 9px 3px;       
+}
+
+.boxclose:before { content: "×"; }
+
+form#set_parameters input#save,
+form#set_parameters input#reset {
+  padding:4px 8px; 
+  font:bold 12px tahoma,helvetica neue,arial; 
+  background-image:-moz-linear-gradient(top, #ff8161, #ff3300); /* FF3.6 */
+  background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0, #ff8161),color-stop(1, #ff3300)); /* Saf4+, Chrome */
+  border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; border:1px outset #ccc;
+}

@@ -62,7 +62,9 @@ function http_digest_parse($txt)
 <script type="text/javascript" src="js/ext/GLR/GLR.js"></script>
 <script type="text/javascript" src="js/ext/GLR/GLR.messenger.js"></script>
 <script type="text/javascript" src="js/loc/xmlEditor.js"></script>
+<script type="text/javascript" src="js/loc/modal.js"></script>
 <link href="css/main.css" type="text/css" rel="stylesheet"/>
+<link href="css/modal.css" type="text/css" rel="stylesheet"/>
 
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -109,6 +111,74 @@ function http_digest_parse($txt)
 		<input type="file" name="xmlfile" id="xmlfile"/>
 		<input type="submit" value="Upload" id="upload"/>
 	</form>
+
+	<!-- MODAL START -->
+	<div class="modal" id="get_parameters">
+		<section name="parameters">
+			<a class="boxclose" id="boxclose" onclick="modal_close('get_parameters')"></a>
+			<form id="set_parameters">
+				Task name:
+				<input type="text" name="name" value="Insert task name..."/><br>
+				Task type:
+				<select>
+					<option value="periodic">Periodic</option>
+					<option value="aperiodic">Aperiodic</option>
+				</select><br>
+				Task schedule:
+				<select>
+					<option value="rr">Resource reservation</option>
+					<option value="fp">Fixed priority</option>
+				</select><br>
+				Algorithm:
+				<select>
+					<option value="analytic">Analytic</option>
+					<option value="companion">Companion</option>
+					<option value="cyclic">Cyclic reduction</option>
+					<option value="latouche">Latouche</option>
+				</select><br>
+				Server period:
+				<input type="text" name="serverPeriod" value="100000"/><br>
+				Server budget:
+				<input type="text" name="serverBudget" value="15000"/><br>
+				
+				<br>PMF Computation:
+				<select><option value="beta">Beta</option></select><br>
+				Min:
+				<input type="text" name="cmin" value="0"/><br>
+				Max:
+				<input type="text" name="cmax" value="99500"/><br>
+				Step:
+				<input type="text" name="step" value="500"/><br>
+				Size:
+				<input type="text" name="size" value="100000"/><br>
+				Dump:
+				<input type="checkbox">&nbsp;<br><br>
+
+				<br>PMF Interarrival:
+				<select><option value="beta">Beta</option></select><br>
+				Min:
+				<input type="text" name="cmin" value="0"/><br>
+				Max:
+				<input type="text" name="cmax" value="99500"/><br>
+				Step:
+				<input type="text" name="step" value="500"/><br>
+				Size:
+				<input type="text" name="size" value="100000"/><br>
+				Dump:
+				<input type="checkbox">&nbsp;<br><br>
+
+				Delta:
+				<input type="text" name="delta" value="7500"/><br>
+				Max Deadline:
+				<input type="text" name="maxDeadline" value="1"/><br>
+
+				<input type="submit" value="Save" id="save"/>
+				<input type="reset" value="Reset" id="reset"/>
+			</form>
+		</section>
+	</div>
+	<!-- MODAL END -->
+	
 	<div id="xml" style="display:none;"></div>
 	<div id="actionButtons" style="display:none;">
 		<button id="saveFile" name="saveFile">Save XML</button>
@@ -140,7 +210,11 @@ function http_digest_parse($txt)
 	    foreach ($file_list as $f) {
 	      echo '<input style="vertical-align: bottom" type="radio" name="file_list" value="'.$f.'">'.$f.'<br>';
 	    }
-	    echo '<br><button type="submit" name="select_file">Select & Run</button></form></div>';
+	    ?>
+	    <br>
+	    <button type="submit" name="select_file">Select &amp; Run</button></form>
+	    <button id="create_task" onclick="modal_open('get_parameters')">Create task</button></div>
+	    <?php
 	  } 
 	} else {
 	  if(isset($_POST["file_list"])){
