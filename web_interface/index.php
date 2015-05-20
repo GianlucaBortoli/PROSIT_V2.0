@@ -116,21 +116,23 @@ function http_digest_parse($txt)
 	<div class="modal" id="get_parameters">
 		<section name="parameters">
 			<a class="boxclose" id="boxclose" onclick="modal_close('get_parameters')"></a>
-			<form id="set_parameters">
+			<form id="set_parameters" action="createTask.php" method="post">
 				Task name:
 				<input type="text" name="name" value="Insert task name..."/><br>
 				Task type:
-				<select>
+				<select name="type">
 					<option value="periodic">Periodic</option>
 					<option value="aperiodic">Aperiodic</option>
 				</select><br>
 				Task schedule:
-				<select>
-					<option value="rr">Resource reservation</option>
-					<option value="fp">Fixed priority</option>
+				<select name="schedule">
+					<option value="RR">Resource reservation</option>
+					<option value="FP">Fixed priority</option>
 				</select><br>
+				Task period:
+				<input type="text" name="taskPeriod" value="100000"/><br>
 				Algorithm:
-				<select>
+				<select name="algorithm">
 					<option value="analytic">Analytic</option>
 					<option value="companion">Companion</option>
 					<option value="cyclic">Cyclic reduction</option>
@@ -139,40 +141,59 @@ function http_digest_parse($txt)
 				Server period:
 				<input type="text" name="serverPeriod" value="100000"/><br>
 				Server budget:
-				<input type="text" name="serverBudget" value="15000"/><br>
+				<input type="text" name="serverBudget" value="15000"/><br><br>
 				
-				<br>PMF Computation:
-				<select><option value="beta">Beta</option></select><br>
-				Min:
+				PMF Computation:
+				<select name="pmfComputation">
+					<option value="beta">Beta</option>
+				</select><br>
+				&nbsp;&nbsp;&nbsp;Min:
 				<input type="text" name="cmin" value="0"/><br>
-				Max:
+				&nbsp;&nbsp;&nbsp;Max:
 				<input type="text" name="cmax" value="99500"/><br>
-				Step:
-				<input type="text" name="step" value="500"/><br>
-				Size:
-				<input type="text" name="size" value="100000"/><br>
-				Dump:
-				<input type="checkbox">&nbsp;<br><br>
+				&nbsp;&nbsp;&nbsp;Step:
+				<input type="text" name="cstep" value="500"/><br>
+				&nbsp;&nbsp;&nbsp;Size:
+				<input type="text" name="csize" value="100000"/><br>
+				&nbsp;&nbsp;&nbsp;Dump:
+				<input type="checkbox" name="cdump">&nbsp;<br><br>
 
-				<br>PMF Interarrival:
-				<select><option value="beta">Beta</option></select><br>
-				Min:
-				<input type="text" name="cmin" value="0"/><br>
-				Max:
-				<input type="text" name="cmax" value="99500"/><br>
-				Step:
-				<input type="text" name="step" value="500"/><br>
-				Size:
-				<input type="text" name="size" value="100000"/><br>
-				Dump:
-				<input type="checkbox">&nbsp;<br><br>
+				PMF Interarrival:
+				<select name="pmfInterarrival">
+					<option value="beta">Beta</option>
+				</select><br>
+				&nbsp;&nbsp;&nbsp;Min:
+				<input type="text" name="imin" value="0"/><br>
+				&nbsp;&nbsp;&nbsp;Max:
+				<input type="text" name="imax" value="99500"/><br>
+				&nbsp;&nbsp;&nbsp;Step:
+				<input type="text" name="istep" value="500"/><br>
+				&nbsp;&nbsp;&nbsp;Size:
+				<input type="text" name="isize" value="100000"/><br>
+				&nbsp;&nbsp;&nbsp;Dump:
+				<input type="checkbox" name="idump">&nbsp;<br><br>
+
+				QOS Function:
+				<select name="qosFunction">
+					<option value="linear">Linear</option>
+				</select><br>
+				&nbsp;&nbsp;&nbsp;Min:
+				<input type="text" name="qmin" value="0.01"/><br>
+				&nbsp;&nbsp;&nbsp;Max:
+				<input type="text" name="qmax" value="0.95"/><br>
+				&nbsp;&nbsp;&nbsp;Scale:
+				<input type="text" name="qscale" value="0.5"/><br>
+				&nbsp;&nbsp;&nbsp;Offset:
+				<input type="text" name="qoffset" value="0.95"/><br><br>
 
 				Delta:
 				<input type="text" name="delta" value="7500"/><br>
 				Max Deadline:
 				<input type="text" name="maxDeadline" value="1"/><br>
+				<br>
 
-				<input type="submit" value="Save" id="save"/>
+				<input type="text" name="filename" value="Insert file name..."/>
+				<button id="saveTask">Submit</button>
 				<input type="reset" value="Reset" id="reset"/>
 			</form>
 		</section>

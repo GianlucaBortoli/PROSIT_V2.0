@@ -66,10 +66,10 @@ body {
   z-index: 1110;
   max-width: 900px;
   min-width: 600px;
-  width: 50%;
+  width: 45%;
   max-height: 600px;
   min-height: 400px;
-  height: 50%;
+  height: 78%;
   background-color: #fff;
   border: 1px solid #333;
   border-radius: 3px;
@@ -99,8 +99,11 @@ a.boxclose{
 
 .boxclose:before { content: "×"; }
 
-form#set_parameters input#save,
+/* INTERNAL FORM */
+form#set_parameters { line-height: 1.3; }
+form#set_parameters button#saveTask,
 form#set_parameters input#reset {
+  color: white;
   padding:4px 8px; 
   font:bold 12px tahoma,helvetica neue,arial; 
   background-image:-moz-linear-gradient(top, #ff8161, #ff3300); /* FF3.6 */
