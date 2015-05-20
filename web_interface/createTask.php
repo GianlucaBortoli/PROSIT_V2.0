@@ -34,31 +34,29 @@ $maxDeadline = $_POST["maxDeadline"];
 $filename = $_POST["filename"];
 
 $string = <<<XML
-<document> 
-  <solve>
-    <task type="$ttype" schedule="$tschedule" name="$tname" algorithm="$talgorithm">
-      <period>$tperiod</period>
-      <serverPeriod>$speriod</serverPeriod>
-      <serverBudget>$sbudget</serverBudget>
-      <pmfComputation type="$pmfcomp">
-        <step>$cstep</step>
-        <file>test_case_1.txt</file>
-      </pmfComputation>
-      <pmfInterarrival type="$pmfint">
-        <step>$istep</step>
-        <file>z_2.txt</file>
-      </pmfInterarrival>
-      <qosfun type="$qosfun">
-        <pmin>$qmin</pmin>
-        <pmax>$qmax</pmax>
-        <scale>$qscale</scale>
-        <offset>$qoffset</offset>
-      </qosfun>
-      <Delta>$delta</Delta>
-      <maxDeadline>$maxDeadline</maxDeadline>
-    </task>
-  </solve>
-</document>
+<solve>
+  <task type="$ttype" schedule="$tschedule" name="$tname" algorithm="$talgorithm">
+    <period>$tperiod</period>
+    <serverPeriod>$speriod</serverPeriod>
+    <serverBudget>$sbudget</serverBudget>
+    <pmfComputation type="$pmfcomp">
+      <step>$cstep</step>
+      <file>test_case_1.txt</file>
+    </pmfComputation>
+    <pmfInterarrival type="$pmfint">
+      <step>$istep</step>
+      <file>z_2.txt</file>
+    </pmfInterarrival>
+    <qosfun type="$qosfun">
+      <pmin>$qmin</pmin>
+      <pmax>$qmax</pmax>
+      <scale>$qscale</scale>
+      <offset>$qoffset</offset>
+    </qosfun>
+    <Delta>$delta</Delta>
+    <maxDeadline>$maxDeadline</maxDeadline>
+  </task>
+</solve>
 XML;
 
 $xml = new SimpleXMLElement($string);
