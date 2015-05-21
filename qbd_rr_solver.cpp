@@ -246,17 +246,20 @@ void QBDResourceReservationProbabilitySolver::pre_process() {
   if (verbose_flag)
     cout << "Computing Matrix. Size: " << maxv << endl;
 
-  MatrixXd mat(3 * maxv, 3 * maxv);
+  MatrixXd mat(2 * maxv, 2 * maxv); //the size for the whole matrix is twice the size of B
 
+  long mat_comp_start = PrositAux::my_get_time();
   // 3. compute matrix
-  for (i = 0; i < maxv * 3; i++) {
-    for (j = 0; j < maxv * 3; j++) {
+  for (i = 0; i < maxv * 2; i++) {
+    for (j = 0; j < maxv * 2; j++) {
       if (compress_flag)
         mat(i, j) = matrix_prob_ts_compressed(i, j, Q, cdfc, *u);
       else
         mat(i, j) = matrix_prob_ts(i, j, Q, cdfc, *u);
     }
   }
+  long mat_comp_end = PrositAux::my_get_time();
+  cout << "\t\t\tMatrinx computation time = " << mat_comp_end - mat_comp_start << endl;
 
   if (verbose_flag)
     cout << "Matrix computed. Now extracting submatrixes " << endl;
