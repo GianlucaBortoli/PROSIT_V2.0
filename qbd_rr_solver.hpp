@@ -74,7 +74,7 @@ private:
   ///   0 A2 A1 A0  0 ...]
   ///@param mat complete matrix containing the QBDP
   ///@param dim size of the submatrices
-  ///@param submatrix B
+  ///@param B  submatrix B
   ///@param A0 submatrix A0
   ///@param A1 submatrix A1
   ///@param A2 submatrix A2
@@ -88,7 +88,7 @@ private:
   /// smaller than the minimum interarrival time
   ///@param i row of the desired element
   ///@param j column of the desired element
-  ///@param server period
+  ///@param q server period
   ///@param p cdf of the computation time
   ///@param u pmf of the interarrival time
   double matrix_prob_ts_compressed(int i, int j, int q, const PrositAux::cdf &p,

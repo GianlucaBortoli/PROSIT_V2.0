@@ -20,7 +20,6 @@ namespace PrositCore {
 ///@param u pmf of the interarrival time
 double QBDResourceReservationProbabilitySolver::matrix_prob_ts(
   int i, int j, int q, const PrositAux::cdf &p, const PrositAux::pmf &u) {
-  int z = 0;
 
   #ifdef DEBUG
     cerr << "matrix_prob_ts called" << endl;
@@ -42,12 +41,11 @@ double QBDResourceReservationProbabilitySolver::matrix_prob_ts(
     else
       prob = p.get(j) - p.get(j - 1);
   else
-    for (z = u.get_min(); z <= l; z++)
+    for (int z = u.get_min(); z <= l; z++)
       if ((j - i + z * q) <= p.get_min())
-        prob = prob + u.get(z) * (p.get(j - i + z * q));
+        prob += u.get(z) * (p.get(j - i + z * q));
       else
-        prob =
-            prob + u.get(z) * (p.get(j - i + z * q) - p.get(j - i + z * q - 1));
+        prob += u.get(z) * (p.get(j - i + z * q) - p.get(j - i + z * q - 1));
 
   #ifdef DEBUG
     cerr << "Probability Returned = " << prob << endl;
@@ -64,7 +62,7 @@ double QBDResourceReservationProbabilitySolver::matrix_prob_ts(
 /// smaller than the minimum interarrival time
 ///@param i row of the desired element
 ///@param j column of the desired element
-///@param server period
+///@param q server period
 ///@param p cdf of the computation time
 ///@param u pmf of the interarrival time
 double QBDResourceReservationProbabilitySolver::matrix_prob_ts_compressed(
@@ -118,7 +116,7 @@ double QBDResourceReservationProbabilitySolver::matrix_prob_ts_compressed(
 ///   0 A2 A1 A0  0 ...]
 ///@param mat complete matrix containing the QBDP
 ///@param dim size of the submatrices
-///@param submatrix B
+///@param B  submatrix B
 ///@param A0 submatrix A0
 ///@param A1 submatrix A1
 ///@param A2 submatrix A2
@@ -247,8 +245,6 @@ void QBDResourceReservationProbabilitySolver::pre_process() {
     cout << "Computing Matrix. Size: " << maxv << endl;
 
   MatrixXd mat(2 * maxv, 2 * maxv); //the size for the whole matrix is twice the size of B
-
-  long mat_comp_start = PrositAux::my_get_time();
   // 3. compute matrix
   for (i = 0; i < maxv * 2; i++) {
     for (j = 0; j < maxv * 2; j++) {
@@ -258,8 +254,6 @@ void QBDResourceReservationProbabilitySolver::pre_process() {
         mat(i, j) = matrix_prob_ts(i, j, Q, cdfc, *u);
     }
   }
-  long mat_comp_end = PrositAux::my_get_time();
-  cout << "\t\t\tMatrinx computation time = " << mat_comp_end - mat_comp_start << endl;
 
   if (verbose_flag)
     cout << "Matrix computed. Now extracting submatrixes " << endl;
