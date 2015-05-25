@@ -15,7 +15,7 @@ namespace PrositCore {
 ///(JSS) 85(5):1147-1156 (2012)
 ///@param i row of the desired element
 ///@param j column of the desired element
-///@param server period
+///@param q server period
 ///@param p cdf of the computation time
 ///@param u pmf of the interarrival time
 double QBDResourceReservationProbabilitySolver::matrix_prob_ts(
@@ -127,7 +127,6 @@ void QBDResourceReservationProbabilitySolver::extract_sub_matrices(
   for (i = 0; i < dim; i++) {
     for (j = 0; j < dim; j++)
       B(i, j) = mat(i, j);
-
     for (j = dim, h = 0; j < dim * 2; j++, h++)
       A0(i, h) = mat(i, j);
   }
@@ -141,8 +140,9 @@ void QBDResourceReservationProbabilitySolver::extract_sub_matrices(
 }
 
 void QBDResourceReservationProbabilitySolver::pre_process() {
-  int maxv, i, j;
-  int forward, back;
+  int maxv;     // size of the transition matrix
+  int max_rows; // # of repeated rows in the transition matrix 
+  int max_cols; // # of columns in the transition matrix
 
   if (!task_descriptor)
     EXC_PRINT("generate_matrices requested before linking any task descriptor");
@@ -226,34 +226,61 @@ void QBDResourceReservationProbabilitySolver::pre_process() {
                   "next activation. Task:",
 
                   task_descriptor->get_name());
-    back = c->get_max() + 1 - u->get_min() * Q;
-    forward = u->get_min() * Q - c->get_min() + 1;
+    max_cols = c->get_max() + 1 - u->get_min() * Q;
+    max_rows = u->get_min() * Q - c->get_min() + 1;
     // 2. compute maxvalue
   } else {
     if (verbose_flag)
       cout << "Computing matrix in Extended form" << endl;
 
-    forward = u->get_min() * Q + 1;
-    back = c->get_max() + 1;
+    max_rows = u->get_min() * Q + 1;
+    max_cols = c->get_max() + 1;
   }
 
   // 2. compute maxvalue
-  maxv = max(forward, back);
+  maxv = max(max_rows, max_cols);
   if (maxv <= 0)
     maxv = 1;
   if (verbose_flag)
     cout << "Computing Matrix. Size: " << maxv << endl;
 
+
+  MatrixXd mat2(2 * maxv, 2 * maxv);
+  RowVectorXd v(2 * maxv); //holds the vector with the pmf, which is repeated |max_rows| times
+
+  for(int i = 0; i < maxv * 2; i++)
+    v(i) = matrix_prob_ts(0, i, Q, cdfc, *u); //compute vector
+  
+  for(int i = 0; i < max_rows; i++)
+    mat2.row(i) << v; //initialize repeated rows
+  
+  int startRow = max_rows; //row to start swifting 
+  int shift = maxv - 1; //shift by one on the right
+  while(startRow < maxv && shift >= 0){ //shift rows by one on the right from |startRow| until the end
+    mat2.row(startRow).tail(shift) << v.head(shift);
+    startRow++;
+    shift--;
+  }
+
+  /*
   MatrixXd mat(2 * maxv, 2 * maxv); //the size for the whole matrix is twice the size of B
   // 3. compute matrix
-  for (i = 0; i < maxv * 2; i++) {
-    for (j = 0; j < maxv * 2; j++) {
+  for (int i = 0; i < maxv * 2; i++) {
+    for (int j = 0; j < maxv * 2; j++) {
       if (compress_flag)
         mat(i, j) = matrix_prob_ts_compressed(i, j, Q, cdfc, *u);
       else
         mat(i, j) = matrix_prob_ts(i, j, Q, cdfc, *u);
     }
   }
+
+  for(int i = 0; i < maxv*2; i++){
+    for(int j = 0; j < maxv*2; j++){
+      if(mat2(i,j) != mat(i,j))
+        cout << "NE ";
+    }
+  }
+  */
 
   if (verbose_flag)
     cout << "Matrix computed. Now extracting submatrixes " << endl;
@@ -263,7 +290,7 @@ void QBDResourceReservationProbabilitySolver::pre_process() {
   B0 = MatrixXd(maxv, maxv);
   A1 = MatrixXd(maxv, maxv);
   A2 = MatrixXd(maxv, maxv);
-  extract_sub_matrices(mat, maxv, B0, A0, A1, A2);
+  extract_sub_matrices(mat2, maxv, B0, A0, A1, A2);
 
   if (verbose_flag)
     cout << "Submatrices extracted " << endl;
