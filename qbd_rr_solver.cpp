@@ -120,23 +120,16 @@ double QBDResourceReservationProbabilitySolver::matrix_prob_ts_compressed(
 ///@param A0 submatrix A0
 ///@param A1 submatrix A1
 ///@param A2 submatrix A2
-void QBDResourceReservationProbabilitySolver::extract_sub_matrices(
-    const MatrixXd &mat, int dim, MatrixXd &B, MatrixXd &A0, MatrixXd &A1,
-    MatrixXd &A2) {
-  int i, j, h, k;
-  for (i = 0; i < dim; i++) {
-    for (j = 0; j < dim; j++)
-      B(i, j) = mat(i, j);
-    for (j = dim, h = 0; j < dim * 2; j++, h++)
-      A0(i, h) = mat(i, j);
-  }
-
-  for (i = dim, k = 0; i < dim * 2; i++, k++) {
-    for (j = 0; j < dim; j++)
-      A2(k, j) = mat(i, j);
-    for (j = dim, h = 0; j < dim * 2; j++, h++)
-      A1(k, h) = mat(i, j);
-  }
+void QBDResourceReservationProbabilitySolver::extract_sub_matrices( const MatrixXd &mat, 
+                                                                    int dim, 
+                                                                    MatrixXd &B, 
+                                                                    MatrixXd &A0, 
+                                                                    MatrixXd &A1, 
+                                                                    MatrixXd &A2) {
+  B =  mat.block(0, 0, dim, dim);
+  A0 = mat.block(0, dim, dim, dim);
+  A2 = mat.block(dim, 0, dim, dim);
+  A1 = mat.block(dim, dim, dim, dim);
 }
 
 void QBDResourceReservationProbabilitySolver::pre_process() {
