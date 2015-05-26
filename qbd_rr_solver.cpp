@@ -244,40 +244,33 @@ void QBDResourceReservationProbabilitySolver::pre_process() {
   if (verbose_flag)
     cout << "Computing Matrix. Size: " << maxv << endl;
 
-
-  MatrixXd mat2(2 * maxv, 2 * maxv);
+  // 3. compute matrix
+  MatrixXd mat(2 * maxv, 2 * maxv);
+  mat.setZero(); //when created there could be junk in it
   RowVectorXd v(2 * maxv); //holds the vector with the pmf, which is repeated |max_rows| times
 
   for(int i = 0; i < maxv * 2; i++)
     v(i) = matrix_prob_ts(0, i, Q, cdfc, *u); //compute vector
   
   for(int i = 0; i < max_rows; i++)
-    mat2.row(i) << v; //initialize repeated rows
+    mat.row(i) << v; //initialize repeated rows
   
-  int startRow = max_rows; //row to start swifting 
-  int shift = maxv - 1; //shift by one on the right
-  while(startRow < maxv && shift >= 0){ //shift rows by one on the right from |startRow| until the end
-    mat2.row(startRow).tail(shift) << v.head(shift);
-    startRow++;
+  int selectedRow = max_rows; //row to start swifting 
+  int shift = maxv*2 - 1; //shift by one on the right
+  while(selectedRow < maxv*2 && shift >= 0){ //shift rows by one on the right from |selectedRow| until the end
+    mat.row(selectedRow).tail(shift) << v.head(shift);
+    selectedRow++;
     shift--;
   }
-
-  /*
-  MatrixXd mat(2 * maxv, 2 * maxv); //the size for the whole matrix is twice the size of B
-  // 3. compute matrix
+  
+  /* OLD MATRIX CREATION 
+  MatrixXd mat2(2 * maxv, 2 * maxv); //the size for the whole matrix is twice the size of B
   for (int i = 0; i < maxv * 2; i++) {
     for (int j = 0; j < maxv * 2; j++) {
       if (compress_flag)
-        mat(i, j) = matrix_prob_ts_compressed(i, j, Q, cdfc, *u);
+        mat2(i, j) = matrix_prob_ts_compressed(i, j, Q, cdfc, *u);
       else
-        mat(i, j) = matrix_prob_ts(i, j, Q, cdfc, *u);
-    }
-  }
-
-  for(int i = 0; i < maxv*2; i++){
-    for(int j = 0; j < maxv*2; j++){
-      if(mat2(i,j) != mat(i,j))
-        cout << "NE ";
+        mat2(i, j) = matrix_prob_ts(i, j, Q, cdfc, *u);
     }
   }
   */
@@ -290,7 +283,7 @@ void QBDResourceReservationProbabilitySolver::pre_process() {
   B0 = MatrixXd(maxv, maxv);
   A1 = MatrixXd(maxv, maxv);
   A2 = MatrixXd(maxv, maxv);
-  extract_sub_matrices(mat2, maxv, B0, A0, A1, A2);
+  extract_sub_matrices(mat, maxv, B0, A0, A1, A2);
 
   if (verbose_flag)
     cout << "Submatrices extracted " << endl;
