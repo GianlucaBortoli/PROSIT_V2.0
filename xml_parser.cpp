@@ -112,7 +112,7 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
   XMLElement * internal; //used to parse the first childs parameters of the task tag
 
   // Parsing single task parameters
-  if((type = "periodic")){
+  if(strcmp(type, "periodic") == 0 || strcmp(type, "aperiodic") == 0){
     if((schedule = "RR")){ //RR -> resource reservation
       if(verbose_flag)
         cout << "Periodic RR task defined in XML file" << endl;
@@ -206,8 +206,8 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
     } else { //FP -> fixed priority
       EXC_PRINT("Fixed priority tasks not implemented yet");
     }
-  } else { //Aperiodic
-    EXC_PRINT("Aperiodic tasks not implemented yet");
+  } else {
+    EXC_PRINT("Task type not recognized");
   }
   
   return td;

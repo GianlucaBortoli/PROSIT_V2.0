@@ -135,7 +135,7 @@ int main(int argc, char *argv[]) {
       EXC_PRINT("Maximum deadline not properly set");
     if ((shift_flag != 0) && (cr_flag == 0))
       cerr << "Warning! shift_flag only makes sense for CR" << endl;
-    c->load(argv[opt]);//loading pmf task probabilities
+    c->load(argv[opt]);//loading computation time pmf
 
     if (companion_flag) {
       // TODO: we can easily apply to aperiodic
@@ -145,7 +145,7 @@ int main(int argc, char *argv[]) {
         EXC_PRINT("Task period needs to be set for companion");
     } else {
       if (argc - optind == 2) {
-        u->load(argv[opt + 1]);//loading pmf task periods
+        u->load(argv[opt + 1]);//loading interarrival time pmf
       } else {
         if (Tp != 0)
           u->set(Tp, 1.0);

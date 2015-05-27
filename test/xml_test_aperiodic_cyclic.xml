@@ -1,0 +1,23 @@
+<solve> 
+  <task type="aperiodic" schedule="RR" name="0.3" algorithm="cyclic"> 
+    <period>20000</period> 
+    <serverPeriod>25000</serverPeriod>
+    <serverBudget>7450</serverBudget>
+    <pmfComputation type="beta">
+      <step>100</step>
+      <file>comp_time1_real.txt</file>
+    </pmfComputation>
+    <pmfInterarrival type="beta">
+      <step>100</step>
+      <file>inter_time1_real.txt</file>
+    </pmfInterarrival>
+    <qosfun type="linear">
+      <pmin>0.01</pmin>
+      <pmax>0.95</pmax>
+      <scale>0.5</scale>
+      <offset>0.95</offset>
+    </qosfun>
+    <Delta>7500</Delta>
+    <maxDeadline>4</maxDeadline>
+  </task>
+</solve>
