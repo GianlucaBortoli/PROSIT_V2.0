@@ -147,6 +147,10 @@ function http_digest_parse($txt)
 				<select name="pmfComputation">
 					<option value="beta">Beta</option>
 				</select><br>
+				&nbsp;&nbsp;&nbsp;Alpha:
+				<input type="text" name="calpha" value="2"/><br>
+				&nbsp;&nbsp;&nbsp;Beta:
+				<input type="text" name="cbeta" value="7"/><br>
 				&nbsp;&nbsp;&nbsp;Min:
 				<input type="text" name="cmin" value="0"/><br>
 				&nbsp;&nbsp;&nbsp;Max:
@@ -162,6 +166,10 @@ function http_digest_parse($txt)
 				<select name="pmfInterarrival">
 					<option value="beta">Beta</option>
 				</select><br>
+				&nbsp;&nbsp;&nbsp;Alpha:
+				<input type="text" name="ialpha" value="2"/><br>
+				&nbsp;&nbsp;&nbsp;Beta:
+				<input type="text" name="ibeta" value="7"/><br>
 				&nbsp;&nbsp;&nbsp;Min:
 				<input type="text" name="imin" value="0"/><br>
 				&nbsp;&nbsp;&nbsp;Max:

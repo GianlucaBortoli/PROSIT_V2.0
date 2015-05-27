@@ -10,6 +10,8 @@ $speriod = $_POST["serverPeriod"];
 $sbudget = $_POST["serverBudget"];
 //pmf computation
 $pmfcomp = $_POST["pmfComputation"];
+$calpha = $_POST["calpha"];
+$cbeta = $_POST["cbeta"];
 $cmin = $_POST["cmin"];
 $cmax = $_POST["cmax"];
 $cstep = $_POST["cstep"];
@@ -17,6 +19,8 @@ $csize = $_POST["csize"];
 $cdumpFlag = $_POST["cdump"];
 //pmf interarrival
 $pmfint = $_POST["pmfInterarrival"];
+$ialpha = $_POST["ialpha"];
+$ibeta = $_POST["ibeta"];
 $imin = $_POST["imin"];
 $imax = $_POST["imax"];
 $istep = $_POST["istep"];

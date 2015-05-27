@@ -126,7 +126,7 @@ void QBDResourceReservationProbabilitySolver::extract_sub_matrices( const Matrix
                                                                     MatrixXd &A0, 
                                                                     MatrixXd &A1, 
                                                                     MatrixXd &A2) {
-  B =  mat.block(0, 0, dim, dim);
+  B  = mat.block(0, 0, dim, dim);
   A0 = mat.block(0, dim, dim, dim);
   A2 = mat.block(dim, 0, dim, dim);
   A1 = mat.block(dim, dim, dim, dim);
