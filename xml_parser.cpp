@@ -115,7 +115,7 @@ GenericTaskDescriptor * Parser::task_parse(XMLElement * taskElement) throw(Prosi
   if(strcmp(type, "periodic") == 0 || strcmp(type, "aperiodic") == 0){
     if((schedule = "RR")){ //RR -> resource reservation
       if(verbose_flag)
-        cout << "Periodic RR task defined in XML file" << endl;
+        cout << type << " RR task defined in XML file" << endl;
       
       internal = taskElement->FirstChildElement("serverBudget"); 
       internal->QueryUnsignedText(&budget); //set server budget

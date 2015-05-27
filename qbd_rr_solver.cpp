@@ -134,6 +134,10 @@ void QBDResourceReservationProbabilitySolver::extract_sub_matrices( const Matrix
 
 void QBDResourceReservationProbabilitySolver::pre_process() {
   int maxv;     // size of the transition matrix
+  int R0;       // # of rows to be repeated before beginning transient section
+  int R1;       // # of transient rows
+  int H1;       // # of columns to be shifted
+  int H2;       // total # of rows
   int max_rows; // # of repeated rows in the transition matrix 
   int max_cols; // # of columns in the transition matrix
 
@@ -179,7 +183,7 @@ void QBDResourceReservationProbabilitySolver::pre_process() {
     tmp = new PrositAux::pmf(*task_descriptor->get_computation_time());
   }
 
-  std::unique_ptr<PrositAux::pmf> c(tmp);
+  std::unique_ptr<PrositAux::pmf> c(tmp); //computation
 
   if (verbose_flag) {
     cout << "Maximum interarrival time: "
@@ -197,7 +201,7 @@ void QBDResourceReservationProbabilitySolver::pre_process() {
     cout << "Minimum interarrival time: " << tmp->get_min() << endl;
   }
 
-  std::unique_ptr<PrositAux::pmf> u(tmp);
+  std::unique_ptr<PrositAux::pmf> u(tmp); //interarrival
 
   PrositAux::cdf cdfc(c->get_size(), 0);
   // 1. compute cdf of U
@@ -219,37 +223,63 @@ void QBDResourceReservationProbabilitySolver::pre_process() {
                   "next activation. Task:",
 
                   task_descriptor->get_name());
+    // 2.1 compute maxvalues for rows and cols
     max_cols = c->get_max() + 1 - u->get_min() * Q;
     max_rows = u->get_min() * Q - c->get_min() + 1;
-    // 2. compute maxvalue
   } else {
     if (verbose_flag)
       cout << "Computing matrix in Extended form" << endl;
+    // 2.2 compute maxvalues for rows and cols
+    int cmax = (c->get_max() > 1 ? c->get_max() : 1);
+    int cmin = (c->get_min() > 1 ? c->get_min() : 1);
+    int zmax = (u->get_max() > 1 ? u->get_max() : 1);
+    int zmin = (u->get_min() > 1 ? u->get_min() : 1);
 
+    R0 = (zmin * Q) - cmin + 1;
+    R1 = (zmax - zmin) * Q;
+    H1 = ((zmax - zmin) * Q) + (cmax - cmin) + 1;
+    H2 = R0 + R1;
+    
     max_rows = u->get_min() * Q + 1;
     max_cols = c->get_max() + 1;
   }
 
-  // 2. compute maxvalue
-  maxv = max(max_rows, max_cols);
+  cout << endl;
+  cout << "c->get_min() = " << c->get_min() << endl;
+  cout << "c->get_max() = " << c->get_max() << endl;
+  cout << "u->get_min() = " << u->get_min() << endl;
+  cout << "u->get_max() = " << u->get_max() << endl;
+  cout << "max_rows = " << max_rows << endl;
+  cout << "max_cols = " << max_cols << endl;
+  cout << "R0 = " << R0 << endl;
+  cout << "R1 = " << R1 << endl;
+  cout << "H1 = " << H1 << endl;
+  cout << "total # of rows = " << H2 << endl;
+  cout << endl;
+
+  // 2.3 take the maximum as actual size of the submatrix
+  maxv = max(H1, H2);
   if (maxv <= 0)
     maxv = 1;
   if (verbose_flag)
     cout << "Computing Matrix. Size: " << maxv << endl;
 
-  // 3. compute matrix
+  // 3. compute the whole matrix
   MatrixXd mat(2 * maxv, 2 * maxv);
   mat.setZero(); //when created there could be junk in it
   RowVectorXd v(2 * maxv); //holds the vector with the pmf, which is repeated |max_rows| times
+                           //and the last computed row to be used in shifting when applied
+                           //to aperiodic tasks
 
   for(int i = 0; i < maxv * 2; i++)
     v(i) = matrix_prob_ts(0, i, Q, cdfc, *u); //compute vector
   
   for(int i = 0; i < max_rows; i++)
     mat.row(i) << v; //initialize repeated rows
-  
+
   int selectedRow = max_rows; //row to start swifting 
   int shift = maxv*2 - 1; //shift by one on the right
+  v << mat.row(selectedRow - 1); //the shifted rows are the repetition of the last computed one
   while(selectedRow < maxv*2 && shift >= 0){ //shift rows by one on the right from |selectedRow| until the end
     mat.row(selectedRow).tail(shift) << v.head(shift);
     selectedRow++;
