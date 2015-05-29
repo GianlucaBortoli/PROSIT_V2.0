@@ -1,5 +1,7 @@
 #include "pmf.hpp"
 #include <string.h>
+#include <math.h>
+#include <cmath>
 
 using namespace std;
 
@@ -197,34 +199,32 @@ int pmf::load(const string &filename) throw(Exc) {
   return j;
 }
 
-pmf *pmf::resample(int q) const {
-  double sum;
-  pmf *clone = new pmf(this->get_size(), this->get_offset() / q);
+pmf *pmf::resample(int q, bool growing) const {
+  double sum = 0; //were we accumulate the probability
+  int low_lim; //lower bound (conservative)
+  int upper_lim; //upper bound (conservative)
+  pmf *resampledPmf = new pmf(this->get_size(), this->get_offset() / q);
 
-  if (q != 1) {
-    sum = 0;
-    
-    #ifdef DEBUG
-      cout << "q = " << q << endl;
-      cout << "size = " << size << endl;
-      cout << "resample ok? " << (unsigned((get_max() / q) * q + q) < size-1) << endl; 
-      cout << "lower bound = " << get_min() << endl;
-      cout << "upper bound = " << (get_max() / q) * q + q << endl;
-    #endif
-
-    for (int i = get_min(); i <= (get_max() / q) * q + q; i++) {
-      sum += get(i);
-      if (i % q == 0) {
-        clone->set(i / q, sum);
-        sum = 0;
-      }
-    }
-  } else {
-    *clone = *this;
+  //calculate conservative bounds for the two different cases
+  if(growing){ //computation time approximated to the greater value
+    low_lim   = ceil(this->get_min() / q) * q;
+    upper_lim = ceil(this->get_max() / q) * q;
+  } else {    //interarrival time approximated to the lower value
+    low_lim   = floor(this->get_min() / q) * q;
+    upper_lim = floor(this->get_min() / q) * q;
   }
 
-  return clone;
-};
+  //for (int i = get_min(); i <= (get_max() / q) * q + q; i++) {
+  for (int i = low_lim; i <= upper_lim; i++) {
+    sum += get(i);
+    if (i % q == 0) {
+      resampledPmf->set(i / q, sum);
+      sum = 0;
+    }
+  }
+
+  return resampledPmf;
+}
 
 void pmf2cdf(const pmf &p, cdf &c) {
   double sum = 0.0;
@@ -241,6 +241,7 @@ void pmf2cdf(const pmf &p, cdf &c) {
 
   if (c.get(c.get_max()) < 1.0 - c.get_epsilon()) {
     cerr << "PMF2CDF warning: pdf does not sum to 1" << endl;
+    cerr << "Sum is " << c.get(c.get_max()) << endl; 
     c.set(c.get_max(), 1.0);
   }
   c.check();

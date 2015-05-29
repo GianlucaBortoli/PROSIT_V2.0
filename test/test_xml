@@ -1,4 +1,4 @@
 #!/bin/bash
 
-#.././xml_solver xml_test_periodic_analytic.xml --verbose
-.././xml_solver xml_test_aperiodic_cyclic.xml --verbose
+.././xml_solver xml_test_periodic_analytic.xml --verbose
+#.././xml_solver xml_test_aperiodic_cyclic.xml --verbose

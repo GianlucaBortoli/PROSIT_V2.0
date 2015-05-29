@@ -26,7 +26,7 @@
 using namespace std;
 using namespace tinyxml2;
 
-#define EPS 1e-5
+#define EPS 1e-3
 #define TYPICAL_SIZE 10000
 
 namespace PrositAux {
@@ -56,8 +56,8 @@ public:
     return *this;
   };
 
-  double get_max() const { return max; };
-  double get_min() const { return min; };
+  double get_max() const { return max; }; //max index
+  double get_min() const { return min; }; //min index
   unsigned int get_size() const { return size; };
   unsigned int get_offset() const { return offset; };
   int load(const char *filename) throw(Exc) { return load(string(filename)); };
@@ -100,10 +100,16 @@ public:
   virtual int set(int val, double p) throw(Exc);
   virtual int load(const string &filename) throw(Exc);
   ///@brief Creates a clone of the pmf, which is resampled at the requested
-  ///granularity
+  ///granularity, alwais being conservative. This means that resampling the
+  ///computation time pmf we must aproximate to the a greater value (ceil), while
+  ///with the interarrival time we must aproximate to a lower value (floor) in order
+  ///to be alwas conservative. This is what the growing flag is used for:
+  ///   true  -> comp_time   -> greater value 
+  ///   false -> interr_time -> lower value
   ///
   ///@param q granularity
-  pmf *resample(int q) const;
+  ///@param g specifies the direction (left/right)
+  pmf *resample(int q, bool g) const;
   friend void pmf2cdf(const pmf &p, cdf &c);
   friend void cdf2pmf(const cdf &c, pmf &p);
 };

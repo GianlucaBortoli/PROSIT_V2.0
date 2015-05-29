@@ -82,7 +82,7 @@ void CompanionResourceReservationProbabilitySolver::pre_process() {
       cout << "Now resampling the distribution" << endl;
     }
 
-    tmp = (task_descriptor->get_computation_time())->resample(step);
+    tmp = (task_descriptor->get_computation_time())->resample(step, true);
 
     if (verbose_flag) {
       cout << "Distribution resampled" << endl;

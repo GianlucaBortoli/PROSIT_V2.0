@@ -172,7 +172,7 @@ void QBDResourceReservationProbabilitySolver::pre_process() {
       cout << "Now resampling the distribution" << endl;
     }
 
-    tmp = (task_descriptor->get_computation_time())->resample(step);
+    tmp = (task_descriptor->get_computation_time())->resample(step, true);
     
     if (verbose_flag) {
       cout << "Distribution resampled" << endl;
@@ -193,7 +193,7 @@ void QBDResourceReservationProbabilitySolver::pre_process() {
     cout << "Now resampling the distribution at server period " << endl;
   }
   tmp = (task_descriptor->get_interarrival_time())
-            ->resample(task_descriptor->get_server_period());
+            ->resample(task_descriptor->get_server_period(), false);
 
   if (verbose_flag) {
     cout << "Resampled distribution " << endl;
@@ -258,7 +258,7 @@ void QBDResourceReservationProbabilitySolver::pre_process() {
   cout << endl;
 
   // 2.3 take the maximum as actual size of the submatrix
-  maxv = max(H1, H2);
+  maxv = max(max_rows, max_cols);
   if (maxv <= 0)
     maxv = 1;
   if (verbose_flag)
@@ -383,7 +383,7 @@ void QBDResourceReservationProbabilitySolver::fill_in_probability_map() {
 
   PrositAux::pmf *tmp;
   tmp = (task_descriptor->get_interarrival_time())
-            ->resample(task_descriptor->get_server_period());
+            ->resample(task_descriptor->get_server_period(), false);
   unsigned int T = task_descriptor->get_server_period();
   unsigned int Q = task_descriptor->get_budget();
 
